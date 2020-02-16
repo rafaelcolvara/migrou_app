@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'pages/Cadastro.dart';
+import 'pages/LoginPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Migrou App',
+      debugShowCheckedModeBanner: false,      
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
@@ -36,7 +38,8 @@ class _LandingPageState extends State<LandingPage> {
         if (snapshot.connectionState == ConnectionState.active) {
           FirebaseUser user = snapshot.data;
           if (user == null) {
-            return SignInPage();
+            return LoginPage();
+            //return SignInPage();
           }
           return HomePage();
         } else {
@@ -166,7 +169,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Home Page - Area logada'),
         actions: <Widget>[
           FlatButton(
             child: Text(
