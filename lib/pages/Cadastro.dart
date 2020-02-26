@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -30,23 +31,23 @@ class _CadastroUsuario extends State<Cadastro> {
     return SwitchListTile(
         value: valor,
         onChanged: onChanged,
-        title: new Text(labelText,
+        title: new Text(
+          labelText,
           style: new TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.deepOrange),
-        )
-    );
+              fontWeight: FontWeight.bold, color: Colors.deepOrange),
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Cadastro'),
+          title: Text('Novo Cadastro'),
         ),
         body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Observer(
                     builder: (_) {
@@ -56,9 +57,6 @@ class _CadastroUsuario extends State<Cadastro> {
                           onChanged: controller.cliente.changeName);
                     },
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Observer(
                     builder: (_) {
                       return _textField(
@@ -66,9 +64,6 @@ class _CadastroUsuario extends State<Cadastro> {
                           errorText: controller.validaEmail,
                           onChanged: controller.cliente.changeEmail);
                     },
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
                   Observer(
                     builder: (_) {
@@ -80,21 +75,38 @@ class _CadastroUsuario extends State<Cadastro> {
                   ),
                   Observer(builder: (_) {
                     return Padding(
-                      padding: new EdgeInsets.all(12.0),
+                      padding: new EdgeInsets.all(8.0),
                       child: new Center(
-                        child: new Column(
-                            children: <Widget>[
-                              _optionSwith(
-                                labelText: controller.nomeLabelSwith(),
-                                valor: controller.cliente.flgVendedor,
-                                onChanged: controller.cliente.changeVendedor,
-                              )]
-                        ),
+                        child: new Column(children: <Widget>[
+                          _optionSwith(
+                            labelText: controller.nomeLabelSwith(),
+                            valor: controller.cliente.flgVendedor,
+                            onChanged: controller.cliente.changeVendedor,
+                          )
+                        ]),
                       ),
                     );
-                  })
-                ])
-        )
+                  }),
+                  _CadastrarUsuario(context),
+                ])));
+  }
+
+  _CadastrarUsuario(BuildContext context) {
+    return Material(
+      elevation: 3.0,
+      borderRadius: BorderRadius.circular(15.0),
+      color: Color.fromRGBO(62, 64, 149, 1),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          
+        },
+        child: Text("Gravar",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
+                .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
     );
   }
 }

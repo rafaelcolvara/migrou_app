@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/services.dart';
 import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
+import 'package:migrou_app/pages/Cadastro.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -143,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  print("pediu cadastro");
+                  _ShowNewUserForm(context);
                 },
                 child: Text(
                   "Cadastre-se!",
@@ -159,4 +160,12 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  void _ShowNewUserForm(BuildContext context) {
+  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Cadastro(),
+                    ),
+                  );
+}
 }

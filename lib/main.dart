@@ -1,10 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:migrou_app/http/webclient.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 import 'pages/Cadastro.dart';
 import 'pages/LoginPage.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+  findAll();
+} 
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,7 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Migrou App',
       debugShowCheckedModeBanner: false,      
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: Colors.blue,
+        buttonColor: Constantes.azul,
       ),
       home: LandingPage(title: 'Migrou App'),
     );
@@ -69,7 +75,7 @@ class SignInPage extends StatelessWidget {
     final clienteBotton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color.fromRGBO(235, 134, 52, 1),
+      color: Constantes.laranja,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -86,7 +92,7 @@ class SignInPage extends StatelessWidget {
     final vendedorBotton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color.fromRGBO(230, 231, 232, 2),
+      color: Constantes.azul,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

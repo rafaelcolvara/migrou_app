@@ -255,12 +255,19 @@ packages:
     source: hosted
     version: "0.14.0+3"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.0+4"
+  http_interceptor:
+    dependency: "direct main"
+    description:
+      name: http_interceptor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -374,7 +381,7 @@ packages:
     source: hosted
     version: "1.0.10"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
