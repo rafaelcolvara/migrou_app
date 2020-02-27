@@ -1,14 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/utils/definicoes.dart';
+import 'http/webClients/PessoaWebClient.dart';
 import 'pages/Cadastro.dart';
 import 'pages/LoginPage.dart';
 
+
 void main() {
   runApp(MyApp());
-  findAll();
+
+  buscaContaCorrentePorNome('Clien').then((pessoa) => 
+    
+    pessoa.forEach((pess) {print('Pessoa encontrada' + pess.nome );})
+  );
+  
 } 
 
 class MyApp extends StatelessWidget {
