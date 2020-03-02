@@ -28,6 +28,7 @@ dependencies:
   http:
   intl: ^0.16.1
   json_serializable: ^3.2.5
+  image_picker:
   
 
 

@@ -10,6 +10,8 @@ import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/componentes/Componentes.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
+import 'Cadastro_foto_cliente.dart';
+
 class Cadastro extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +24,6 @@ class _CadastroUsuario extends State<Cadastro> {
   final ctrl = Ctrl();
   final PessoaWebClient _webClient = PessoaWebClient();
   final DateTimePicker dataAqui = DateTimePicker();
-
 
   _textField(
       {String labelText,
@@ -55,7 +56,7 @@ class _CadastroUsuario extends State<Cadastro> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: logoMigrou(context),
-            ),            
+            ),
             slogan(context),
             Observer(
               builder: (_) {
@@ -78,7 +79,8 @@ class _CadastroUsuario extends State<Cadastro> {
                 return _textField(
                     labelText: "senha",
                     errorText: controller.validaSenha,
-                    onChanged: controller.pessoa.chageSenha);                    
+                    onChanged: controller.pessoa.chageSenha,
+                    flgSenha: true);
               },
             ),
             Observer(builder: (_) {
@@ -86,10 +88,9 @@ class _CadastroUsuario extends State<Cadastro> {
                 padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
                 child: Center(
                   child: DateTimePicker(
-                    labelText: "Data de Nascimento",
-                    selectedDate: controller.pessoa.dataNascimento,
-                    selectDate: controller.pessoa.changeDataDascimento       
-                  ),
+                      labelText: "Data de Nascimento",
+                      selectedDate: controller.pessoa.dataNascimento,
+                      selectDate: controller.pessoa.changeDataDascimento),
                 ),
               );
             }),
@@ -111,22 +112,29 @@ class _CadastroUsuario extends State<Cadastro> {
         onPressed: () {
           _webClient
               .salvaPessoa(new PessoaDTO(
-                  0,
-                  controller.pessoa.nome,
-                  DateTime.now(),
-                  DateTime.now(),
-                  controller.pessoa.email,
-                  'senha'))
+            0,
+            controller.pessoa.nome,
+            controller.pessoa.dataNascimento,
+            DateTime.now(),
+            controller.pessoa.email,
+            controller.pessoa.senha,
+          ))
               .then((pessoa) {
-            if (pessoa != null) {
-              Navigator.pop(context);
-            }
-          });
+            if (pessoa != null) _showCadastraFoto(context);
+              }
+          );
         },
         child: Text("Gravar",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+  void _showCadastraFoto(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CadastraFoto(pessoa: controller.pessoa),
       ),
     );
   }

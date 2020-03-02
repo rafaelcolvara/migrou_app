@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -28,13 +29,20 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
 
 Future<PessoaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
     final String pessoaJson = jsonEncode(pessoaDTO.toJson());
+    Response response;
+    try {
 
-    final Response response = await client.post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
+        response = await client.post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
         headers: {
           'Content-type': 'application/json',
           'userSession': Constantes.TOKEN_ID,
         },
-        body: pessoaJson);
+        body: pessoaJson).timeout(Duration(seconds: 5));
+    } on TimeoutException catch(e){
+        print('time out' + e.message);
+    } on Error catch(err){
+      print('oto erro $err');
+    }
 
     return PessoaDTO.fromJson(jsonDecode(response.body));
   }
