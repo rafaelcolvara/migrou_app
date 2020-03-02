@@ -1,5 +1,7 @@
 import 'package:migrou_app/model/pessoaDTO.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable(nullable: false)
 class ContaCorrenteDTO {
 
   PessoaDTO pessoa;

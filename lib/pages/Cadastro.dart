@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:migrou_app/componentes/DateComponente.dart';
 import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/PessoaDTO.dart';
+
+import 'package:migrou_app/componentes/Componentes.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class Cadastro extends StatefulWidget {
@@ -15,10 +20,18 @@ class Cadastro extends StatefulWidget {
 class _CadastroUsuario extends State<Cadastro> {
   final controller = Controller();
   final ctrl = Ctrl();
+  final PessoaWebClient _webClient = PessoaWebClient();
+  final DateTimePicker dataAqui = DateTimePicker();
 
-  _textField({String labelText, onChanged, String Function() errorText}) {
+
+  _textField(
+      {String labelText,
+      onChanged,
+      String Function() errorText,
+      bool flgSenha = false}) {
     return TextField(
       onChanged: onChanged,
+      obscureText: flgSenha,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         labelText: labelText,
@@ -27,80 +40,88 @@ class _CadastroUsuario extends State<Cadastro> {
     );
   }
 
-  _optionSwith({String labelText, onChanged, bool valor}) {
-    return SwitchListTile(
-        value: valor,
-        onChanged: onChanged,
-        title: new Text(
-          labelText,
-          style: new TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.deepOrange),
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Novo Cadastro'),
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        title: Text('Informe seus dados para login'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: logoMigrou(context),
+            ),            
+            slogan(context),
+            Observer(
+              builder: (_) {
+                return _textField(
+                    labelText: "Nome",
+                    errorText: controller.validaName,
+                    onChanged: controller.pessoa.changeName);
+              },
+            ),
+            Observer(
+              builder: (_) {
+                return _textField(
+                    labelText: "Email",
+                    errorText: controller.validaEmail,
+                    onChanged: controller.pessoa.changeEmail);
+              },
+            ),
+            Observer(
+              builder: (_) {
+                return _textField(
+                    labelText: "senha",
+                    errorText: controller.validaSenha,
+                    onChanged: controller.pessoa.chageSenha);                    
+              },
+            ),
+            Observer(builder: (_) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
+                child: Center(
+                  child: DateTimePicker(
+                    labelText: "Data de Nascimento",
+                    selectedDate: controller.pessoa.dataNascimento,
+                    selectDate: controller.pessoa.changeDataDascimento       
+                  ),
+                ),
+              );
+            }),
+            _cadastrarUsuario(context),
+          ],
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Observer(
-                    builder: (_) {
-                      return _textField(
-                          labelText: "Nome",
-                          errorText: controller.validaName,
-                          onChanged: controller.cliente.changeName);
-                    },
-                  ),
-                  Observer(
-                    builder: (_) {
-                      return _textField(
-                          labelText: "Email",
-                          errorText: controller.validaEmail,
-                          onChanged: controller.cliente.changeEmail);
-                    },
-                  ),
-                  Observer(
-                    builder: (_) {
-                      return _textField(
-                          labelText: "Cpf",
-                          errorText: controller.validaCpf,
-                          onChanged: controller.cliente.changeCpf);
-                    },
-                  ),
-                  Observer(builder: (_) {
-                    return Padding(
-                      padding: new EdgeInsets.all(8.0),
-                      child: new Center(
-                        child: new Column(children: <Widget>[
-                          _optionSwith(
-                            labelText: controller.nomeLabelSwith(),
-                            valor: controller.cliente.flgVendedor,
-                            onChanged: controller.cliente.changeVendedor,
-                          )
-                        ]),
-                      ),
-                    );
-                  }),
-                  _CadastrarUsuario(context),
-                ])));
+      ),
+    );
   }
 
-  _CadastrarUsuario(BuildContext context) {
+  _cadastrarUsuario(BuildContext context) {
     return Material(
       elevation: 3.0,
       borderRadius: BorderRadius.circular(15.0),
-      color: Color.fromRGBO(62, 64, 149, 1),
+      color: Constantes.AZUL,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          
+          _webClient
+              .salvaPessoa(new PessoaDTO(
+                  0,
+                  controller.pessoa.nome,
+                  DateTime.now(),
+                  DateTime.now(),
+                  controller.pessoa.email,
+                  'senha'))
+              .then((pessoa) {
+            if (pessoa != null) {
+              Navigator.pop(context);
+            }
+          });
         },
         child: Text("Gravar",
             textAlign: TextAlign.center,

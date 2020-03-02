@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable(nullable: false)
 class   PessoaDTO {
 
   int id;
@@ -8,28 +10,29 @@ class   PessoaDTO {
 
   String email;
 
-  String cpfCnpj;
-
+  String senha;
+  
   DateTime dataCadastro;
 
-  List<String> tipoPessoa;
+  DateTime dataNascimento;
 
-  PessoaDTO(this.id, this.nome, this.cpfCnpj, this.dataCadastro, this.email);
+
+  PessoaDTO(int id, this.nome, this.dataNascimento, this.dataCadastro, this.email, this.senha);
 
   PessoaDTO.fromJson(Map<String, dynamic> json):
     nome = json['nome'],
     id = json['id'],
     email = json['email'],
-    cpfCnpj = json['cpfcnpj'],
-    dataCadastro = new DateFormat().add_yMd().parse(json['dataCadastro']) ,
-    tipoPessoa = new List<String>.from(json['tipoPessoa']);
-
+    dataNascimento = new DateFormat().add_yMd().parse(json['dataNascimento']),
+    dataCadastro = new DateFormat().add_yMd().parse(json['dataCadastro']),
+    senha = json['senha'];
+  
     Map<String, dynamic> toJson() => {
         'nome': nome,
         'id' :id,
         'email' : email,
-        'cpfcnpj' : cpfCnpj,
-        'dataCadastro' : dataCadastro,
-        'tipoPessoa' : tipoPessoa
+        'dataNascimento' : DateFormat().add_yMd().format(dataCadastro),
+        'dataCadastro' : DateFormat().add_yMd().format(dataCadastro),
+        'senha'        : senha
     };
 }

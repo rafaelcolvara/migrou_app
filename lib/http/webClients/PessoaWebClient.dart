@@ -5,7 +5,7 @@ import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-
+class PessoaWebClient {
 Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async{
   
   var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
@@ -26,15 +26,17 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
   
 }
 
-Future<PessoaDTO> save(PessoaDTO pessoaDTO) async {
+Future<PessoaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
     final String pessoaJson = jsonEncode(pessoaDTO.toJson());
 
-    final Response response = await client.post(Constantes.HOST_DOMAIN + 'pessoas/inclui',
+    final Response response = await client.post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
         headers: {
           'Content-type': 'application/json',
-          'userSession': '1000',
+          'userSession': Constantes.TOKEN_ID,
         },
         body: pessoaJson);
 
     return PessoaDTO.fromJson(jsonDecode(response.body));
   }
+}
+

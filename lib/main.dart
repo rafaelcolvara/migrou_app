@@ -2,19 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:migrou_app/utils/definicoes.dart';
-import 'http/webClients/PessoaWebClient.dart';
 import 'pages/Cadastro.dart';
 import 'pages/LoginPage.dart';
 
 
 void main() {
   runApp(MyApp());
-
-  buscaContaCorrentePorNome('Clien').then((pessoa) => 
-    
-    pessoa.forEach((pess) {print('Pessoa encontrada' + pess.nome );})
-  );
-  
+ 
 } 
 
 class MyApp extends StatelessWidget {
@@ -25,9 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,      
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        buttonColor: Constantes.azul,
+        buttonColor: Constantes.AZUL
       ),
-      home: LandingPage(title: 'Migrou App'),
+      home: SignInPage()//LandingPage(title: 'Migrou App'),
     );
   }
 }
@@ -49,11 +43,11 @@ class _LandingPageState extends State<LandingPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           FirebaseUser user = snapshot.data;
-          if (user == null) {
-            return LoginPage();
-            //return SignInPage();
+          if (user != null) {
+           print('user existe, abre opções para esclher quem ele é');
+            return LoginPage();            
           }
-          return HomePage();
+          return SignInPage();
         } else {
           return Scaffold(
             body: Center(
@@ -80,14 +74,12 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final clienteBotton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Constantes.laranja,
+      borderRadius: BorderRadius.circular(12.0),
+      color: Constantes.LARANJA,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => Cadastro()));
-        },
+        onPressed: _signInAnonymously ,
         child: Text("Sou Cliente",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0).copyWith(
@@ -97,27 +89,29 @@ class SignInPage extends StatelessWidget {
 
     final vendedorBotton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Constantes.azul,
+      borderRadius: BorderRadius.circular(12.0),
+      color: Constantes.CINZA,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
         onPressed: _signInAnonymously,
         child: Text("Sou Vendedor(a)",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0).copyWith(
-                color: Colors.deepOrange, fontWeight: FontWeight.bold)),
+                color: Constantes.LARANJA, fontWeight: FontWeight.bold)),
       ),
     );
 
     final loginButon = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
+      borderRadius: BorderRadius.circular(12.0),
       color: Color.fromRGBO(62, 64, 149, 1),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: _signInAnonymously,
+        onPressed: () {
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => Cadastro()));
+        },
         child: Text("Criar Conta",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0).copyWith(
@@ -145,7 +139,14 @@ class SignInPage extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    SizedBox(height: 25.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("Seu cartão de fidelidade Virtual",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0).copyWith(
+                color: Constantes.AZUL, fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(height: 40.0),
                     clienteBotton,
                     SizedBox(height: 25.0),
                     vendedorBotton,
@@ -167,34 +168,3 @@ class SignInPage extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e); // TODO: show dialog with error
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page - Area logada'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-              ),
-            ),
-            onPressed: _signOut,
-          ),
-        ],
-      ),
-    );
-  }
-}

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/services.dart';
 import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
 import 'package:migrou_app/pages/Cadastro.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:migrou_app/utils/definicoes.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,18 +17,19 @@ class _LoginPageState extends State<LoginPage> {
   final controller = Controller();
   final ctrl = Ctrl();
 
+
   _optionSwith({String labelText, onChanged, bool valor}) {
     return SwitchListTile(
         value: valor,
         onChanged: onChanged,
         contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        activeColor: Color.fromRGBO(235, 134, 52, 1),
+        activeColor: Constantes.LARANJA,
         title: new Text(
           labelText,
           style: new TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(235, 134, 52, 1)),
+              color: Constantes.LARANJA),
         ));
   }
 
@@ -48,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     return Material(
       elevation: 3.0,
       borderRadius: BorderRadius.circular(15.0),
-      color: Color.fromRGBO(62, 64, 149, 1),
+      color: Constantes.AZUL,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -61,14 +64,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> _signInAnonymously() async {
-    try {
-      await FirebaseAuth.instance.signInAnonymously();
-    } catch (e) {
-      print('erro ao autenticar:' + e);
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,15 +72,8 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: OrientationBuilder(builder: (context, orientation) {
           return ListView(
-              padding: EdgeInsets.only(top: 100, left: 20, right: 20),
-              children: <Widget>[
-                SizedBox(
-                  height: 130.0,
-                  child: Image.asset(
-                    "images/logo.png",
-                    fit: BoxFit.contain,
-                  ),
-                ),
+              padding: EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 10),
+              children: <Widget>[                 
                 _text(
                     hint: "E-Mail",
                     obscureText: false,
@@ -100,8 +89,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: new Column(children: <Widget>[
                         _optionSwith(
                           labelText: controller.nomeLabelSwith(),
-                          valor: controller.cliente.flgVendedor,
-                          onChanged: controller.cliente.changeVendedor,
+                          valor: controller.pessoa.flgVendedor,
+                          onChanged: controller.pessoa.changeVendedor,
                         )
                       ]),
                     ),
@@ -144,13 +133,13 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  _ShowNewUserForm(context);
+                  _showNewUserForm(context);
                 },
                 child: Text(
                   "Cadastre-se!",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(235, 134, 52, 1)),
+                      color: Constantes.LARANJA),
                 ),
               ),
             ],
@@ -161,11 +150,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _ShowNewUserForm(BuildContext context) {
-  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Cadastro(),
-                    ),
-                  );
-}
+  void _showNewUserForm(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Cadastro(),
+      ),
+    );
+  }
+    Future<void> _signInAnonymously() async {
+    try {
+      await FirebaseAuth.instance.signInAnonymously();
+    } catch (e) {
+      print('erro ao autenticar:' + e);
+    }
+  }
 }
