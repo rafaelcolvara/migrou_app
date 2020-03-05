@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -46,5 +47,18 @@ Future<PessoaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
 
     return PessoaDTO.fromJson(jsonDecode(response.body));
   }
+  Future<PessoaFotoDTO> salvaFoto(PessoaFotoDTO pessoafotoDTO) async {
+    
+    final String pessoaJson = jsonEncode(pessoafotoDTO.toJson());
+    Response resp  = await client.patch(Constantes.HOST_DOMAIN + "/pessoas/foto", body: pessoaJson,
+    headers: {
+          'Content-type': 'application/json',
+          'userSession': Constantes.TOKEN_ID,
+        });
+
+    return PessoaFotoDTO.fromJson(jsonDecode(resp.body));
+  }
+
 }
+
 

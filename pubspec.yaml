@@ -29,7 +29,8 @@ dependencies:
   intl: ^0.16.1
   json_serializable: ^3.2.5
   image_picker:
-  
+  dio: ^3.0.9 
+  typed_data: ^1.1.6
 
 
   # The following adds the Cupertino Icons font to your application.

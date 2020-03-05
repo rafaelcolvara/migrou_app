@@ -1,9 +1,16 @@
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 part 'pessoa.g.dart';
 
 class Pessoa = _PessoaBase with _$Pessoa;
 abstract class _PessoaBase with Store {
  
+  @observable
+  int idPessoa;
+
+  @action
+  changeId(int newId) => idPessoa = newId;
+
   @observable
   String nome;
 
@@ -34,10 +41,20 @@ abstract class _PessoaBase with Store {
   @action
   changeDataDascimento(DateTime newDataNascimento) => dataNascimento = newDataNascimento;
 
-
   @observable
   bool flgVendedor=false;
 
   @action
   changeVendedor(bool value)=> flgVendedor =value;
+
+  String dataAniversarioFormatada () { 
+    DateFormat dateFormat = DateFormat("dd/MM");
+    return dateFormat.format(dataNascimento);
+    
+  }
+     
+   
+  
+
+  
 }

@@ -9,6 +9,23 @@ part of 'pessoa.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$Pessoa on _PessoaBase, Store {
+  final _$idPessoaAtom = Atom(name: '_PessoaBase.idPessoa');
+
+  @override
+  int get idPessoa {
+    _$idPessoaAtom.context.enforceReadPolicy(_$idPessoaAtom);
+    _$idPessoaAtom.reportObserved();
+    return super.idPessoa;
+  }
+
+  @override
+  set idPessoa(int value) {
+    _$idPessoaAtom.context.conditionallyRunInAction(() {
+      super.idPessoa = value;
+      _$idPessoaAtom.reportChanged();
+    }, _$idPessoaAtom, name: '${_$idPessoaAtom.name}_set');
+  }
+
   final _$nomeAtom = Atom(name: '_PessoaBase.nome');
 
   @override
@@ -112,6 +129,16 @@ mixin _$Pessoa on _PessoaBase, Store {
   }
 
   final _$_PessoaBaseActionController = ActionController(name: '_PessoaBase');
+
+  @override
+  dynamic changeId(int newId) {
+    final _$actionInfo = _$_PessoaBaseActionController.startAction();
+    try {
+      return super.changeId(newId);
+    } finally {
+      _$_PessoaBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic changeName(String newName) {

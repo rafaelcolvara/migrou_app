@@ -3,7 +3,10 @@ import 'package:http_interceptor/http_interceptor.dart';
 class LogginInterceptor implements InterceptorContract {
   @override
   Future<RequestData> interceptRequest({RequestData data}) async {
-    print(data);
+    if (data.method==Method.PATCH){
+      print(data.body);
+      
+    }    
     return data;
   }
 

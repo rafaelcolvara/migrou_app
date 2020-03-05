@@ -112,7 +112,7 @@ class _CadastroUsuario extends State<Cadastro> {
         onPressed: () {
           _webClient
               .salvaPessoa(new PessoaDTO(
-            0,
+            controller.pessoa.idPessoa,
             controller.pessoa.nome,
             controller.pessoa.dataNascimento,
             DateTime.now(),
@@ -120,21 +120,21 @@ class _CadastroUsuario extends State<Cadastro> {
             controller.pessoa.senha,
           ))
               .then((pessoa) {
-            if (pessoa != null) _showCadastraFoto(context);
+            if (pessoa != null) _showCadastraFoto(context, pessoa);
               }
           );
         },
-        child: Text("Gravar",
+        child: Text("Foto",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
   }
-  void _showCadastraFoto(BuildContext context) {
+  void _showCadastraFoto(BuildContext context, PessoaDTO pes) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => CadastraFoto(pessoa: controller.pessoa),
+        builder: (context) => CadastraFoto(pessoa: pes),
       ),
     );
   }

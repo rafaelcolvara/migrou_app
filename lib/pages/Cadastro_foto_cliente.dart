@@ -1,13 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:migrou_app/controller/pessoa.dart';
+import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+
 
 class CadastraFoto extends StatefulWidget {
-  final Pessoa pessoa;
+  final PessoaDTO pessoa;
 
   CadastraFoto({Key key, @required this.pessoa}) : super(key: key);
 
@@ -16,14 +21,36 @@ class CadastraFoto extends StatefulWidget {
 }
 
 class _CadastraFotoState extends State<CadastraFoto> {
+  
   File _image;
+  String _base64Arquivo;
+
+  final PessoaWebClient _webPessoa = PessoaWebClient();
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      _image = image;
+      _image = image;        
     });
+
+    carregafoto();
+  }
+
+  void carregafoto() async  {
+
+      List<int> teste  = _image.readAsBytesSync();
+      _base64Arquivo = base64.encode(teste);    
+      
+      
+      PessoaFotoDTO pessoaFoto = new PessoaFotoDTO();
+      pessoaFoto.idPessoa =widget.pessoa.id;
+      pessoaFoto.byteArrayFoto =_base64Arquivo;
+      
+      _webPessoa.salvaFoto(pessoaFoto);
+      
+ 
+
   }
 
   @override
@@ -39,7 +66,10 @@ class _CadastraFotoState extends State<CadastraFoto> {
           children: <Widget>[
             Center(
               child: _image == null
-                  ? Text('Sem foto')
+                  ? Padding(
+                    padding: const EdgeInsets.all(78.0),
+                    child: Text('Sem foto'),
+                  )
                   : Container(
                       width: 190.0,
                       height: 190.0,
@@ -49,29 +79,35 @@ class _CadastraFotoState extends State<CadastraFoto> {
                               image: FileImage(_image), fit: BoxFit.fill)),
                     ),
             ),
-            Text(
-              widget.pessoa.nome,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
-                  .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Text(
+                widget.pessoa.nome,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
+                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
+              ),
             ),
-            Text(
-              'Aniversario: ' + widget.pessoa.dataNascimento.day.toString() + '/' +  widget.pessoa.dataNascimento.month.toString() ,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
-                  .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Aniversário:' + widget.pessoa.dataNascimento.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
+                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
+              ),
             ),
             Text(
               widget.pessoa.email,
               textAlign: TextAlign.center,
               style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
                   .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
-            ),          
+            ),                      
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
+        onPressed: getImage,        
         tooltip: 'Selecione uma imagem',
         child: Icon(Icons.add_a_photo),
       ),
