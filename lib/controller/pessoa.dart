@@ -47,14 +47,5 @@ abstract class _PessoaBase with Store {
   @action
   changeVendedor(bool value)=> flgVendedor =value;
 
-  String dataAniversarioFormatada () { 
-    DateFormat dateFormat = DateFormat("dd/MM");
-    return dateFormat.format(dataNascimento);
-    
-  }
-     
-   
-  
-
   
 }

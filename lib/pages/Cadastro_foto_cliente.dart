@@ -49,8 +49,6 @@ class _CadastraFotoState extends State<CadastraFoto> {
       
       _webPessoa.salvaFoto(pessoaFoto);
       
- 
-
   }
 
   @override
@@ -74,7 +72,9 @@ class _CadastraFotoState extends State<CadastraFoto> {
                       width: 190.0,
                       height: 190.0,
                       decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
+                          shape: BoxShape.rectangle,
+                          border: Border.all(width: 1.5, color: Colors.black),
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
                           image: new DecorationImage(
                               image: FileImage(_image), fit: BoxFit.fill)),
                     ),
@@ -84,25 +84,25 @@ class _CadastraFotoState extends State<CadastraFoto> {
               child: Text(
                 widget.pessoa.nome,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
+                style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 26.0)
                     .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
               ),
-            ),
+            ),            
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Aniversário:' + widget.pessoa.dataNascimento.toString(),
+                "email: " + widget.pessoa.email,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
-                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
+                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.normal),
               ),
-            ),
-            Text(
-              widget.pessoa.email,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
-                  .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
             ),                      
+            Text(
+                'Aniversário: ' + widget.pessoa.dataAniversarioFormatada(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
+                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.normal),
+              ),            
           ],
         ),
       ),

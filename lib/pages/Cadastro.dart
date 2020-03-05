@@ -33,8 +33,9 @@ class _CadastroUsuario extends State<Cadastro> {
     return TextField(
       onChanged: onChanged,
       obscureText: flgSenha,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: UnderlineInputBorder(),
         labelText: labelText,
         errorText: errorText == null ? null : errorText(),
       ),
@@ -50,22 +51,29 @@ class _CadastroUsuario extends State<Cadastro> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
+          padding: EdgeInsets.all(12.0),
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(),
               child: logoMigrou(context),
             ),
             slogan(context),
-            Observer(
-              builder: (_) {
-                return _textField(
-                    labelText: "Nome",
-                    errorText: controller.validaName,
-                    onChanged: controller.pessoa.changeName);
-              },
-            ),
+             Observer(
+                builder: (_) {
+                  return _textField(
+                      labelText: "Nome",
+                      errorText: controller.validaName,
+                      onChanged: controller.pessoa.changeName);
+                },
+              ),            
+            Observer(builder: (_) {
+              return   DateTimePicker(
+                      labelText: "Nascimento",                      
+                      selectedDate: controller.pessoa.dataNascimento,
+                      selectDate: controller.pessoa.changeDataDascimento)
+                ;
+            }),
             Observer(
               builder: (_) {
                 return _textField(
@@ -83,17 +91,6 @@ class _CadastroUsuario extends State<Cadastro> {
                     flgSenha: true);
               },
             ),
-            Observer(builder: (_) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
-                child: Center(
-                  child: DateTimePicker(
-                      labelText: "Data de Nascimento",
-                      selectedDate: controller.pessoa.dataNascimento,
-                      selectDate: controller.pessoa.changeDataDascimento),
-                ),
-              );
-            }),
             _cadastrarUsuario(context),
           ],
         ),
@@ -102,32 +99,35 @@ class _CadastroUsuario extends State<Cadastro> {
   }
 
   _cadastrarUsuario(BuildContext context) {
-    return Material(
-      elevation: 3.0,
-      borderRadius: BorderRadius.circular(15.0),
-      color: Constantes.AZUL,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          _webClient
-              .salvaPessoa(new PessoaDTO(
-            controller.pessoa.idPessoa,
-            controller.pessoa.nome,
-            controller.pessoa.dataNascimento,
-            DateTime.now(),
-            controller.pessoa.email,
-            controller.pessoa.senha,
-          ))
-              .then((pessoa) {
-            if (pessoa != null) _showCadastraFoto(context, pessoa);
-              }
-          );
-        },
-        child: Text("Foto",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
-                .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+      child: Material(
+        elevation: 3.0,
+        borderRadius: BorderRadius.circular(15.0),
+        color: Constantes.AZUL,
+        child: MaterialButton(
+          minWidth: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            _webClient
+                .salvaPessoa(new PessoaDTO(
+              controller.pessoa.idPessoa,
+              controller.pessoa.nome,
+              controller.pessoa.dataNascimento,
+              DateTime.now(),
+              controller.pessoa.email,
+              controller.pessoa.senha,
+            ))
+                .then((pessoa) {
+              if (pessoa != null) _showCadastraFoto(context, pessoa);
+                }
+            );
+          },
+          child: Text("Inclui",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+        ),
       ),
     );
   }

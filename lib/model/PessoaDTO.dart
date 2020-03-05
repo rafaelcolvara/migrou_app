@@ -29,4 +29,12 @@ class PessoaDTO {
         'dataCadastro' : DateFormat().add_yMd().format(dataCadastro),
         'senha'        : senha
     };
+
+    String dataAniversarioFormatada () { 
+    DateFormat dateFormat = DateFormat("dd/MM");
+    return dateFormat.format(dataNascimento);
+    
+  }
+
+    
 }
