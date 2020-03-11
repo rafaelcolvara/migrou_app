@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/services.dart';
+import 'package:migrou_app/componentes/Componentes.dart';
 import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
 import 'package:migrou_app/pages/Cadastro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-
 class LoginPage extends StatefulWidget {
+  final String tipoPessoa;
+
+  LoginPage({Key key, @required this.tipoPessoa}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -16,22 +19,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final controller = Controller();
   final ctrl = Ctrl();
-
-
-  _optionSwith({String labelText, onChanged, bool valor}) {
-    return SwitchListTile(
-        value: valor,
-        onChanged: onChanged,
-        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        activeColor: Constantes.LARANJA,
-        title: new Text(
-          labelText,
-          style: new TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Constantes.LARANJA),
-        ));
-  }
 
   _text({String hint, bool obscureText, type}) {
     return TextField(
@@ -64,7 +51,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,33 +58,29 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: OrientationBuilder(builder: (context, orientation) {
           return ListView(
-              padding: EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 10),
-              children: <Widget>[                 
-                _text(
-                    hint: "E-Mail",
-                    obscureText: false,
-                    type: TextInputType.emailAddress),
-                _text(
-                    hint: "Senha",
-                    obscureText: true,
-                    type: TextInputType.visiblePassword),
-                Observer(builder: (_) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: new Center(
-                      child: new Column(children: <Widget>[
-                        _optionSwith(
-                          labelText: controller.nomeLabelSwith(),
-                          valor: controller.pessoa.flgVendedor,
-                          onChanged: controller.pessoa.changeVendedor,
-                        )
-                      ]),
-                    ),
-                  );
-                }),
+              padding:
+                  EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 10),
+              children: <Widget>[
+                Center(
+                  child: logoMigrou(context),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _text(
+                        hint: "E-Mail",
+                        obscureText: false,
+                        type: TextInputType.emailAddress)),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _text(
+                      hint: "Senha",
+                      obscureText: true,
+                      type: TextInputType.visiblePassword),
+                ),
+                SizedBox(height  : 24,),
                 _loginButon(onPressed: _signInAnonymously),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -138,8 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   "Cadastre-se!",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Constantes.LARANJA),
+                      fontWeight: FontWeight.bold, color: Constantes.LARANJA),
                 ),
               ),
             ],
@@ -157,9 +138,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-    Future<void> _signInAnonymously() async {
+
+  Future<void> _signInAnonymously() async {
     try {
-      await FirebaseAuth.instance.signInAnonymously();
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: null, password: null);
     } catch (e) {
       print('erro ao autenticar:' + e);
     }

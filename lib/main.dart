@@ -1,41 +1,62 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:migrou_app/pages/LoginPage.dart';
+import 'package:migrou_app/pages/MenuPrincipal.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'pages/Cadastro.dart';
-import 'pages/LoginPage.dart';
-
+import 'componentes/Arquivos.dart';
 
 void main() {
-  runApp(MyApp());
- 
+  runApp(MyApp());  
 } 
 
 class MyApp extends StatelessWidget {
+
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Migrou App',
-      debugShowCheckedModeBanner: false,      
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+    routes: {
+      '/cadastroCliente': (context) => Cadastro(),
+      '/login' : (context) => LoginPage( tipoPessoa: null,)      
+    },
+
       theme: ThemeData(
         primarySwatch: Colors.blue,
         buttonColor: Constantes.AZUL
       ),
-      home: SignInPage()//LandingPage(title: 'Migrou App'),
+      home: MainPage(title: 'Migrou App'),
     );
   }
 }
 
-class LandingPage extends StatefulWidget {
-  LandingPage({Key key, this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  MainPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _LandingPageState createState() => _LandingPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _MainPageState extends State<MainPage> {
+
+  String tipoPessoaLocal;
+  Arquivos arq = new Arquivos();
+
+
+  Future<void> _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print(e); 
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<FirebaseUser>(
@@ -44,10 +65,19 @@ class _LandingPageState extends State<LandingPage> {
         if (snapshot.connectionState == ConnectionState.active) {
           FirebaseUser user = snapshot.data;
           if (user != null) {
-           print('user existe, abre opções para esclher quem ele é');
-            return LoginPage();            
+            arq.readContent().then((String value) {
+            setState(() {
+                tipoPessoaLocal = value;
+                });
+            });
+            if (tipoPessoaLocal==null || ( tipoPessoaLocal != 'VENDEDOR' && tipoPessoaLocal != 'CLIENTE' ) )  {
+              arq.writeContent("");
+              _signOut();
+              Navigator.pop(context);
+            } 
+            return LoginPage(tipoPessoa: tipoPessoaLocal,);            
           }
-          return SignInPage();
+          return MenuPrincipal();
         } else {
           return Scaffold(
             body: Center(
@@ -60,111 +90,5 @@ class _LandingPageState extends State<LandingPage> {
   }
 }
 
-class SignInPage extends StatelessWidget {
 
-  Future<void> _signInAnonymously() async {
-    try {
-      await FirebaseAuth.instance.signInAnonymously();
-    } catch (e) {
-      print('erro ao autenticar:' + e);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final clienteBotton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(12.0),
-      color: Constantes.LARANJA,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: _signInAnonymously ,
-        child: Text("Sou Cliente",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0).copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
-    );
-
-    final vendedorBotton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(12.0),
-      color: Constantes.CINZA,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
-        onPressed: _signInAnonymously,
-        child: Text("Sou Vendedor(a)",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0).copyWith(
-                color: Constantes.LARANJA, fontWeight: FontWeight.bold)),
-      ),
-    );
-
-    final loginButon = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(12.0),
-      color: Color.fromRGBO(62, 64, 149, 1),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => Cadastro()));
-        },
-        child: Text("Criar Conta",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0).copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
-    );
-
-    return Scaffold(
-      body: Center(
-        child: new ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20.0),
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(36.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 155.0,
-                      child: Image.asset(
-                        "images/logo.png",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text("Seu cartão de fidelidade Virtual",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0).copyWith(
-                color: Constantes.AZUL, fontWeight: FontWeight.bold)),
-                    ),
-                    SizedBox(height: 40.0),
-                    clienteBotton,
-                    SizedBox(height: 25.0),
-                    vendedorBotton,
-                    SizedBox(height: 25.0),
-                    loginButon,
-                    SizedBox(height: 25.0),
-
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      )
-      ,
-    );
-
-
-  }
-}
 

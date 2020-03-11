@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 part 'pessoa.g.dart';
 
@@ -14,8 +13,22 @@ abstract class _PessoaBase with Store {
   @observable
   String nome;
 
+
   @action
   changeName(String newName) => nome = newName;
+
+  @observable
+  String base64Foto;
+
+  @action
+  changeFoto(String newBase64Foto) => base64Foto = newBase64Foto; 
+
+  @observable
+  String nrCelular;
+
+  @action
+  changeCelular(String newnrCelular) => nrCelular = newnrCelular; 
+
 
   @observable
   String email;

@@ -6,6 +6,9 @@ import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'dart:convert';
 
 import 'package:migrou_app/componentes/Componentes.dart';
 import 'package:migrou_app/utils/definicoes.dart';
@@ -24,6 +27,20 @@ class _CadastroUsuario extends State<Cadastro> {
   final ctrl = Ctrl();
   final PessoaWebClient _webClient = PessoaWebClient();
   final DateTimePicker dataAqui = DateTimePicker();
+  File _image;
+  String _base64Arquivo;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+
+    List<int> teste = _image.readAsBytesSync();
+    _base64Arquivo = base64.encode(teste);
+    controller.pessoa.changeFoto(_base64Arquivo);
+  }
 
   _textField(
       {String labelText,
@@ -51,49 +68,85 @@ class _CadastroUsuario extends State<Cadastro> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          padding: EdgeInsets.all(12.0),
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(),
-              child: logoMigrou(context),
-            ),
-            slogan(context),
-             Observer(
+        child: ListView(padding: EdgeInsets.all(12.0), children: <Widget>[
+          ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20.0),
+            children: <Widget>[
+              Center(
+                child: _image == null
+                    ? Padding(
+                        padding: const EdgeInsets.all(78.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            getImage();
+                          },
+                          child: Container(
+                            width: 190.0,
+                            height: 190.0,
+                            alignment: Alignment(0.0, 0.0),
+                            decoration: new BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('images/no-image-default.png'),
+                              ),
+                              shape: BoxShape.rectangle,
+                              border:
+                                  Border.all(width: 1.5, color: Colors.black),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12.0),
+                              ),
+                            ),
+                          ),
+                        ))
+                    : Container(
+                        width: 190.0,
+                        height: 190.0,
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border.all(width: 1.5, color: Colors.black),
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          image: new DecorationImage(
+                              image: FileImage(_image), fit: BoxFit.fill),
+                        ),
+                      ),
+              ),
+              slogan(context),
+              Observer(
                 builder: (_) {
                   return _textField(
                       labelText: "Nome",
                       errorText: controller.validaName,
                       onChanged: controller.pessoa.changeName);
                 },
-              ),            
-            Observer(builder: (_) {
-              return   DateTimePicker(
-                      labelText: "Nascimento",                      
-                      selectedDate: controller.pessoa.dataNascimento,
-                      selectDate: controller.pessoa.changeDataDascimento)
-                ;
-            }),
-            Observer(
-              builder: (_) {
-                return _textField(
-                    labelText: "Email",
-                    errorText: controller.validaEmail,
-                    onChanged: controller.pessoa.changeEmail);
-              },
-            ),
-            Observer(
-              builder: (_) {
-                return _textField(
-                    labelText: "senha",
-                    errorText: controller.validaSenha,
-                    onChanged: controller.pessoa.chageSenha,
-                    flgSenha: true);
-              },
-            ),
-            _cadastrarUsuario(context),
-          ],
-        ),
+              ),
+              Observer(builder: (_) {
+                return DateTimePicker(
+                    labelText: "Nascimento",
+                    selectedDate: controller.pessoa.dataNascimento,
+                    selectDate: controller.pessoa.changeDataDascimento);
+              }),
+              Observer(
+                builder: (_) {
+                  return _textField(
+                      labelText: "Email",
+                      errorText: controller.validaEmail,
+                      onChanged: controller.pessoa.changeEmail);
+                },
+              ),
+              Observer(
+                builder: (_) {
+                  return _textField(
+                      labelText: "senha",
+                      errorText: controller.validaSenha,
+                      onChanged: controller.pessoa.chageSenha,
+                      flgSenha: true);
+                },
+              ),
+              _cadastrarUsuario(context),
+            ],
+          )
+        ]),
       ),
     );
   }
@@ -111,17 +164,17 @@ class _CadastroUsuario extends State<Cadastro> {
           onPressed: () {
             _webClient
                 .salvaPessoa(new PessoaDTO(
-              controller.pessoa.idPessoa,
-              controller.pessoa.nome,
-              controller.pessoa.dataNascimento,
-              DateTime.now(),
-              controller.pessoa.email,
-              controller.pessoa.senha,
-            ))
+                    controller.pessoa.idPessoa,
+                    controller.pessoa.nome,
+                    controller.pessoa.dataNascimento,
+                    DateTime.now(),
+                    controller.pessoa.email,
+                    controller.pessoa.senha,
+                    controller.pessoa.nrCelular,
+                    controller.pessoa.base64Foto))
                 .then((pessoa) {
               if (pessoa != null) _showCadastraFoto(context, pessoa);
-                }
-            );
+            });
           },
           child: Text("Inclui",
               textAlign: TextAlign.center,
@@ -131,6 +184,7 @@ class _CadastroUsuario extends State<Cadastro> {
       ),
     );
   }
+
   void _showCadastraFoto(BuildContext context, PessoaDTO pes) {
     Navigator.of(context).push(
       MaterialPageRoute(

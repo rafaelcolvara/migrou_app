@@ -10,7 +10,6 @@ import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 
-
 class CadastraFoto extends StatefulWidget {
   final PessoaDTO pessoa;
 
@@ -21,7 +20,6 @@ class CadastraFoto extends StatefulWidget {
 }
 
 class _CadastraFotoState extends State<CadastraFoto> {
-  
   File _image;
   String _base64Arquivo;
 
@@ -31,24 +29,21 @@ class _CadastraFotoState extends State<CadastraFoto> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      _image = image;        
+      _image = image;
     });
 
     carregafoto();
   }
 
-  void carregafoto() async  {
+  void carregafoto() async {
+    List<int> teste = _image.readAsBytesSync();
+    _base64Arquivo = base64.encode(teste);
 
-      List<int> teste  = _image.readAsBytesSync();
-      _base64Arquivo = base64.encode(teste);    
-      
-      
-      PessoaFotoDTO pessoaFoto = new PessoaFotoDTO();
-      pessoaFoto.idPessoa =widget.pessoa.id;
-      pessoaFoto.byteArrayFoto =_base64Arquivo;
-      
-      _webPessoa.salvaFoto(pessoaFoto);
-      
+    PessoaFotoDTO pessoaFoto = new PessoaFotoDTO();
+    pessoaFoto.idPessoa = widget.pessoa.id;
+    pessoaFoto.byteArrayFoto = _base64Arquivo;
+
+    _webPessoa.salvaFoto(pessoaFoto);
   }
 
   @override
@@ -65,18 +60,35 @@ class _CadastraFotoState extends State<CadastraFoto> {
             Center(
               child: _image == null
                   ? Padding(
-                    padding: const EdgeInsets.all(78.0),
-                    child: Text('Sem foto'),
-                  )
+                      padding: const EdgeInsets.all(78.0),
+                      child: GestureDetector(
+                        onTap: () {getImage();},
+                        child: Container(
+                          width: 190.0,
+                          height: 190.0,
+                          alignment: Alignment(0.0, 0.0),
+                          decoration: new BoxDecoration(
+                            image:  DecorationImage(
+                              image: AssetImage('images/no-image-default.png'),                            
+                            ),
+                            shape: BoxShape.rectangle,
+                            border: Border.all(width: 1.5, color: Colors.black),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12.0),
+                            ),
+                          ),
+                        ),
+                      ))
                   : Container(
                       width: 190.0,
                       height: 190.0,
                       decoration: new BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border: Border.all(width: 1.5, color: Colors.black),
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                          image: new DecorationImage(
-                              image: FileImage(_image), fit: BoxFit.fill)),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(width: 1.5, color: Colors.black),
+                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                        image: new DecorationImage(
+                            image: FileImage(_image), fit: BoxFit.fill),
+                      ),
                     ),
             ),
             Padding(
@@ -85,32 +97,46 @@ class _CadastraFotoState extends State<CadastraFoto> {
                 widget.pessoa.nome,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 26.0)
-                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold),
+                    .copyWith(
+                        color: Constantes.AZUL, fontWeight: FontWeight.bold),
               ),
-            ),            
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "email: " + widget.pessoa.email,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
-                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.normal),
+                    .copyWith(
+                        color: Constantes.AZUL, fontWeight: FontWeight.normal),
               ),
-            ),                      
+            ),
             Text(
-                'Aniversário: ' + widget.pessoa.dataAniversarioFormatada(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
-                    .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.normal),
-              ),            
+              'Aniversário: ' + widget.pessoa.dataAniversarioFormatada(),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
+                  .copyWith(
+                      color: Constantes.AZUL, fontWeight: FontWeight.normal),
+            ),
+            Material(
+              elevation: 5.0,
+              borderRadius: BorderRadius.circular(12.0),
+              color: Constantes.AZUL,
+              child: MaterialButton(
+                minWidth: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                onPressed: () {Navigator.pushNamed(context, '/');},
+                child: Text("OK",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
+                        .copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getImage,        
-        tooltip: 'Selecione uma imagem',
-        child: Icon(Icons.add_a_photo),
-      ),
+      
     );
   }
 }

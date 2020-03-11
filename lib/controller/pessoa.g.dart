@@ -43,6 +43,40 @@ mixin _$Pessoa on _PessoaBase, Store {
     }, _$nomeAtom, name: '${_$nomeAtom.name}_set');
   }
 
+  final _$base64FotoAtom = Atom(name: '_PessoaBase.base64Foto');
+
+  @override
+  String get base64Foto {
+    _$base64FotoAtom.context.enforceReadPolicy(_$base64FotoAtom);
+    _$base64FotoAtom.reportObserved();
+    return super.base64Foto;
+  }
+
+  @override
+  set base64Foto(String value) {
+    _$base64FotoAtom.context.conditionallyRunInAction(() {
+      super.base64Foto = value;
+      _$base64FotoAtom.reportChanged();
+    }, _$base64FotoAtom, name: '${_$base64FotoAtom.name}_set');
+  }
+
+  final _$nrCelularAtom = Atom(name: '_PessoaBase.nrCelular');
+
+  @override
+  String get nrCelular {
+    _$nrCelularAtom.context.enforceReadPolicy(_$nrCelularAtom);
+    _$nrCelularAtom.reportObserved();
+    return super.nrCelular;
+  }
+
+  @override
+  set nrCelular(String value) {
+    _$nrCelularAtom.context.conditionallyRunInAction(() {
+      super.nrCelular = value;
+      _$nrCelularAtom.reportChanged();
+    }, _$nrCelularAtom, name: '${_$nrCelularAtom.name}_set');
+  }
+
   final _$emailAtom = Atom(name: '_PessoaBase.email');
 
   @override
@@ -145,6 +179,26 @@ mixin _$Pessoa on _PessoaBase, Store {
     final _$actionInfo = _$_PessoaBaseActionController.startAction();
     try {
       return super.changeName(newName);
+    } finally {
+      _$_PessoaBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeFoto(String newBase64Foto) {
+    final _$actionInfo = _$_PessoaBaseActionController.startAction();
+    try {
+      return super.changeFoto(newBase64Foto);
+    } finally {
+      _$_PessoaBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeCelular(String newnrCelular) {
+    final _$actionInfo = _$_PessoaBaseActionController.startAction();
+    try {
+      return super.changeCelular(newnrCelular);
     } finally {
       _$_PessoaBaseActionController.endAction(_$actionInfo);
     }

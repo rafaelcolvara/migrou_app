@@ -31,6 +31,7 @@ dependencies:
   image_picker:
   dio: ^3.0.9 
   typed_data: ^1.1.6
+  path_provider:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,6 +61,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/logo.png
+    - images/no-image-default.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
