@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   "Cadastre-se!",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Constantes.LARANJA),
+                      fontWeight: FontWeight.bold, color: Constantes.LARANJA, fontSize: 24),
                 ),
               ),
             ],

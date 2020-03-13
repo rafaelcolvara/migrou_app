@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
+import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -28,25 +29,21 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
   
 }
 
-Future<PessoaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
+Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
     final String pessoaJson = jsonEncode(pessoaDTO.toJson());
-    Response response;
-    try {
-
-        response = await client.post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
-        headers: {
-          'Content-type': 'application/json',
-          'userSession': Constantes.TOKEN_ID,
-        },
-        body: pessoaJson).timeout(Duration(seconds: 5));
-    } on TimeoutException catch(e){
-        print('time out' + e.message);
-    } on Error catch(err){
-      print('oto erro $err');
+    
+    Response resposta  = await client.post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
+    headers: {
+      'Content-type': 'application/json',
+      'userSession': Constantes.TOKEN_ID,
+    },
+    body: pessoaJson).timeout(Duration(seconds: 5));
+    if (resposta.statusCode == 200){
+      return PessoaSimplificadaDTO.fromJson(jsonDecode(resposta.body));
     }
-
-    return PessoaDTO.fromJson(jsonDecode(response.body));
+    return throw new Exception(resposta.body.toString());
   }
+
   Future<PessoaFotoDTO> salvaFoto(PessoaFotoDTO pessoafotoDTO) async {
     
     final String pessoaJson = jsonEncode(pessoafotoDTO.toJson());

@@ -4,15 +4,15 @@ class LogginInterceptor implements InterceptorContract {
   @override
   Future<RequestData> interceptRequest({RequestData data}) async {
     if (data.method==Method.PATCH){
-      print(data.body);
-      
-    }    
+      print(data.body);      
+    }
+    print('enviou');    
     return data;
   }
 
   @override
   Future<ResponseData> interceptResponse({ResponseData data}) async {
-      print(data);
+      print('recebeu $data' + data.statusCode.toString());
       return data;
   }
 

@@ -15,26 +15,28 @@ class CenteredMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Visibility(
-            child: Icon(
-              icon,
-              size: iconSize,
+    return Scaffold(
+        body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Visibility(
+              child: Icon(
+                icon,
+                size: iconSize,
+              ),
+              visible: icon != null,
             ),
-            visible: icon != null,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0),
-            child: Text(
-              message,
-              style: TextStyle(fontSize: fontSize),
+            Padding(
+              padding: const EdgeInsets.only(top: 24.0),
+              child: Text(
+                message,
+                style: TextStyle(fontSize: fontSize),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

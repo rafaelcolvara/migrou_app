@@ -14,7 +14,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
- 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +47,6 @@ class _MainPageState extends State<MainPage> {
 
   String tipoPessoaLocal;
   Arquivos arq = new Arquivos();
-
 
   Future<void> _signOut() async {
     try {
