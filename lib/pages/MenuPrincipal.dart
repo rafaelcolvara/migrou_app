@@ -108,7 +108,7 @@ class MenuPrincipal extends StatelessWidget {
             }
             else {
               print('vai direcionar a rota');
-              return RootPage( auth: new Auth(), tipoPessoa: snapshot.data ,);
+              return RootPage( auth: new Auth());
             }
           }
         });
