@@ -14,4 +14,10 @@ mixin _$Controller on _ControllerBase, Store {
   @override
   bool get isValid =>
       (_$isValidComputed ??= Computed<bool>(() => super.isValid)).value;
+
+  @override
+  String toString() {
+    final string = 'isValid: ${isValid.toString()}';
+    return '{$string}';
+  }
 }

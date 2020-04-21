@@ -8,6 +8,7 @@ import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
+
 class PessoaWebClient {
 Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async{
   
@@ -26,6 +27,30 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
   final Response response = await client.get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers).timeout(Duration(seconds: 5));
   final List<dynamic> decodedJson = jsonDecode(response.body);
   return decodedJson.map((dynamic json) => PessoaDTO.fromJson(json)).toList(); 
+  
+}
+
+Future<PessoaDTO> logaPorEmailSenha({String email, String senha}) async{
+  
+  var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
+  Map<String, dynamic> loginPayload = {  "email": email,  "senha": senha,};
+
+  PessoaDTO retorno;
+
+  final Response response = await client.
+      post(Constantes.HOST_DOMAIN + "/pessoas/login", 
+      body: jsonEncode(loginPayload),
+      headers: headers).
+      timeout(Duration(seconds: 10));
+
+      if (response.statusCode == 500) {
+        throw FormatException(response.body);
+      }
+
+      final Map<String,dynamic> decodedJson = jsonDecode(response.body);
+      retorno= PessoaDTO.fromJson(decodedJson);
+
+    return retorno;
   
 }
 
@@ -55,6 +80,11 @@ Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
 
     return PessoaFotoDTO.fromJson(jsonDecode(resp.body));
   }
+
+
+
+
+
 
 }
 

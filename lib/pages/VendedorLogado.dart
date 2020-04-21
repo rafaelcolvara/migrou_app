@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-class AreaLogada extends StatelessWidget {
 
 
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e); 
-    }
-  }
+class VendedorLogado extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page - Area logada'),
+        title: Text('Vendedor - Logado'),
         actions: <Widget>[
           FlatButton(
             child: Text(
-              'Logout',
+              'Sair',
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.white,
               ),
+              
             ),
-            onPressed: _signOut,
+            onPressed: () => null,
           ),
         ],
       ),

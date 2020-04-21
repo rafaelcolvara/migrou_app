@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:migrou_app/componentes/Alerta.dart';
+import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/DateComponente.dart';
 import 'package:migrou_app/controller/controller.dart';
 import 'package:migrou_app/controller/ctrl.dart';
@@ -28,6 +29,7 @@ class _CadastroUsuario extends State<Cadastro> {
   final DateTimePicker dataAqui = DateTimePicker();
   File _image;
   String _base64Arquivo;
+  Arquivos arquivoCelular = new Arquivos();
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -45,14 +47,14 @@ class _CadastroUsuario extends State<Cadastro> {
     String retorno;
     await _webClient
         .salvaPessoa(new PessoaDTO(
-            controller.pessoa.idPessoa,
-            controller.pessoa.nome,
-            controller.pessoa.dataNascimento,
-            DateTime.now(),
-            controller.pessoa.email,
-            controller.pessoa.senha,
-            controller.pessoa.nrCelular,
-            controller.pessoa.base64Foto))
+            id: controller.pessoa.idPessoa,
+            nome: controller.pessoa.nome,
+            dataNascimento: controller.pessoa.dataNascimento,
+            dataCadastro: DateTime.now(),
+            email: controller.pessoa.email,
+            senha: controller.pessoa.senha,
+            nrCelular: controller.pessoa.nrCelular,
+            base64Foto: controller.pessoa.base64Foto))
         .then((pessoa) {
       retorno = pessoa.nome + ", MIGROU!";
     }).catchError((e) {
@@ -173,6 +175,7 @@ class _CadastroUsuario extends State<Cadastro> {
           minWidth: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           onPressed: () async {
+            
             await _saveCliente().then((value) {
               showDialog(
                   context: context,
@@ -186,6 +189,8 @@ class _CadastroUsuario extends State<Cadastro> {
                     return AlertaDialogo(flgOk: false, textoMensagem:  "Email ja Cadastrado");
                   });
             });
+            await arquivoCelular.writeContent("CLIENTE");
+
           },
           child: Text("Inclui",
               textAlign: TextAlign.center,

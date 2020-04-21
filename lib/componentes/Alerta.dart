@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:migrou_app/pages/LoginPage.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
+
 
 class AlertaDialogo extends StatefulWidget {
   final bool flgOk;
@@ -28,7 +29,7 @@ class _AlertaDialogoState extends State<AlertaDialogo> {
                 Navigator.pushAndRemoveUntil(
                   contextDialog,
                   CupertinoPageRoute(
-                      builder: (context) => LoginPage(tipoPessoa: 'CLIENTE')),
+                      builder: (context) => LoginPageAPI(tipoPessoa: 'CLIENTE')),
                       (r) => false
                 );
               } else {

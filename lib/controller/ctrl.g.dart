@@ -37,4 +37,10 @@ mixin _$Ctrl on CtrlBase, Store {
       _$CtrlBaseActionController.endAction(_$actionInfo);
     }
   }
+
+  @override
+  String toString() {
+    final string = 'value: ${value.toString()}';
+    return '{$string}';
+  }
 }

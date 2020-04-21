@@ -253,4 +253,11 @@ mixin _$Pessoa on _PessoaBase, Store {
       _$_PessoaBaseActionController.endAction(_$actionInfo);
     }
   }
+
+  @override
+  String toString() {
+    final string =
+        'idPessoa: ${idPessoa.toString()},nome: ${nome.toString()},base64Foto: ${base64Foto.toString()},nrCelular: ${nrCelular.toString()},email: ${email.toString()},cpf: ${cpf.toString()},senha: ${senha.toString()},dataNascimento: ${dataNascimento.toString()},flgVendedor: ${flgVendedor.toString()}';
+    return '{$string}';
+  }
 }

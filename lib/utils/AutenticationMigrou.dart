@@ -1,0 +1,54 @@
+import 'dart:async';
+
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/PessoaDTO.dart';
+
+abstract class BaseAuth {
+  Future<String> signIn(String email, String password);
+
+  Future<String> signUp(String email, String password);
+
+  Future<PessoaDTO> getCurrentUser();
+
+  Future<void> sendEmailVerification();
+
+  Future<void> signOut();
+
+  Future<bool> isEmailVerified();
+}
+
+class Auth implements BaseAuth {
+  final PessoaWebClient webClient = new PessoaWebClient();
+  PessoaDTO pessoaLogada = new PessoaDTO();
+  Future<String> signIn(String email, String password) async {
+    PessoaDTO result =  await webClient.logaPorEmailSenha(email: email, senha: password);
+    pessoaLogada = result;    
+    return result==null?"":result.email;
+  }
+
+  Future<String> signUp(String email, String password) async {
+    PessoaDTO result = await webClient.logaPorEmailSenha(email: email, senha: password);
+    return result.email;
+  }
+
+  Future<PessoaDTO> getCurrentUser() async {
+    return pessoaLogada;
+  }
+
+  Future<void> signOut() async {
+    pessoaLogada = null;
+    return null;
+  }
+
+  Future<void> sendEmailVerification() async {
+    // todo
+  }
+
+  Future<bool> isEmailVerified() async {
+
+    if (pessoaLogada!=null){
+      return pessoaLogada.flgEmailValido;
+    }
+    return false;
+  }
+}
