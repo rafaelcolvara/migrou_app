@@ -67,7 +67,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
       String userId = "";
       try {
         if (_isLoginForm) {
-            userId = await widget.auth.signIn(_email, _password, _tipoPessoa);
+          userId = await widget.auth.signIn(_email, _password, _tipoPessoa);
           print('Logado: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
@@ -79,18 +79,12 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         setState(() {
           _isLoading = false;
         });
-
         try {
-                  if (userId != null && userId.length > 0  && _isLoginForm) {
-                    widget.loginCallback();
-                       }
+            if (userId != null && userId.length > 0  && _isLoginForm) {
+              widget.loginCallback();
+            }
         } catch(e){
-              print('deu pau aqui');
-        }
-
-
-        if (userId != null && userId.length > 0  && _isLoginForm) {
-          widget.loginCallback();
+              print('resposta demorada');
         }
       } catch (e) {
         print('Error: $e');
@@ -216,7 +210,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   }
 
   Widget showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
+    if (_errorMessage != null && _errorMessage.length > 0 ) {
       return new Text(
         _errorMessage,
         style: TextStyle(
