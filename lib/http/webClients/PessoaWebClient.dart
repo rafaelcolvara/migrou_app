@@ -30,10 +30,10 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
   
 }
 
-Future<PessoaDTO> logaPorEmailSenha({String email, String senha}) async{
+Future<PessoaDTO> logaPorEmailSenha({String email, String senha, String tipoPessoa}) async{
   
   var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
-  Map<String, dynamic> loginPayload = {  "email": email,  "senha": senha,};
+  Map<String, dynamic> loginPayload = {  "email": email,  "senha": senha, "tipoPessoa": tipoPessoa};
 
   PessoaDTO retorno;
 

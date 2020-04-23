@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
+
 @JsonSerializable(nullable: false)
 class PessoaFotoDTO {
 
-  int idPessoa;
+  String idPessoa;
   String byteArrayFoto; 
 
   PessoaFotoDTO({int idPessoa, this.byteArrayFoto});

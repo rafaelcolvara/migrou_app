@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable(nullable: false)
 class PessoaDTO {
 
-  int id;
+  String id;
   String nome;  
   String email;
   String senha;  
@@ -13,8 +13,9 @@ class PessoaDTO {
   String nrCelular;
   String base64Foto;
   bool flgEmailValido;
+  String tipoPessoa;
 
-  PessoaDTO({int id, this.nome, this.dataNascimento, this.dataCadastro, this.email, this.senha, this.nrCelular, this.base64Foto, this.flgEmailValido});
+  PessoaDTO({int id, this.nome, this.dataNascimento, this.dataCadastro, this.email, this.senha, this.nrCelular, this.base64Foto, this.flgEmailValido, this.tipoPessoa});
 
   PessoaDTO.fromJson(Map<String, dynamic> json):
     id = json['id'],
@@ -25,7 +26,8 @@ class PessoaDTO {
     senha = json['senha'],
     nrCelular = json.containsKey('nrCelular')?json['nrCelular']:'',
     base64Foto = json.containsKey('base64Foto')?json['base64Foto']:'',
-    flgEmailValido = json.containsKey('flgEmailValido')?json['flgEmailValido']:false;
+    flgEmailValido = json.containsKey('flgEmailValido')?json['flgEmailValido']:false,
+    tipoPessoa = json.containsKey('tipoPessoa')?json['tipoPessoa']:'';
   
     Map<String, dynamic> toJson() => {
         'id' :id,
@@ -36,7 +38,8 @@ class PessoaDTO {
         'senha'        : senha,
         'nrCelular'    : nrCelular,
         'base64Foto'   : base64Foto,
-        'flgEmailValido' : flgEmailValido
+        'flgEmailValido' : flgEmailValido,
+        'tipoPessoa'   : tipoPessoa
     };
 
     String dataAniversarioFormatada () { 

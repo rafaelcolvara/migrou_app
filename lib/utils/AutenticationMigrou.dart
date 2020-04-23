@@ -4,7 +4,7 @@ import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 
 abstract class BaseAuth {
-  Future<String> signIn(String email, String password);
+  Future<String> signIn(String email, String password, String tipoPessoa);
 
   Future<String> signUp(String email, String password);
 
@@ -20,8 +20,9 @@ abstract class BaseAuth {
 class Auth implements BaseAuth {
   final PessoaWebClient webClient = new PessoaWebClient();
   PessoaDTO pessoaLogada = new PessoaDTO();
-  Future<String> signIn(String email, String password) async {
-    PessoaDTO result =  await webClient.logaPorEmailSenha(email: email, senha: password);
+  
+  Future<String> signIn(String email, String password, String tipoPessoa) async {
+    PessoaDTO result =  await webClient.logaPorEmailSenha(email: email, senha: password, tipoPessoa: tipoPessoa );
     pessoaLogada = result;    
     return result==null?"":result.email;
   }

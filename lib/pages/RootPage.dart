@@ -5,6 +5,7 @@ import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
+
 import 'ClienteLogado.dart';
 
 enum AuthStatus {
@@ -31,7 +32,7 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-    autoLogIn();
+     autoLogIn();
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
@@ -77,7 +78,7 @@ class _RootPageState extends State<RootPage> {
     if (userId != null) {
       setState(() {
         isLoggedIn = true;
-        pessoaLogada.id = int.tryParse(userId);
+        pessoaLogada.id = userId;
         pessoaLogada.nome = userNome;
         pessoaLogada.email = userEmail;
         pessoaLogada.flgEmailValido = userEmailConfirmado=='1';                

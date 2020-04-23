@@ -3,19 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable(nullable: false)
 class PessoaSimplificadaDTO {
 
-  int id;
+  String idPessoa;
   String nome;  
   String email;
   
-  PessoaSimplificadaDTO(int id, this.nome, this.email);
+  PessoaSimplificadaDTO(int idPessoa, this.nome, this.email);
 
   PessoaSimplificadaDTO.fromJson(Map<String, dynamic> json):
-    id = json['id'],
+    idPessoa = json['id'],
     nome = json['nome'],
     email = json['email'] ;
   
     Map<String, dynamic> toJson() => {
-        'id' :id,
+        'id' :idPessoa,
         'nome': nome,
         'email' : email        
     };

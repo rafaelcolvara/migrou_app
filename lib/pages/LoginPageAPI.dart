@@ -20,8 +20,9 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   String _email;
   String _password;
   String _errorMessage;
+  String _tipoPessoa ; 
 
-  int theriGroupVakue=0;
+  int theriGroupVakue=1;
 
   final Map<int, Widget> logoWidgets = const<int,Widget>{
     0:Text("Vendedor"),
@@ -31,18 +32,27 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     
     prefs.setString('tipoPessoa', tipoPessoa);
+
+    setState(() {
+      _tipoPessoa = tipoPessoa;      
+    });
     
   }
+
 
   bool _isLoginForm;
   bool _isLoading;
 
   // Check if form is valid before perform login or signup
   bool validateAndSave() {
+
     final form = _formKey.currentState;
     if (form.validate()) {
-      form.save();
-      return true;
+      if (_tipoPessoa !=null && _tipoPessoa.length>0) {
+        form.save();
+        return true;
+      }
+      return false;
     }
     return false;
   }
@@ -57,7 +67,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
       String userId = "";
       try {
         if (_isLoginForm) {
-          userId = await widget.auth.signIn(_email, _password);
+            userId = await widget.auth.signIn(_email, _password, _tipoPessoa);
           print('Logado: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
@@ -70,7 +80,16 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
           _isLoading = false;
         });
 
-        if (userId.length > 0 && userId != null && _isLoginForm) {
+        try {
+                  if (userId != null && userId.length > 0  && _isLoginForm) {
+                    widget.loginCallback();
+                       }
+        } catch(e){
+              print('deu pau aqui');
+        }
+
+
+        if (userId != null && userId.length > 0  && _isLoginForm) {
           widget.loginCallback();
         }
       } catch (e) {
@@ -79,8 +98,8 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         if (e is FormatException) {
           mensagem = "Erro de formatacao";
           switch (e.message) {
-            case 'ERROR_INVALID_EMAIL':
-              mensagem = 'Email Inválido';
+            case 'ERROR_INVALID_TIPO_PESSOA':
+              mensagem = 'Pessoa não é Vendedora nem Cliente';
               break;
             case 'ERROR_USER_NOT_FOUND':
               mensagem = 'Usuário não existe';
@@ -108,6 +127,12 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     _errorMessage = "";
     _isLoading = false;
     _isLoginForm = true;
+    if(widget.tipoPessoa==null){
+      _tipoPessoa = theriGroupVakue==0?"VENDEDOR":"CLIENTE";
+    } else{
+      _tipoPessoa = widget.tipoPessoa;
+    }
+    
     super.initState();
   }
 
@@ -126,8 +151,8 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Entrar'),
+        appBar: new AppBar( 
+          title: new Text('Entrar '),
         ),
         body: Stack(
           children: <Widget>[
