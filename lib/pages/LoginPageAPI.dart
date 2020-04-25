@@ -102,7 +102,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
               mensagem = 'Senha inválida';
               break;
             default:
-              mensagem = 'Erro!';
+              mensagem = "Cadastro de " + _tipoPessoa + " Não encontrado!";
               break;        
           }
         }

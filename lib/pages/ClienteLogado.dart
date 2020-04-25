@@ -15,11 +15,12 @@ class ClienteLogado extends StatefulWidget {
   State<StatefulWidget> createState() => new _ClienteLogadoState();
 }
 
-class _ClienteLogadoState extends State<ClienteLogado> {
+class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProviderStateMixin{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final _textEditingController = TextEditingController();
- 
+  AnimationController _controller;
+  double _scale;
   Arquivos arq = new Arquivos();
 
  
@@ -28,10 +29,19 @@ class _ClienteLogadoState extends State<ClienteLogado> {
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration : Duration(microseconds: 200),
+      lowerBound: 0.0,
+      upperBound: 0.1,
+    )..addListener(() {
+      setState(() {
 
+      });
+    });
     _checkEmailVerification();
-
-  }
+    }
+  
 
   void _checkEmailVerification() async {
     _isEmailVerified = await widget.auth.isEmailVerified();
@@ -158,6 +168,7 @@ class _ClienteLogadoState extends State<ClienteLogado> {
 
   @override
   Widget build(BuildContext context) {
+     _scale = 1 - _controller.value;
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Cliente'),
@@ -168,13 +179,66 @@ class _ClienteLogadoState extends State<ClienteLogado> {
                 onPressed: signOut)
           ],
         ),
-        body : Text("Opções do cliente"),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showAddTodoDialog(context);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ));
+        body : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Tap on the Below Button',style: TextStyle(color: Colors.grey[400],fontSize: 20.0),),
+            SizedBox(
+              height: 20.0,
+            ),
+             Center(
+            child: GestureDetector(
+              onTapDown: _onTapDown,
+              onTapUp: _onTapUp,
+              child: Transform.scale(
+                scale: _scale,
+                child: _animatedButtonUI,
+              ),
+            ),
+          ),
+          ],
+                  
+        ),
+        );
   }
+
+ Widget get _animatedButtonUI => Container(
+        height: 70,
+        width: 200,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100.0),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x80000000),
+                blurRadius: 30.0,
+                offset: Offset(0.0, 5.0),
+              ),
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF0000FF),
+                Color(0xFFFF3500),
+              ],
+            )),
+        child: Center(
+          child: Text(
+            'Clique',
+            style: TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+        ),
+      );
+
+  void _onTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    _controller.reverse();
+  }
+
 }
