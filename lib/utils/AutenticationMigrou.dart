@@ -24,12 +24,12 @@ class Auth implements BaseAuth {
   Future<String> signIn(String email, String password, String tipoPessoa) async {
     PessoaDTO result =  await webClient.logaPorEmailSenha(email: email, senha: password, tipoPessoa: tipoPessoa );
     pessoaLogada = result;    
-    return result==null?"":result.email;
+    return result==null?"":result.id;
   }
 
   Future<String> signUp(String email, String password) async {
     PessoaDTO result = await webClient.logaPorEmailSenha(email: email, senha: password);
-    return result.email;
+    return result.id;
   }
 
   Future<PessoaDTO> getCurrentUser() async {

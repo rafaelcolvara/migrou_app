@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:migrou_app/pages/ClienteLogado.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/RootPage.dart';
-import 'package:migrou_app/pages/VendedorLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -35,8 +33,6 @@ class _MyAppState extends State<MyApp> {
     routes: {
       '/cadastroCliente': (context) => Cadastro(),
       '/login' : (context) => LoginPageAPI( auth: new Auth(),tipoPessoa: null,),   
-      '/clienteLogado': (context) => ClienteLogado(),
-      '/vendedorLogado': (context) => VendedorLogado(),
       '/RootPage': (context) => RootPage(auth: new Auth(),)   
     },
       theme: ThemeData(

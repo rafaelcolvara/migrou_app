@@ -3,10 +3,8 @@ import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
-
 import 'ClienteLogado.dart';
+import 'VendedorLogado.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
@@ -130,11 +128,23 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return new ClienteLogado(
+          if (_tipoPessoa=="CLIENTE") {
+            return new ClienteLogado(
             userId: _userId,
             auth: widget.auth,
             logoutCallback: logoutCallback,          
           );
+          } else if (_tipoPessoa=="VENDEDOR"){
+            return new VendedorLogado(
+            userId: _userId,
+            auth: widget.auth,
+            logoutCallback: logoutCallback,          
+          );
+          } else
+          {
+            return null;
+          }
+          
         } else
           return buildWaitingScreen();
         break;

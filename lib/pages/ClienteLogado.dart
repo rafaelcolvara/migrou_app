@@ -160,7 +160,7 @@ class _ClienteLogadoState extends State<ClienteLogado> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Aqui - Menu'),
+          title: new Text('Cliente'),
           actions: <Widget>[
             new FlatButton(
                 child: new Text('Sair',
@@ -168,7 +168,7 @@ class _ClienteLogadoState extends State<ClienteLogado> {
                 onPressed: signOut)
           ],
         ),
-        body : Text("teste"),
+        body : Text("Opções do cliente"),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showAddTodoDialog(context);

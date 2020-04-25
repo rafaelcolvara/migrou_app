@@ -216,7 +216,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         style: TextStyle(
             fontSize: 13.0,
             color: Colors.red,
-            height: 1.0,
+            height: 1.0, 
             fontWeight: FontWeight.w300),
       );
     } else {
