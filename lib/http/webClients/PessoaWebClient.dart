@@ -6,6 +6,7 @@ import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
+import 'package:migrou_app/model/VendedorDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 
@@ -27,6 +28,15 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
   final Response response = await client.get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers).timeout(Duration(seconds: 5));
   final List<dynamic> decodedJson = jsonDecode(response.body);
   return decodedJson.map((dynamic json) => PessoaDTO.fromJson(json)).toList(); 
+  
+}
+
+Future<List<VendedorDTO>> buscaTodosVendedores() async{
+  
+  var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
+  final Response response = await client.get(Constantes.HOST_DOMAIN + "/vendedor/buscaTodos" , headers: headers).timeout(Duration(seconds: 10));
+  final List<dynamic> decodedJson = jsonDecode(response.body);
+  return decodedJson.map((dynamic json) => VendedorDTO.fromJson(json)).toList(); 
   
 }
 

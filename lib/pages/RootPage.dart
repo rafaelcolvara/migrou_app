@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
@@ -103,7 +104,7 @@ class _RootPageState extends State<RootPage> {
       _userId = "";
     });
   }
-
+/*
   Widget buildWaitingScreen() {
     return Scaffold(
       body: Container(
@@ -112,12 +113,12 @@ class _RootPageState extends State<RootPage> {
       ),
     );
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
-        return buildWaitingScreen();
+        return Progress();
         break;
       case AuthStatus.NOT_LOGGED_IN:
         return new LoginPageAPI( 
@@ -146,10 +147,10 @@ class _RootPageState extends State<RootPage> {
           }
           
         } else
-          return buildWaitingScreen();
+          return Progress();
         break;
       default:
-        return buildWaitingScreen();
+        return Progress();
     }
   }
 }

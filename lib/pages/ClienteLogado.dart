@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
+import 'package:migrou_app/pages/ListaVendedores.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 
 class ClienteLogado extends StatefulWidget {
@@ -15,7 +17,8 @@ class ClienteLogado extends StatefulWidget {
   State<StatefulWidget> createState() => new _ClienteLogadoState();
 }
 
-class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProviderStateMixin{
+class _ClienteLogadoState extends State<ClienteLogado>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final _textEditingController = TextEditingController();
@@ -23,25 +26,23 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
   double _scale;
   Arquivos arq = new Arquivos();
 
- 
   bool _isEmailVerified = false;
 
   @override
   void initState() {
     super.initState();
+    
     _controller = AnimationController(
       vsync: this,
-      duration : Duration(microseconds: 200),
+      duration: Duration(microseconds: 200),
       lowerBound: 0.0,
-      upperBound: 0.1,
+      upperBound: 0.1,      
     )..addListener(() {
-      setState(() {
-
+        setState(() {});
       });
-    });
+    
     _checkEmailVerification();
-    }
-  
+  }
 
   void _checkEmailVerification() async {
     _isEmailVerified = await widget.auth.isEmailVerified();
@@ -62,7 +63,8 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verifique seu e-mail"),
-          content: new Text("Por favor, valide sua conta clicando no link enviado no seu email"),
+          content: new Text(
+              "Por favor, valide sua conta clicando no link enviado no seu email"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Reenvie link"),
@@ -90,8 +92,8 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verifique sua conta de e-mail"),
-          content:
-              new Text("Um link de verificação foi enviado. Cheque seu e-mail."),
+          content: new Text(
+              "Um link de verificação foi enviado. Cheque seu e-mail."),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Fechar"),
@@ -107,10 +109,8 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
 
   @override
   void dispose() {
-   super.dispose();
+    super.dispose();
   }
-
- 
 
   signOut() async {
     try {
@@ -123,12 +123,8 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
   }
 
   addNewTodo(String todoItem) {
-    if (todoItem.length > 0) {
-      
-    }
+    if (todoItem.length > 0) {}
   }
-
-
 
   showAddTodoDialog(BuildContext context) async {
     _textEditingController.clear();
@@ -165,10 +161,9 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
         });
   }
 
-
   @override
   Widget build(BuildContext context) {
-     _scale = 1 - _controller.value;
+    _scale = 1 - _controller.value;
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Cliente'),
@@ -179,54 +174,152 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
                 onPressed: signOut)
           ],
         ),
-        body : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Tap on the Below Button',style: TextStyle(color: Colors.grey[400],fontSize: 20.0),),
-            SizedBox(
-              height: 20.0,
-            ),
-             Center(
-            child: GestureDetector(
-              onTapDown: _onTapDown,
-              onTapUp: _onTapUp,
-              child: Transform.scale(
-                scale: _scale,
-                child: _animatedButtonUI,
-              ),
-            ),
-          ),
-          ],
-                  
-        ),
-        );
-  }
+        body: Center(
+          child:  ListView(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(1.0),            
+            children: <Widget>[
+                Center(
+                    child: Text(
+                  'Escolha uma das opções abaixo',
+                  style:
+                      TextStyle(color: Colors.grey[400], fontSize: 20.0),
+                )),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTapDown: _onTapDown,
+                    onTapUp: _onTapUp,
+                    child: Transform.scale(
+                      scale: _scale,
+                      child: _botaoVendedor,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                )                ,
+                Center(
+                  child: GestureDetector(
+                    onTapDown: _onTapDown,
+                    onTapUp: _onTapUp,
+                    child: Transform.scale(
+                      scale: _scale,
+                      child: _botaoCreditos,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTapDown: _onTapDown,
+                    onTapUp: _onTapUp,
+                    child: Transform.scale(
+                      scale: _scale,
+                      child: _botaoQrCode,
+                    ),
+                  ),
+                ),
 
- Widget get _animatedButtonUI => Container(
-        height: 70,
-        width: 200,
+            ],
+              
+
+
+          ),
+        ));
+  }
+  Widget get _botaoVendedor => Container(
+        height: 50,
+        width: 250,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100.0),
+            borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
                 color: Color(0x80000000),
-                blurRadius: 30.0,
-                offset: Offset(0.0, 5.0),
+                blurRadius: 10.0,
+                offset: Offset(0.0, 0.0),
               ),
             ],
             gradient: LinearGradient(
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              end: Alignment.center,
               colors: [
-                Color(0xFF0000FF),
-                Color(0xFFFF3500),
+                Color(Constantes.AZUL.value),
+                Color(Constantes.AZUL.value),
               ],
             )),
         child: Center(
           child: Text(
-            'Clique',
+            "Meus vendedores",
             style: TextStyle(
-                fontSize: 30.0,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+        ),
+      );
+  
+  Widget get _botaoCreditos => Container(
+        height: 50,
+        width: 250,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x80000000),
+                blurRadius: 10.0,
+                offset: Offset(0.0, 0.0),
+              ),
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.center,
+              colors: [
+                Color(Constantes.AZUL.value),
+                Color(Constantes.AZUL.value),
+              ],
+            )),
+        child: Center(
+          child: Text(
+            "Meus Créditos",
+            style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+        ),
+      );
+
+  Widget get _botaoQrCode => Container(
+        height: 50,
+        width: 250,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x80000000),
+                blurRadius: 10.0,
+                offset: Offset(0.0, 0.0),
+              ),
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.center,
+              colors: [
+                Color(Constantes.AZUL.value),
+                Color(Constantes.AZUL.value),
+              ],
+            )),
+        child: Center(
+          child: Text(
+            "QRCODE",
+            style: TextStyle(
+                fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white),
           ),
@@ -235,6 +328,10 @@ class _ClienteLogadoState extends State<ClienteLogado> with SingleTickerProvider
 
   void _onTapDown(TapDownDetails details) {
     _controller.forward();
+     Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => ListaVendedores()),
+  );
   }
 
   void _onTapUp(TapUpDetails details) {
