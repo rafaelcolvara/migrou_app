@@ -15,7 +15,7 @@ class LogginInterceptor implements InterceptorContract {
       print('#### Response #####');
       print('status code: ${data.statusCode}');
       print('headers: ${data.headers}');
-      print('body: ${data.body}');
+    //  print('body: ${data.body}');
       return data;
   }
 

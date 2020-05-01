@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  mobx:
+  mobx: ^1.1.1
   flutter_mobx:
   cpfcnpj: ^1.0.3
   source_gen:
@@ -40,7 +40,7 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
-  mobx_codegen:
+  mobx_codegen: ^1.0.3
   build_runner:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,10 @@
 import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable(nullable: false)
 class VendedorDTO {
+
+  VendedorDTO({this.idVendedor, this.nomeNegocio, this.nomeSegmento, this.pessoaDTO});
 
 	PessoaDTO pessoaDTO;
 	

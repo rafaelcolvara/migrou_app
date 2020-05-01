@@ -3,10 +3,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:migrou_app/http/webclient.dart';
+import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
-import 'package:migrou_app/model/VendedorDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 
@@ -31,12 +31,14 @@ Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
   
 }
 
-Future<List<VendedorDTO>> buscaTodosVendedores() async{
+Future<ClienteVendedoresDTO> buscaVendedoresPorIdCliente({String id}) async{
   
+  ClienteVendedoresDTO retorno;
   var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
-  final Response response = await client.get(Constantes.HOST_DOMAIN + "/vendedor/buscaTodos" , headers: headers).timeout(Duration(seconds: 10));
-  final List<dynamic> decodedJson = jsonDecode(response.body);
-  return decodedJson.map((dynamic json) => VendedorDTO.fromJson(json)).toList(); 
+  final Response response = await client.get(Constantes.HOST_DOMAIN + "/vendedor/cliente/" + id , headers: headers).timeout(Duration(seconds: 10));
+  final Map<String,dynamic> decodedJson = jsonDecode(response.body);
+  retorno = ClienteVendedoresDTO.fromJson(decodedJson); 
+  return retorno;
   
 }
 

@@ -330,7 +330,8 @@ class _ClienteLogadoState extends State<ClienteLogado>
     _controller.forward();
      Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => ListaVendedores()),
+    MaterialPageRoute(builder: (context) => ListaVendedores(
+      idCliente: this.widget.userId)),
   );
   }
 
