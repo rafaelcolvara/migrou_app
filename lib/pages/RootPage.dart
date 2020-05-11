@@ -58,9 +58,7 @@ class _RootPageState extends State<RootPage> {
 
  Future<Null> loginUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
     prefs.setString('id', this._userId);
-    
     setState(() {      
       isLoggedIn = true;
     });

@@ -2,11 +2,15 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:migrou_app/componentes/ArgumentosPaginaClienteDash.dart';
 import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/VendedorDTO.dart';
+import 'package:migrou_app/pages/DashCliente.dart';
+
 
 class ListaVendedores extends StatelessWidget {
   const ListaVendedores({Key key, this.idCliente}) : super(key: key);
@@ -46,19 +50,29 @@ class ListaVendedores extends StatelessWidget {
                         final VendedorDTO vendedor = vendedores[index];
                         List<int> list = vendedor.pessoaDTO.base64Foto.codeUnits;
                         Uint8List bytesImage = Base64Decoder().convert(vendedor.pessoaDTO.base64Foto);
-
+                        Image naoexiste = Image.asset('images/no-image-default.png');
                         return Card(
-                          child: ListTile(
-                            leading: SizedBox(
-                              width: 90,
-                              height: 120,
-                              child: list.isNotEmpty?Image.memory(bytesImage):Image.asset('/images/no-image-default.png'),
-                            ) ,
+                          child: ListTile(                            
+                            leading : ConstrainedBox(constraints: BoxConstraints(
+                              minWidth: 80,
+                              minHeight: 80,
+                              maxHeight: 84,
+                              maxWidth: 84,
+                            ),
+                            child: list.isNotEmpty?Image.memory(bytesImage):naoexiste
+                            ,),
                             title: Text(vendedor.pessoaDTO.nome),
                             subtitle: Text(vendedor.nomeNegocio),
                             trailing: Text(vendedor.pessoaDTO.nrCelular),                            
                             onTap: () => {
-                              print('bateu aqui ' + vendedor.pessoaDTO.nome)
+                              Navigator.pushNamed(
+                                context, 
+                                DashCliente.routeName,
+                                arguments: ArgumentosPaginaClienteDash(
+                                  idVendedor: vendedor.idVendedor,
+                                  idCliente: this.idCliente
+                                )
+                              )                              
                             },
                             
                           ),

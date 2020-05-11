@@ -12,8 +12,6 @@ class ClienteDTO {
 
   PessoaDTO pessoaDTO;
 
-
-
   ClienteDTO.fromJson(Map<String, dynamic> json):
     idCliente  = json['idCliente'],
     idCampanha = json.containsKey('idCampanha')?json['idCampanha']:0,

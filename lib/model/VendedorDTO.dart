@@ -27,4 +27,5 @@ class VendedorDTO {
         'nomeSegmento' : nomeSegmento
     };
 
+ 
 }
