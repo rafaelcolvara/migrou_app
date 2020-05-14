@@ -7,6 +7,7 @@ import 'package:migrou_app/utils/AutenticationMigrou.dart';
 
 
 
+
 void main() {
   runApp(MyApp());  
 } 
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       DashCliente.routeName : (context) => DashCliente(),
     },
       theme: ThemeData(
-        primarySwatch: Colors.blue
+        primarySwatch: Colors.blue,        
       ),
       home: RootPage(auth: new Auth()),
     );

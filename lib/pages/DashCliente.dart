@@ -39,7 +39,9 @@ class DashCliente extends StatelessWidget {
                     break;
                   case ConnectionState.done:
                    
-                    return new TelaCliente();
+                    return new TelaCliente( 
+                      clienteDashDTO: snapshot.data,
+                      teste: '8',);
 
                     break;
                 }
