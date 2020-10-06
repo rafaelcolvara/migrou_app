@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
+import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/ListaVendedores.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
-import 'package:migrou_app/utils/definicoes.dart';
-
 
 class ClienteLogado extends StatefulWidget {
   ClienteLogado({Key key, this.auth, this.userId, this.logoutCallback})
@@ -31,16 +30,16 @@ class _ClienteLogadoState extends State<ClienteLogado>
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(microseconds: 200),
       lowerBound: 0.0,
-      upperBound: 0.1,      
+      upperBound: 0.1,
     )..addListener(() {
         setState(() {});
       });
-    
+
     _checkEmailVerification();
   }
 
@@ -175,168 +174,74 @@ class _ClienteLogadoState extends State<ClienteLogado>
           ],
         ),
         body: Center(
-          child:  ListView(
+          child: ListView(
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(1.0),            
+            padding: const EdgeInsets.all(1.0),
             children: <Widget>[
-                Center(
-                    child: Text(
-                  'Escolha uma das opções abaixo',
-                  style:
-                      TextStyle(color: Colors.grey[400], fontSize: 20.0),
-                )),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTapDown: _onTapDown,
-                    onTapUp: _onTapUp,
-                    child: Transform.scale(
-                      scale: _scale,
-                      child: _botaoVendedor,
-                    ),
+              Center(
+                  child: Text(
+                'Escolha uma das opções abaixo',
+                style: TextStyle(color: Colors.grey[400], fontSize: 20.0),
+              )),
+              SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                child: GestureDetector(
+                  onTapDown: _onTapDown,
+                  onTapUp: _onTapUp,
+                  child: Transform.scale(
+                    scale: _scale,
+                    child: _botaoVendedor,
                   ),
                 ),
-                SizedBox(
-                  height: 20.0,
-                )                ,
-                Center(
-                  child: GestureDetector(
-                    onTapDown: _onTapDown,
-                    onTapUp: _onTapUp,
-                    child: Transform.scale(
-                      scale: _scale,
-                      child: _botaoCreditos,
-                    ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                child: GestureDetector(
+                  onTapDown: _onTapDown,
+                  onTapUp: _onTapUp,
+                  child: Transform.scale(
+                    scale: _scale,
+                    child: _botaoCreditos,
                   ),
                 ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTapDown: _onTapDown,
-                    onTapUp: _onTapUp,
-                    child: Transform.scale(
-                      scale: _scale,
-                      child: _botaoQrCode,
-                    ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                child: GestureDetector(
+                  onTapDown: _onTapDown,
+                  onTapUp: _onTapUp,
+                  child: Transform.scale(
+                    scale: _scale,
+                    child: _botaoQrCode,
                   ),
                 ),
-
+              ),
             ],
-              
-
-
           ),
         ));
   }
-  Widget get _botaoVendedor => Container(
-        height: 50,
-        width: 250,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x80000000),
-                blurRadius: 10.0,
-                offset: Offset(0.0, 0.0),
-              ),
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.center,
-              colors: [
-                Color(Constantes.AZUL.value),
-                Color(Constantes.AZUL.value),
-              ],
-            )),
-        child: Center(
-          child: Text(
-            "Meus vendedores",
-            style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-      );
-  
-  Widget get _botaoCreditos => Container(
-        height: 50,
-        width: 250,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x80000000),
-                blurRadius: 10.0,
-                offset: Offset(0.0, 0.0),
-              ),
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.center,
-              colors: [
-                Color(Constantes.AZUL.value),
-                Color(Constantes.AZUL.value),
-              ],
-            )),
-        child: Center(
-          child: Text(
-            "Meus Créditos",
-            style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-      );
 
-  Widget get _botaoQrCode => Container(
-        height: 50,
-        width: 250,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x80000000),
-                blurRadius: 10.0,
-                offset: Offset(0.0, 0.0),
-              ),
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.center,
-              colors: [
-                Color(Constantes.AZUL.value),
-                Color(Constantes.AZUL.value),
-              ],
-            )),
-        child: Center(
-          child: Text(
-            "QRCODE",
-            style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-      );
+  Widget get _botaoVendedor => MyCustomButton(text: "Meus Vendedores");
+  Widget get _botaoCreditos => MyCustomButton(text: "Meus créditos");
+  Widget get _botaoQrCode => MyCustomButton(text: "QRCODE");
 
   void _onTapDown(TapDownDetails details) {
     _controller.forward();
-     Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => ListaVendedores(
-      idCliente: this.widget.userId)),
-  );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ListaVendedores(idCliente: this.widget.userId)),
+    );
   }
 
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
   }
-
 }

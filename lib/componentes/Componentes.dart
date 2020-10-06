@@ -14,10 +14,10 @@ Widget logoMigrou(BuildContext context) {
 
 Widget slogan(BuildContext context) {
   return Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Text("Seu cartão de Fidelidade Virtual",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Tw Cen MT' , fontSize: 20.0).copyWith(
-                color: Constantes.AZUL, fontWeight: FontWeight.bold)),
-                    );
+    padding: const EdgeInsets.all(24.0),
+    child: Text("Seu cartão de Fidelidade Virtual",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontFamily: 'Tw Cen MT', fontSize: 20.0)
+            .copyWith(color: Constantes.AZUL, fontWeight: FontWeight.bold)),
+  );
 }
