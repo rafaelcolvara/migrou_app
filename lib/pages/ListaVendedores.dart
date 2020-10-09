@@ -37,7 +37,7 @@ class ListaVendedores extends StatelessWidget {
                   case ConnectionState.active:
                     break;
                   case ConnectionState.done:
-                    if (snapshot.data != null) break;
+                    if (snapshot.data == null) break;
                     final ClienteVendedoresDTO clientesVendedores =
                         snapshot.data;
                     final List<VendedorDTO> vendedores =

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ClienteLogado.dart';
 import 'VendedorLogado.dart';
 
 enum AuthStatus {
@@ -25,13 +25,13 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   bool isLoggedIn = false;
-  String _userId='';
+  String _userId = '';
   String _tipoPessoa;
 
   @override
   void initState() {
     super.initState();
-     autoLogIn();
+    autoLogIn();
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
@@ -42,10 +42,11 @@ class _RootPageState extends State<RootPage> {
       });
     });
 
-    if (authStatus==AuthStatus.LOGGED_IN){
-      isLoggedIn=true;
+    if (authStatus == AuthStatus.LOGGED_IN) {
+      isLoggedIn = true;
     }
   }
+
   Future<Null> logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('id', null);
@@ -56,10 +57,10 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
- Future<Null> loginUser() async {
+  Future<Null> loginUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('id', this._userId);
-    setState(() {      
+    setState(() {
       isLoggedIn = true;
     });
   }
@@ -78,9 +79,9 @@ class _RootPageState extends State<RootPage> {
         pessoaLogada.id = userId;
         pessoaLogada.nome = userNome;
         pessoaLogada.email = userEmail;
-        pessoaLogada.flgEmailValido = userEmailConfirmado=='1';                
+        pessoaLogada.flgEmailValido = userEmailConfirmado == '1';
       });
-      
+
       return;
     }
   }
@@ -102,6 +103,7 @@ class _RootPageState extends State<RootPage> {
       _userId = "";
     });
   }
+
 /*
   Widget buildWaitingScreen() {
     return Scaffold(
@@ -119,7 +121,7 @@ class _RootPageState extends State<RootPage> {
         return Progress();
         break;
       case AuthStatus.NOT_LOGGED_IN:
-        return new LoginPageAPI( 
+        return new LoginPageAPI(
           auth: widget.auth,
           loginCallback: loginCallback,
           tipoPessoa: _tipoPessoa,
@@ -127,23 +129,21 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          if (_tipoPessoa=="CLIENTE") {
+          if (_tipoPessoa == "CLIENTE") {
             return new ClienteLogado(
-            userId: _userId,
-            auth: widget.auth,
-            logoutCallback: logoutCallback,          
-          );
-          } else if (_tipoPessoa=="VENDEDOR"){
+              userId: _userId,
+              auth: widget.auth,
+              logoutCallback: logoutCallback,
+            );
+          } else if (_tipoPessoa == "VENDEDOR") {
             return new VendedorLogado(
-            userId: _userId,
-            auth: widget.auth,
-            logoutCallback: logoutCallback,          
-          );
-          } else
-          {
+              userId: _userId,
+              auth: widget.auth,
+              logoutCallback: logoutCallback,
+            );
+          } else {
             return null;
           }
-          
         } else
           return Progress();
         break;

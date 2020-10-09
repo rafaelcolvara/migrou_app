@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+String userId = "";
+
 class LoginPageAPI extends StatefulWidget {
   LoginPageAPI({this.auth, this.loginCallback, @required this.tipoPessoa});
 
@@ -20,35 +22,33 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   String _email;
   String _password;
   String _errorMessage;
-  String _tipoPessoa ; 
+  String _tipoPessoa;
 
-  int theriGroupVakue=1;
+  int theriGroupVakue = 1;
 
-  final Map<int, Widget> logoWidgets = const<int,Widget>{
-    0:Text("Vendedor"),
-    1:Text("Cliente")  };
- 
+  final Map<int, Widget> logoWidgets = const <int, Widget>{
+    0: Text("Vendedor"),
+    1: Text("Cliente")
+  };
+
   Future<Null> gravaTipoPessoa(String tipoPessoa) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     prefs.setString('tipoPessoa', tipoPessoa);
 
     setState(() {
-      _tipoPessoa = tipoPessoa;      
+      _tipoPessoa = tipoPessoa;
     });
-    
   }
-
 
   bool _isLoginForm;
   bool _isLoading;
 
   // Check if form is valid before perform login or signup
   bool validateAndSave() {
-
     final form = _formKey.currentState;
     if (form.validate()) {
-      if (_tipoPessoa !=null && _tipoPessoa.length>0) {
+      if (_tipoPessoa != null && _tipoPessoa.length > 0) {
         form.save();
         return true;
       }
@@ -64,7 +64,6 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
       _isLoading = true;
     });
     if (validateAndSave()) {
-      String userId = "";
       try {
         if (_isLoginForm) {
           userId = await widget.auth.signIn(_email, _password, _tipoPessoa);
@@ -80,11 +79,11 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
           _isLoading = false;
         });
         try {
-            if (userId != null && userId.length > 0  && _isLoginForm) {
-              widget.loginCallback();
-            }
-        } catch(e){
-              print('resposta demorada');
+          if (userId != null && userId.length > 0 && _isLoginForm) {
+            widget.loginCallback();
+          }
+        } catch (e) {
+          print('resposta demorada');
         }
       } catch (e) {
         print('Error: $e');
@@ -103,7 +102,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
               break;
             default:
               mensagem = "Cadastro de " + _tipoPessoa + " Não encontrado!";
-              break;        
+              break;
           }
         }
 
@@ -121,12 +120,12 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     _errorMessage = "";
     _isLoading = false;
     _isLoginForm = true;
-    if(widget.tipoPessoa==null){
-      _tipoPessoa = theriGroupVakue==0?"VENDEDOR":"CLIENTE";
-    } else{
+    if (widget.tipoPessoa == null) {
+      _tipoPessoa = theriGroupVakue == 0 ? "VENDEDOR" : "CLIENTE";
+    } else {
       _tipoPessoa = widget.tipoPessoa;
     }
-    
+
     super.initState();
   }
 
@@ -145,7 +144,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar( 
+        appBar: new AppBar(
           title: new Text('Entrar '),
         ),
         body: Stack(
@@ -210,13 +209,13 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   }
 
   Widget showErrorMessage() {
-    if (_errorMessage != null && _errorMessage.length > 0 ) {
+    if (_errorMessage != null && _errorMessage.length > 0) {
       return new Text(
         _errorMessage,
         style: TextStyle(
             fontSize: 13.0,
             color: Colors.red,
-            height: 1.0, 
+            height: 1.0,
             fontWeight: FontWeight.w300),
       );
     } else {
@@ -277,35 +276,37 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
       ),
     );
   }
-  Widget showTipoPessoa(){
+
+  Widget showTipoPessoa() {
     return new Padding(
-            padding: EdgeInsets.only(top: 24.0,bottom: 10.0),child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 15.0,
-                ),
-
-                Expanded(
-                  child: CupertinoSegmentedControl(
-                    groupValue:theriGroupVakue,
-                    onValueChanged: (changeFromGroupValue){
-                      setState(() {
-                        theriGroupVakue =changeFromGroupValue;
-                        print('setou para $changeFromGroupValue');
-                        gravaTipoPessoa(changeFromGroupValue==0?"VENDEDOR":"CLIENTE");
-                      });
-                    },
-                    children: logoWidgets,
-                  ),
-                ),
-
-                SizedBox(
-                  width: 15.0,
-                ),                
-              ],
+      padding: EdgeInsets.only(top: 24.0, bottom: 10.0),
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 15.0,
+          ),
+          Expanded(
+            child: CupertinoSegmentedControl(
+              groupValue: theriGroupVakue,
+              onValueChanged: (changeFromGroupValue) {
+                setState(() {
+                  theriGroupVakue = changeFromGroupValue;
+                  print('setou para $changeFromGroupValue');
+                  gravaTipoPessoa(
+                      changeFromGroupValue == 0 ? "VENDEDOR" : "CLIENTE");
+                });
+              },
+              children: logoWidgets,
             ),
-		);
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
+        ],
+      ),
+    );
   }
+
   Widget showSecondaryButton() {
     return new FlatButton(
         child: new Text(_isLoginForm ? 'Criar conta' : 'Já tem conta? Entre!',
@@ -329,5 +330,4 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
           ),
         ));
   }
-
 }

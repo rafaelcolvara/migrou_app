@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
-import 'package:migrou_app/pages/ListaVendedores.dart';
+import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
+import 'package:migrou_app/pages/menu_setings/settings_page.dart';
+import 'package:migrou_app/pages/my_qrcode.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ClienteLogado extends StatefulWidget {
   ClienteLogado({Key key, this.auth, this.userId, this.logoutCallback})
@@ -126,6 +129,15 @@ class _ClienteLogadoState extends State<ClienteLogado>
   }
 
   showAddTodoDialog(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final keys = prefs.getKeys();
+
+    Map prefsMap;
+    for (String key in keys) {
+      prefsMap[key] = prefs.get(key);
+    }
+    print(prefsMap);
+
     _textEditingController.clear();
     await showDialog<String>(
         context: context,
@@ -165,6 +177,15 @@ class _ClienteLogadoState extends State<ClienteLogado>
     _scale = 1 - _controller.value;
     return new Scaffold(
         appBar: new AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuSettings()),
+                );
+              },
+              icon: Icon(Icons.menu)),
+          centerTitle: true,
           title: new Text('Cliente'),
           actions: <Widget>[
             new FlatButton(
@@ -187,58 +208,45 @@ class _ClienteLogadoState extends State<ClienteLogado>
               SizedBox(
                 height: 20.0,
               ),
-              Center(
-                child: GestureDetector(
-                  onTapDown: _onTapDown,
-                  onTapUp: _onTapUp,
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: _botaoVendedor,
-                  ),
-                ),
+              DetectoHome(
+                filho: MyCustomButton(text: "Meus vendedores"),
+                scale: _scale,
+                ontap: () {},
+                ontapDown: _onTapDown,
+                ontapUp: _onTapUp,
               ),
               SizedBox(
                 height: 20.0,
               ),
-              Center(
-                child: GestureDetector(
-                  onTapDown: _onTapDown,
-                  onTapUp: _onTapUp,
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: _botaoCreditos,
-                  ),
-                ),
+              DetectoHome(
+                filho: MyCustomButton(text: "Meus créditos"),
+                scale: _scale,
+                ontap: () {},
+                ontapDown: _onTapDown,
+                ontapUp: _onTapUp,
               ),
               SizedBox(
                 height: 20.0,
               ),
-              Center(
-                child: GestureDetector(
-                  onTapDown: _onTapDown,
-                  onTapUp: _onTapUp,
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: _botaoQrCode,
-                  ),
-                ),
+              DetectoHome(
+                filho: MyCustomButton(text: "Meu QRCODE"),
+                scale: _scale,
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyQrcode()),
+                  );
+                },
+                ontapDown: _onTapDown,
+                ontapUp: _onTapUp,
               ),
             ],
           ),
         ));
   }
 
-  Widget get _botaoVendedor => MyCustomButton(text: "Meus Vendedores");
-  Widget get _botaoCreditos => MyCustomButton(text: "Meus créditos");
-  Widget get _botaoQrCode => MyCustomButton(text: "QRCODE");
-
   void _onTapDown(TapDownDetails details) {
     _controller.forward();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ListaVendedores(idCliente: this.widget.userId)),
-    );
   }
 
   void _onTapUp(TapUpDetails details) {
