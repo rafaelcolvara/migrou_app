@@ -5,7 +5,8 @@ import 'package:migrou_app/model/ClienteDashDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class TelaCliente extends StatefulWidget {
-  const TelaCliente({Key key, this.clienteDashDTO, this.teste}) : super(key: key);
+  const TelaCliente({Key key, this.clienteDashDTO, this.teste})
+      : super(key: key);
 
   final ClienteDashDTO clienteDashDTO;
   final String teste;
@@ -99,7 +100,7 @@ class _TelaClienteState extends State<TelaCliente> {
                         Constantes.LARANJA,
                         rankKey: 'completed',
                       ),
-                      new CircularSegmentEntry(                        
+                      new CircularSegmentEntry(
                         14.5,
                         Colors.blueGrey[100],
                         rankKey: 'remaining',
@@ -113,7 +114,6 @@ class _TelaClienteState extends State<TelaCliente> {
                 percentageValues: true,
               ),
             ),
-            
             Expanded(
               child: Column(
                 children: <Widget>[
@@ -129,8 +129,7 @@ class _TelaClienteState extends State<TelaCliente> {
                   SizedBox(
                     height: 8,
                   ),
-                  MarkdownBody(data: texto),    
-                  
+                  MarkdownBody(data: texto)
                 ],
               ),
             ),
@@ -142,25 +141,34 @@ class _TelaClienteState extends State<TelaCliente> {
         Column(
           children: <Widget>[
             RaisedButton(
-                  child: Column(              
-            children: <Widget>[
-              Text('Resgatar crédito disponível', style: TextStyle(color: Colors.white, fontSize: 16),),
-              SizedBox(height: 8,),
-              Text('R\$ 8,82',style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
-            ],
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Resgatar crédito disponível',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                  color: Constantes.LARANJA,
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(color: Constantes.LARANJA)          
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'R\$ 8,82',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                 onPressed: () {} ),
+                color: Constantes.LARANJA,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Constantes.LARANJA)),
+                onPressed: () {}),
           ],
         )
       ],
     ));
   }
-  
 }
 
 class Task {
