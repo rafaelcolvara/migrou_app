@@ -144,15 +144,15 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Entrar '),
-        ),
-        body: Stack(
-          children: <Widget>[
-            _showForm(),
-            _showCircularProgress(),
-          ],
-        ));
+        body: Container(
+      height: MediaQuery.of(context).size.height / 0.6,
+      child: Stack(
+        children: <Widget>[
+          _showForm(),
+          _showCircularProgress(),
+        ],
+      ),
+    ));
   }
 
   Widget _showCircularProgress() {
@@ -190,34 +190,56 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Widget _showForm() {
     return new Container(
-        padding: EdgeInsets.all(16.0),
-        child: new Form(
-          key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              showLogo(),
-              showEmailInput(),
-              showPasswordInput(),
-              showTipoPessoa(),
-              showPrimaryButton(),
-              showSecondaryButton(),
-              showErrorMessage(),
-            ],
-          ),
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Stack(
+          children: [
+            new Form(
+              key: _formKey,
+              child: new ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  showLogo(),
+                  showEmailInput(),
+                  showPasswordInput(),
+                  showTipoPessoa(),
+                  showPrimaryButton(),
+                  showSecondaryButton(),
+                ],
+              ),
+            ),
+            Container(child: showErrorMessage())
+          ],
         ));
   }
 
   Widget showErrorMessage() {
     if (_errorMessage != null && _errorMessage.length > 0) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
+      return new AlertDialog(
+        actions: [
+          FlatButton(
+              onPressed: () => Navigator.of(context).pushNamed("/"),
+              child: Text("Fechar"))
+        ],
+        clipBehavior: Clip.none,
+        title: Text("Atenção",
+            style: TextStyle(color: Theme.of(context).primaryColor)),
+        content: Text(
+          _errorMessage,
+          style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.red,
+              height: 1.0,
+              fontWeight: FontWeight.w300),
+        ),
       );
+      // Text(
+      //   _errorMessage,
+      //   style: TextStyle(
+      //       fontSize: 13.0,
+      //       color: Colors.red,
+      //       height: 1.0,
+      //       fontWeight: FontWeight.w300),
+      // );
     } else {
       return new Container(
         height: 0.0,
@@ -229,7 +251,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     return new Hero(
       tag: 'hero',
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
+        padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 48.0,
@@ -241,18 +263,23 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Widget showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 0.0),
       child: new TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Email',
-            icon: new Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
-        validator: (value) => value.isEmpty ? 'Email não pode ser vazio' : null,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+            prefixIcon: Icon(
+              Icons.alternate_email,
+              color: Theme.of(context).accentColor,
+            ),
+            labelStyle: TextStyle(color: Colors.grey, fontSize: 18),
+            alignLabelWithHint: true,
+            labelText: 'Email'),
+        validator: (value) => value == "Email " || value.isEmpty
+            ? 'Email não pode ser vazio'
+            : null,
         onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -260,17 +287,20 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Widget showPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       child: new TextFormField(
         maxLines: 1,
         obscureText: true,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Senha',
-            icon: new Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+            prefixIcon: Icon(
+              Icons.vpn_key,
+              color: Theme.of(context).accentColor,
+            ),
+            labelStyle: TextStyle(color: Colors.grey, fontSize: 18),
+            alignLabelWithHint: true,
+            labelText: 'Senha '),
         validator: (value) => value.isEmpty ? 'Senha não pode ser vazia' : null,
         onSaved: (value) => _password = value.trim(),
       ),
@@ -279,7 +309,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Widget showTipoPessoa() {
     return new Padding(
-      padding: EdgeInsets.only(top: 24.0, bottom: 10.0),
+      padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -287,6 +317,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
           ),
           Expanded(
             child: CupertinoSegmentedControl(
+              selectedColor: Theme.of(context).primaryColor,
               groupValue: theriGroupVakue,
               onValueChanged: (changeFromGroupValue) {
                 setState(() {
@@ -323,7 +354,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
             elevation: 5.0,
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
             child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             onPressed: validateAndSubmit,

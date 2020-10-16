@@ -35,17 +35,6 @@ class MenuSettings extends StatelessWidget {
               MyCustomButton(text: "Indique e Ganhe"),
             ],
           ),
-        )
-        // Center(
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(30),
-        //     child: ListView(
-        //       children: [
-
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        );
+        ));
   }
 }

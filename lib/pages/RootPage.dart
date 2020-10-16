@@ -5,7 +5,7 @@ import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'VendedorLogado.dart';
+import 'vendedor_logado/VendedorLogado.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
@@ -53,7 +53,6 @@ class _RootPageState extends State<RootPage> {
 
     setState(() {
       _userId = '';
-      isLoggedIn = false;
     });
   }
 
@@ -101,6 +100,7 @@ class _RootPageState extends State<RootPage> {
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
+      isLoggedIn = false;
     });
   }
 
@@ -142,7 +142,7 @@ class _RootPageState extends State<RootPage> {
               logoutCallback: logoutCallback,
             );
           } else {
-            return null;
+            return Center(child: Text("Sem Referencia tipoPessoa"));
           }
         } else
           return Progress();

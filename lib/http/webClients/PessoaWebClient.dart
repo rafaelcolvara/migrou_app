@@ -9,95 +9,103 @@ import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-
 class PessoaWebClient {
-Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async{
-  
-  var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
-  final Response response = await client.
-      get(Constantes.HOST_DOMAIN + "/pessoas/id/" + idPessoa.toString(), headers: headers).
-      timeout(Duration(seconds: 5));
-      
-  final Map<String,dynamic> decodedJson = jsonDecode(response.body);
-  return PessoaDTO.fromJson(decodedJson);
-}
+  Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final Response response = await client
+        .get(Constantes.HOST_DOMAIN + "/pessoas/id/" + idPessoa.toString(),
+            headers: headers)
+        .timeout(Duration(seconds: 5));
 
-Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async{
-  
-  var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
-  final Response response = await client.get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers).timeout(Duration(seconds: 5));
-  final List<dynamic> decodedJson = jsonDecode(response.body);
-  return decodedJson.map((dynamic json) => PessoaDTO.fromJson(json)).toList(); 
-  
-}
+    final Map<String, dynamic> decodedJson = jsonDecode(response.body);
+    return PessoaDTO.fromJson(decodedJson);
+  }
 
-Future<ClienteVendedoresDTO> buscaVendedoresPorIdCliente({String id}) async{
-  
-  ClienteVendedoresDTO retorno;
-  var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
-  final Response response = await client.get(Constantes.HOST_DOMAIN + "/vendedor/cliente/" + id , headers: headers).timeout(Duration(seconds: 10));
-  final Map<String,dynamic> decodedJson = jsonDecode(response.body);
-  retorno = ClienteVendedoresDTO.fromJson(decodedJson); 
-  return retorno;
-  
-}
+  Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final Response response = await client
+        .get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers)
+        .timeout(Duration(seconds: 5));
+    final List<dynamic> decodedJson = jsonDecode(response.body);
+    return decodedJson.map((dynamic json) => PessoaDTO.fromJson(json)).toList();
+  }
 
-Future<PessoaDTO> logaPorEmailSenha({String email, String senha, String tipoPessoa}) async{
-  
-  var headers = {'Content-Type':'application/json', 'userSession':Constantes.TOKEN_ID};
-  Map<String, dynamic> loginPayload = {  "email": email,  "senha": senha, "tipoPessoa": tipoPessoa};
+  Future<ClienteVendedoresDTO> buscaVendedoresPorIdCliente({String id}) async {
+    ClienteVendedoresDTO retorno;
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final Response response = await client
+        .get(Constantes.HOST_DOMAIN + "/vendedor/cliente/" + id,
+            headers: headers)
+        .timeout(Duration(seconds: 50));
+    final Map<String, dynamic> decodedJson = jsonDecode(response.body);
+    retorno = ClienteVendedoresDTO.fromJson(decodedJson);
+    return retorno;
+  }
 
-  PessoaDTO retorno;
+  Future<PessoaDTO> logaPorEmailSenha(
+      {String email, String senha, String tipoPessoa}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    Map<String, dynamic> loginPayload = {
+      "email": email,
+      "senha": senha,
+      "tipoPessoa": tipoPessoa
+    };
 
-  final Response response = await client.
-      post(Constantes.HOST_DOMAIN + "/pessoas/login", 
-      body: jsonEncode(loginPayload),
-      headers: headers).
-      timeout(Duration(seconds: 10));
+    PessoaDTO retorno;
 
-      if (response.statusCode == 500) {
-        throw FormatException(response.body);
-      }
+    final Response response = await client
+        .post(Constantes.HOST_DOMAIN + "/pessoas/login",
+            body: jsonEncode(loginPayload), headers: headers)
+        .timeout(Duration(seconds: 50));
 
-      final Map<String,dynamic> decodedJson = jsonDecode(response.body);
-      retorno= PessoaDTO.fromJson(decodedJson);
+    if (response.statusCode == 500) {
+      throw FormatException(response.body);
+    }
+
+    final Map<String, dynamic> decodedJson = jsonDecode(response.body);
+    retorno = PessoaDTO.fromJson(decodedJson);
 
     return retorno;
-  
-}
+  }
 
-Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
+  Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
     final String pessoaJson = jsonEncode(pessoaDTO.toJson());
-    
-    Response resposta  = await client.post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
-    headers: {
-      'Content-type': 'application/json',
-      'userSession': Constantes.TOKEN_ID,
-    },
-    body: pessoaJson).timeout(Duration(seconds: 5));
-    if (resposta.statusCode == 200){
+
+    Response resposta = await client
+        .post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
+            headers: {
+              'Content-type': 'application/json',
+              'userSession': Constantes.TOKEN_ID,
+            },
+            body: pessoaJson)
+        .timeout(Duration(seconds: 5));
+    if (resposta.statusCode == 200) {
       return PessoaSimplificadaDTO.fromJson(jsonDecode(resposta.body));
     }
     return throw new Exception(resposta.body.toString());
   }
 
   Future<PessoaFotoDTO> salvaFoto(PessoaFotoDTO pessoafotoDTO) async {
-    
     final String pessoaJson = jsonEncode(pessoafotoDTO.toJson());
-    Response resp  = await client.patch(Constantes.HOST_DOMAIN + "/pessoas/foto", body: pessoaJson,
-    headers: {
+    Response resp = await client.patch(Constantes.HOST_DOMAIN + "/pessoas/foto",
+        body: pessoaJson,
+        headers: {
           'Content-type': 'application/json',
           'userSession': Constantes.TOKEN_ID,
         });
 
     return PessoaFotoDTO.fromJson(jsonDecode(resp.body));
   }
-
-
-
-
-
-
 }
-
-

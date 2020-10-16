@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
+import 'package:migrou_app/componentes/botos_home.dart';
+import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
+import 'package:migrou_app/pages/menu_setings/settings_page.dart';
+import 'package:migrou_app/pages/vendedor_logado/my_scan.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
-
 
 class VendedorLogado extends StatefulWidget {
   VendedorLogado({Key key, this.auth, this.userId, this.logoutCallback})
@@ -15,22 +18,30 @@ class VendedorLogado extends StatefulWidget {
   State<StatefulWidget> createState() => new _VendedorLogadoState();
 }
 
-class _VendedorLogadoState extends State<VendedorLogado> {
+class _VendedorLogadoState extends State<VendedorLogado>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final _textEditingController = TextEditingController();
- 
+  AnimationController _controller;
+  double _scale;
   Arquivos arq = new Arquivos();
 
- 
   bool _isEmailVerified = false;
 
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(microseconds: 200),
+      lowerBound: 0.0,
+      upperBound: 0.1,
+    )..addListener(() {
+        setState(() {});
+      });
 
     _checkEmailVerification();
-
   }
 
   void _checkEmailVerification() async {
@@ -52,7 +63,8 @@ class _VendedorLogadoState extends State<VendedorLogado> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verifique seu e-mail"),
-          content: new Text("Por favor, valide sua conta clicando no link enviado no seu email"),
+          content: new Text(
+              "Por favor, valide sua conta clicando no link enviado no seu email"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Reenvie link"),
@@ -80,8 +92,8 @@ class _VendedorLogadoState extends State<VendedorLogado> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verifique sua conta de e-mail"),
-          content:
-              new Text("Um link de verificação foi enviado. Cheque seu e-mail."),
+          content: new Text(
+              "Um link de verificação foi enviado. Cheque seu e-mail."),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Fechar"),
@@ -97,10 +109,8 @@ class _VendedorLogadoState extends State<VendedorLogado> {
 
   @override
   void dispose() {
-   super.dispose();
+    super.dispose();
   }
-
- 
 
   signOut() async {
     try {
@@ -113,12 +123,8 @@ class _VendedorLogadoState extends State<VendedorLogado> {
   }
 
   addNewTodo(String todoItem) {
-    if (todoItem.length > 0) {
-      
-    }
+    if (todoItem.length > 0) {}
   }
-
-
 
   showAddTodoDialog(BuildContext context) async {
     _textEditingController.clear();
@@ -155,26 +161,75 @@ class _VendedorLogadoState extends State<VendedorLogado> {
         });
   }
 
-
   @override
   Widget build(BuildContext context) {
+    _scale = 1 - _controller.value;
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Vendedor Logado'),
-          actions: <Widget>[
-            new FlatButton(
-                child: new Text('Sair',
-                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: signOut)
+      appBar: new AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MenuSettings()),
+              );
+            },
+            icon: Icon(Icons.menu)),
+        centerTitle: true,
+        title: new Text('Vendedor'),
+        actions: <Widget>[
+          new FlatButton(
+              child: new Text('Sair',
+                  style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+              onPressed: signOut)
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            DetectoHome(
+              ontapDown: _onTapDown,
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyScanCode()),
+                );
+              },
+              ontapUp: _onTapUp,
+              scale: _scale,
+              filho: MyCustomButton(text: "Adicionar Cliente"),
+            ),
+            DetectoHome(
+                ontapDown: _onTapDown,
+                ontap: () {},
+                ontapUp: _onTapUp,
+                scale: _scale,
+                filho: MyCustomButton(text: "Adicionar Crédito")),
+            DetectoHome(
+                ontapDown: _onTapDown,
+                ontap: () {},
+                ontapUp: _onTapUp,
+                scale: _scale,
+                filho: MyCustomButton(text: "Meus Clientes")),
+            DetectoHome(
+                ontapDown: _onTapDown,
+                ontap: () {},
+                ontapUp: _onTapUp,
+                scale: _scale,
+                filho: MyCustomButton(text: "Créditos Recebidos")),
           ],
         ),
-        body : Text("Opções vendedor"),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showAddTodoDialog(context);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ));
+      ),
+    );
+  }
+
+  void _onTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    _controller.reverse();
   }
 }

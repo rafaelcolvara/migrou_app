@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:migrou_app/utils/definicoes.dart';
 
 // ignore: must_be_immutable
 class MyCustomButton extends StatelessWidget {
@@ -15,22 +14,16 @@ class MyCustomButton extends StatelessWidget {
       height: 50,
       width: 250,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x80000000),
-              blurRadius: 10.0,
-              offset: Offset(0.0, 0.0),
-            ),
-          ],
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.center,
-            colors: [
-              Color(Constantes.AZUL.value),
-              Color(Constantes.AZUL.value),
-            ],
-          )),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x80000000),
+            blurRadius: 10.0,
+            offset: Offset(0.0, 0.0),
+          ),
+        ],
+      ),
       child: Center(
         child: Text(
           text,
