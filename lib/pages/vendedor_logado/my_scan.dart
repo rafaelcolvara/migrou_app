@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/vendedor_logado/VendedorLogado.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,10 +13,8 @@ class MyScanCode extends StatefulWidget {
   _MyScanCodeState createState() => _MyScanCodeState();
 }
 
-String codeValue, value = "";
+//obs falta ajustar essa parte, foi feito assim para teste.
 Future creatUser(String idCliente, String idVendedor) async {
-  var idCliente = value;
-  var idVendedor = userId;
   final headers = {
     "Accept": "application/json",
     'Content-Type': 'application/json',
@@ -32,10 +31,13 @@ Future creatUser(String idCliente, String idVendedor) async {
     final String responseString = response.body;
     return responseString;
   } else {
-    print("${response.statusCode} e ${response.headers}");
+    print("${response.statusCode} e cliente $idCliente e vendedor $idVendedor");
     return null;
   }
 }
+
+String idCliente = value;
+String codeValue, value = "";
 
 class _MyScanCodeState extends State<MyScanCode> {
   Future scan() async {
@@ -78,6 +80,8 @@ class _MyScanCodeState extends State<MyScanCode> {
                   final user = await creatUser(idCliente, idVendedor);
                   setState(() {
                     _user = user;
+                    idCliente = "";
+                    idVendedor = "";
                   });
                 },
               ),
