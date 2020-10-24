@@ -118,13 +118,17 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
-        return Progress();
+        return Scaffold(body: Center(child: Progress()));
         break;
       case AuthStatus.NOT_LOGGED_IN:
-        return new LoginPageAPI(
-          auth: widget.auth,
-          loginCallback: loginCallback,
-          tipoPessoa: _tipoPessoa,
+        return Scaffold(
+          body: Center(
+            child: new LoginPageAPI(
+              auth: widget.auth,
+              loginCallback: loginCallback,
+              tipoPessoa: _tipoPessoa,
+            ),
+          ),
         );
         break;
       case AuthStatus.LOGGED_IN:
@@ -142,7 +146,8 @@ class _RootPageState extends State<RootPage> {
               logoutCallback: logoutCallback,
             );
           } else {
-            return Center(child: Text("Sem Referencia tipoPessoa"));
+            return Scaffold(
+                body: Center(child: Text("Sem Referencia tipoPessoa")));
           }
         } else
           return Progress();

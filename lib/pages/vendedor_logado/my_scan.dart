@@ -31,36 +31,41 @@ Future creatUser(String idCliente, String idVendedor) async {
     final String responseString = response.body;
     return responseString;
   } else {
-    print("${response.statusCode} e cliente $idCliente e vendedor $idVendedor");
+    print(
+        "${response.statusCode} ${response.body} \ne cliente $idCliente e vendedor $idVendedor");
     return null;
   }
 }
 
 String idCliente = value;
 String codeValue, value = "";
+var busy = true;
 
 class _MyScanCodeState extends State<MyScanCode> {
-  Future scan() async {
-    codeValue = await FlutterBarcodeScanner.scanBarcode(
-        "#004297", "Cancelar", true, ScanMode.QR);
-    setState(() {
-      idCliente = codeValue;
-      idVendedor = userId;
-    });
-  }
-
-  // ignore: unused_field
-  var _user;
-
   @override
-  void initState() {
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    var _user;
+    Future scan() async {
+      codeValue = await FlutterBarcodeScanner.scanBarcode(
+          "#004297", "Cancelar", true, ScanMode.QR);
+      if (codeValue == "-1") {
+        idCliente = "";
+        idVendedor = "";
+      } else {
+        setState(() {
+          busy = false;
+          idCliente = codeValue;
+          idVendedor = userId;
+        });
+      }
+    }
+
     return Scaffold(
         appBar: AppBar(),
-        body: ListView(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: Text("Valor do codigo qrcode"),
@@ -72,19 +77,26 @@ class _MyScanCodeState extends State<MyScanCode> {
               ),
             ),
             Center(
-              child: FlatButton(
-                child: Text("Adicionar Usuario"),
-                onPressed: () async {
-                  idCliente = codeValue;
-                  idVendedor = userId;
-                  final user = await creatUser(idCliente, idVendedor);
-                  setState(() {
-                    _user = user;
-                    idCliente = "";
-                    idVendedor = "";
-                  });
-                },
-              ),
+              child: busy
+                  ? Container()
+                  : FlatButton(
+                      child: Text("Adicionar Usuario"),
+                      onPressed: () async {
+                        idCliente = codeValue;
+                        idVendedor = userId;
+                        final user = await creatUser(idCliente, idVendedor);
+                        if (idCliente == null) {
+                          return null;
+                        } else {
+                          setState(() {
+                            _user = user;
+                            idCliente = "";
+                            idVendedor = "";
+                            busy = true;
+                          });
+                        }
+                      },
+                    ),
             )
           ],
         ),

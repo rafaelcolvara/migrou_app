@@ -6,6 +6,8 @@ import 'package:migrou_app/pages/menu_setings/settings_page.dart';
 import 'package:migrou_app/pages/vendedor_logado/my_scan.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 
+import 'meus_clientes.dart';
+
 class VendedorLogado extends StatefulWidget {
   VendedorLogado({Key key, this.auth, this.userId, this.logoutCallback})
       : super(key: key);
@@ -209,7 +211,12 @@ class _VendedorLogadoState extends State<VendedorLogado>
                 filho: MyCustomButton(text: "Adicionar Crédito")),
             DetectoHome(
                 ontapDown: _onTapDown,
-                ontap: () {},
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Vinculados()),
+                  );
+                },
                 ontapUp: _onTapUp,
                 scale: _scale,
                 filho: MyCustomButton(text: "Meus Clientes")),
