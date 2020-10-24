@@ -7,6 +7,7 @@ import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -22,6 +23,21 @@ class PessoaWebClient {
 
     final Map<String, dynamic> decodedJson = jsonDecode(response.body);
     return PessoaDTO.fromJson(decodedJson);
+  }
+
+  Future<List<PessoaDTO>> clientesVinculadosAoVendedor() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url =
+        "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    return decodedJson["clientes"].map<PessoaDTO>((e) {
+      return PessoaDTO.fromJson(e['pessoaDTO']);
+    }).toList();
   }
 
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
