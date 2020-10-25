@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/DashCliente.dart';
+import 'package:migrou_app/pages/cliente_logado/meus_vendedores.dart';
 import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
 import 'package:migrou_app/pages/menu_setings/settings_page.dart';
 import 'package:migrou_app/pages/cliente_logado/my_qrcode.dart';
@@ -212,7 +213,13 @@ class _ClienteLogadoState extends State<ClienteLogado>
               DetectoHome(
                 filho: MyCustomButton(text: "Meus vendedores"),
                 scale: _scale,
-                ontap: () {},
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VinculadosVendedores()),
+                  );
+                },
                 ontapDown: _onTapDown,
                 ontapUp: _onTapUp,
               ),

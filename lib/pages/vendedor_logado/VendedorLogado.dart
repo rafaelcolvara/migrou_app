@@ -214,7 +214,8 @@ class _VendedorLogadoState extends State<VendedorLogado>
                 ontap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Vinculados()),
+                    MaterialPageRoute(
+                        builder: (context) => VinculadosClientes()),
                   );
                 },
                 ontapUp: _onTapUp,

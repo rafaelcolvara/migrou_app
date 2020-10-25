@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 
-class VinculadosClientes extends StatelessWidget {
+class VinculadosVendedores extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
@@ -12,7 +12,7 @@ class VinculadosClientes extends StatelessWidget {
           centerTitle: true,
         ),
         body: FutureBuilder(
-          future: httpServer.clientesVinculadosAoVendedor(),
+          future: httpServer.vendedoresVinculadosAoCliente(),
           builder: (_, snapshot) {
             // print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.done) {
