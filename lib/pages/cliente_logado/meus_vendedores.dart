@@ -36,7 +36,7 @@ class VinculadosVendedores extends StatelessWidget {
                   return Card(
                     child: new ListTile(
                       trailing:
-                          Image.asset('images/logo.png', height: 30, width: 30),
+                          Image.asset('images/logo.png', height: 70, width: 70),
                       title: Text(_p.nome),
                       subtitle: Text(_p.email),
                     ),
