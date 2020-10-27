@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:migrou_app/model/contaDTO.dart';
 
 class VinculadosVendedores extends StatelessWidget {
   @override
@@ -28,17 +29,18 @@ class VinculadosVendedores extends StatelessWidget {
                   ],
                 );
               // print(snapshot.data);
-              final List<PessoaDTO> meusClientes = snapshot.data;
+              final List<PessoaDTOnew> meusClientes = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
-                  PessoaDTO _p = meusClientes[index];
+                  PessoaDTOnew _p = meusClientes[index];
                   return Card(
                     child: new ListTile(
                       trailing:
                           Image.asset('images/logo.png', height: 70, width: 70),
-                      title: Text(_p.nome),
-                      subtitle: Text(_p.email),
+                      title: Text(_p.nomeNegocio),
+                      subtitle: Text(
+                          "${_p.segmentoComercial}\n${_p.email}\n${_p.nrCelular}"),
                     ),
                   );
                 },

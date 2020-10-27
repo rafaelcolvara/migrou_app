@@ -7,6 +7,7 @@ import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
+import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -42,7 +43,7 @@ class PessoaWebClient {
   }
 
 //essa list faz um get e retorna os vendedores vinculados ao cliente logado app
-  Future<List<PessoaDTO>> vendedoresVinculadosAoCliente() async {
+  Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
       'userSession': Constantes.TOKEN_ID
@@ -52,8 +53,8 @@ class PessoaWebClient {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    return decodedJson["vendedores"].map<PessoaDTO>((e) {
-      return PessoaDTO.fromJson(e['pessoaDTO']);
+    return decodedJson["vendedores"].map<PessoaDTOnew>((e) {
+      return PessoaDTOnew.fromJson(e['pessoaDTO']);
     }).toList();
   }
 
