@@ -164,6 +164,34 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     );
   }
 
+  void alertipoPessoa() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Atenção",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text(
+              "Escolha uma das opções:\nVENDEDOR ou CLIENTE",
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.red,
+                  height: 1.0,
+                  fontWeight: FontWeight.w300),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  toggleFormMode();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   void _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
@@ -358,7 +386,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
                   child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
                       style:
                           new TextStyle(fontSize: 20.0, color: Colors.white)),
-                  onPressed: () {},
+                  onPressed: alertipoPessoa,
                 )
               : new RaisedButton(
                   elevation: 5.0,
