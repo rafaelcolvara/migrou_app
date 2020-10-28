@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String userId = "";
@@ -24,7 +25,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   String _errorMessage;
   String _tipoPessoa;
 
-  int theriGroupVakue = 1;
+  int theriGroupVakue;
 
   final Map<int, Widget> logoWidgets = const <int, Widget>{
     0: Text("Vendedor"),
@@ -33,9 +34,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Future<Null> gravaTipoPessoa(String tipoPessoa) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     prefs.setString('tipoPessoa', tipoPessoa);
-
     setState(() {
       _tipoPessoa = tipoPessoa;
     });
@@ -121,7 +120,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     _isLoading = false;
     _isLoginForm = true;
     if (widget.tipoPessoa == null) {
-      _tipoPessoa = theriGroupVakue == 0 ? "VENDEDOR" : "CLIENTE";
+      _tipoPessoa = theriGroupVakue = null;
     } else {
       _tipoPessoa = widget.tipoPessoa;
     }
@@ -350,15 +349,27 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
         child: SizedBox(
           height: 40.0,
-          child: new RaisedButton(
-            elevation: 5.0,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            color: Theme.of(context).primaryColor,
-            child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-            onPressed: validateAndSubmit,
-          ),
+          child: theriGroupVakue == null
+              ? new RaisedButton(
+                  elevation: 5.0,
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  color: Constantes.CINZA,
+                  child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
+                      style:
+                          new TextStyle(fontSize: 20.0, color: Colors.white)),
+                  onPressed: () {},
+                )
+              : new RaisedButton(
+                  elevation: 5.0,
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  color: Theme.of(context).primaryColor,
+                  child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
+                      style:
+                          new TextStyle(fontSize: 20.0, color: Colors.white)),
+                  onPressed: validateAndSubmit,
+                ),
         ));
   }
 }
