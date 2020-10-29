@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
-import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/pages/DashCliente.dart';
 
-class ResgateCredito extends StatelessWidget {
+class ResgateCredito extends StatefulWidget {
+  @override
+  _ResgateCreditoState createState() => _ResgateCreditoState();
+}
+
+class _ResgateCreditoState extends State<ResgateCredito> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
@@ -13,15 +19,87 @@ class ResgateCredito extends StatelessWidget {
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) return Center(child: Text("ops..."));
-              final List<PessoaDTO> meusgetInfo = snapshot.data;
+              final List<PessoaDTOnew> meusgetInfo = snapshot.data;
               return ListView.builder(
                 itemCount: meusgetInfo.length,
                 itemBuilder: (BuildContext context, int index) {
-                  PessoaDTO i = meusgetInfo[index];
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [Text(i.nome)],
+                  PessoaDTOnew i = meusgetInfo[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset("images/pati.png",
+                                    fit: BoxFit.cover, height: 100, width: 80),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                          child: ListTile(
+                                            title: Text(
+                                              i.nomeNegocio,
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            subtitle: Text(
+                                              "${i.segmentoComercial}\n${i.nrCelular}",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InkWell(
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 130,
+                                                  decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .accentColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Crédito/Resgate",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                  )),
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DashCliente()),
+                                                );
+                                              }),
+                                        )
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 },
               );

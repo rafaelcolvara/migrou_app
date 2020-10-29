@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Constantes {
   static Color customColorBlue = Color.fromARGB(255, 62, 64, 149);
   static Color customColorOrange = Color.fromARGB(255, 245, 134, 52);
+  static Color customColorCinza = Color.fromARGB(255, 127, 127, 127);
   static const LARANJA = Color.fromRGBO(235, 134, 52, 1);
   static const CINZA = Color.fromRGBO(230, 231, 232, 2);
   static const AZUL = Colors.blue;

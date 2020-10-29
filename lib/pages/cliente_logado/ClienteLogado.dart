@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
-import 'package:migrou_app/pages/DashCliente.dart';
+import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/pages/cliente_logado/meus_vendedores.dart';
 import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
 import 'package:migrou_app/pages/menu_setings/settings_page.dart';
 import 'package:migrou_app/pages/cliente_logado/my_qrcode.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ClienteLogado extends StatefulWidget {
@@ -205,7 +206,8 @@ class _ClienteLogadoState extends State<ClienteLogado>
               Center(
                   child: Text(
                 'Escolha uma das opções abaixo',
-                style: TextStyle(color: Colors.grey[400], fontSize: 20.0),
+                style: TextStyle(
+                    color: Constantes.customColorCinza, fontSize: 20.0),
               )),
               SizedBox(
                 height: 20.0,
@@ -232,7 +234,7 @@ class _ClienteLogadoState extends State<ClienteLogado>
                 ontap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DashCliente()),
+                    MaterialPageRoute(builder: (context) => ResgateCredito()),
                   );
                 },
                 ontapDown: _onTapDown,

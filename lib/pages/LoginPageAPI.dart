@@ -301,7 +301,8 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
               Icons.alternate_email,
               color: Theme.of(context).accentColor,
             ),
-            labelStyle: TextStyle(color: Colors.grey, fontSize: 18),
+            labelStyle:
+                TextStyle(color: Constantes.customColorCinza, fontSize: 18),
             alignLabelWithHint: true,
             labelText: 'Email'),
         validator: (value) => value == "Email " || value.isEmpty

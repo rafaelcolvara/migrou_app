@@ -159,10 +159,10 @@ class _TelaClienteState extends State<TelaCliente> {
                     ),
                   ],
                 ),
-                color: Constantes.LARANJA,
+                color: Constantes.customColorOrange,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Constantes.LARANJA)),
+                    side: BorderSide(color: Constantes.customColorOrange)),
                 onPressed: () {}),
           ],
         )
