@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 
-class Vinculados extends StatelessWidget {
+class VinculadosClientes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();

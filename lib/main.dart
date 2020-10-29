@@ -5,6 +5,7 @@ import 'package:migrou_app/pages/DashCliente.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/RootPage.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,14 +25,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     //MaterialColor teste = new MaterialColor(primary, swatch);
-    final Color customColorBlue = Color.fromARGB(255, 62, 64, 149);
-    final Color customColorOrange = Color.fromARGB(255, 245, 134, 52);
 
     return MaterialApp(
       theme: ThemeData(
-          primaryColor: customColorBlue,
-          accentColor: customColorOrange,
-          textTheme: TextTheme(bodyText2: TextStyle(color: customColorBlue))),
+          primaryColor: Constantes.customColorBlue,
+          accentColor: Constantes.customColorOrange,
+          textTheme: TextTheme(
+              bodyText2: TextStyle(color: Constantes.customColorBlue))),
       home: RootPage(auth: new Auth()),
       title: 'Migrou App',
       debugShowCheckedModeBanner: false,
