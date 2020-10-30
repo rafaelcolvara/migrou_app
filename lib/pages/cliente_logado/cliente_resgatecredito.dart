@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
@@ -24,6 +27,8 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                 itemCount: meusgetInfo.length,
                 itemBuilder: (BuildContext context, int index) {
                   PessoaDTOnew i = meusgetInfo[index];
+                  String profileIMG = i.base64Foto;
+                  Uint8List bytes = base64.decode(profileIMG);
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Card(
@@ -34,8 +39,15 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Image.asset("images/pati.png",
-                                    fit: BoxFit.cover, height: 100, width: 80),
+                                i.base64Foto == null || i.base64Foto == ""
+                                    ? Image.asset("images/no-image-default.png",
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 80)
+                                    : Image.memory(bytes,
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 80),
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
