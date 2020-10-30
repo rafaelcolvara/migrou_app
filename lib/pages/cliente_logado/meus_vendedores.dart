@@ -39,27 +39,72 @@ class VinculadosVendedores extends StatelessWidget {
                   PessoaDTOnew _p = meusClientes[index];
                   String profileIMG = _p.base64Foto;
                   Uint8List bytes = base64.decode(profileIMG);
-                  return Card(
-                    child: new ListTile(
-                      trailing: _p.base64Foto == null || _p.base64Foto == ""
-                          ? Image.asset('images/no-image-default.png',
-                              height: 60, width: 60)
-                          : Image.memory(
-                              bytes,
-                              height: 80,
-                              width: 80,
-                              fit: BoxFit.cover,
-                            ),
-                      title: Text(
-                        _p.nomeNegocio,
-                        style: TextStyle(
-                            color: Constantes.customColorBlue,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                          "${_p.segmentoComercial}\n${_p.email}\n${_p.nrCelular}"),
-                    ),
-                  );
+                  return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  _p.base64Foto == null || _p.base64Foto == ""
+                                      ? Container(
+                                          width: 80,
+                                          height: 120,
+                                          child: Image.asset(
+                                              'images/no-image-default.png'),
+                                        )
+                                      : Container(
+                                          width: 80,
+                                          height: 120,
+                                          child: Image.memory(
+                                            bytes,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                      child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      new ListTile(
+                                        title: Text(
+                                          _p.nomeNegocio,
+                                          style: TextStyle(
+                                              color: Constantes.customColorBlue,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(_p.segmentoComercial),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Icon(Icons.email),
+                                          SizedBox(width: 2),
+                                          Text(_p.email),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Icon(Icons.phone_android),
+                                          SizedBox(width: 2),
+                                          Text(_p.nrCelular)
+                                        ],
+                                      )
+                                    ],
+                                  ))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
                 },
               );
             }
