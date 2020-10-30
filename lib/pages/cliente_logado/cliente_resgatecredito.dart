@@ -6,6 +6,11 @@ import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/DashCliente.dart';
 
+String nomeStabelecimento;
+String nomeSegimento;
+String nomeTelefone;
+String nomeFotoStabelecimento;
+
 class ResgateCredito extends StatefulWidget {
   @override
   _ResgateCreditoState createState() => _ResgateCreditoState();
@@ -96,6 +101,15 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                                     ),
                                                   )),
                                               onTap: () {
+                                                setState(() {
+                                                  nomeStabelecimento =
+                                                      i.nomeNegocio;
+                                                  nomeSegimento =
+                                                      i.segmentoComercial;
+                                                  nomeTelefone = i.nrCelular;
+                                                  nomeFotoStabelecimento =
+                                                      i.base64Foto;
+                                                });
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
