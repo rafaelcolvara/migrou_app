@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
+import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class TelaCliente extends StatefulWidget {
@@ -26,6 +30,8 @@ class _TelaClienteState extends State<TelaCliente> {
 
   @override
   Widget build(BuildContext context) {
+    String profileIMG = nomeFotoStabelecimento;
+    Uint8List bytes = base64.decode(profileIMG);
     String texto = """**Faltam** """ +
         widget.teste +
         """ compras para você ter __10%__ de desconto nas próximas compras. """;
@@ -50,7 +56,15 @@ class _TelaClienteState extends State<TelaCliente> {
                 maxHeight: 120,
                 maxWidth: 120,
               ),
-              child: Image.asset('images/pati.png'),
+              child: profileIMG == null || profileIMG == ""
+                  ? Image.asset(
+                      'images/no-image-default.png',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.memory(
+                      bytes,
+                      fit: BoxFit.cover,
+                    ),
             ),
             SizedBox(
               width: 24,
@@ -58,20 +72,20 @@ class _TelaClienteState extends State<TelaCliente> {
             Column(
               children: <Widget>[
                 Text(
-                  'Patricia Petroli',
+                  nomeStabelecimento,
                   style: TextStyle(fontSize: 18.0, color: Colors.blueAccent),
                 ),
                 SizedBox(
                   height: 8.0,
                 ),
                 Text(
-                  'Consultora Mary Kay',
+                  nomeSegimento,
                   style: TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic),
                 ),
                 SizedBox(
                   height: 4.0,
                 ),
-                Text('Tel: 12-995623551')
+                Text(nomeTelefone)
               ],
             ),
           ],
