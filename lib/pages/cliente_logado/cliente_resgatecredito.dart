@@ -10,6 +10,7 @@ String nomeStabelecimento;
 String nomeSegimento;
 String nomeTelefone;
 String nomeFotoStabelecimento;
+String nomeIdVendedor;
 
 class ResgateCredito extends StatefulWidget {
   @override
@@ -109,6 +110,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                                   nomeTelefone = i.nrCelular;
                                                   nomeFotoStabelecimento =
                                                       i.base64Foto;
+                                                  nomeIdVendedor = i.id;
                                                 });
                                                 Navigator.push(
                                                   context,
