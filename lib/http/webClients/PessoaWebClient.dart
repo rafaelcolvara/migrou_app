@@ -65,11 +65,11 @@ class PessoaWebClient {
       'userSession': Constantes.TOKEN_ID
     };
     final String _url =
-        "${Constantes.HOST_DOMAIN}/contaCorrent/$nomeIdVendedor/DashCliente/$userId";
+        "${Constantes.HOST_DOMAIN}/contaCorrente/$nomeIdVendedor/DashCliente/$userId";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    print(decodedJson);
+    print("print decodedJson: $decodedJson");
     return decodedJson.map<CashBackDTO>((e) {
       return CashBackDTO.fromJson(e);
     }).toList();

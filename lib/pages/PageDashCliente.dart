@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
+import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -30,6 +32,7 @@ class _TelaClienteState extends State<TelaCliente> {
 
   @override
   Widget build(BuildContext context) {
+    final PessoaWebClient httpServer = PessoaWebClient();
     String profileIMG = nomeFotoStabelecimento;
     Uint8List bytes = base64.decode(profileIMG);
     String texto = """**Faltam** """ +
@@ -134,6 +137,34 @@ class _TelaClienteState extends State<TelaCliente> {
                   Text('Valor gasto até: 15/01/2020'),
                   SizedBox(
                     height: 8,
+                  ),
+                  FutureBuilder(
+                    future: httpServer.meuSaldo(),
+                    builder: (_, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (!snapshot.hasData)
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Center(child: Text('Nenhum')),
+                              Center(
+                                child: Text("VENDEDOR VINCULADO!"),
+                              ),
+                            ],
+                          );
+                        final List<CashBackDTO> meusClientes = snapshot.data;
+                        return ListView.builder(
+                            itemCount: meusClientes.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              CashBackDTO _p = meusClientes[index];
+                              return Text(_p.dtUltimaCompra);
+                            });
+                      } else
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                    },
                   ),
                   Text(
                     'R\$ 882,09',
