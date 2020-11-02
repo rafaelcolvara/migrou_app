@@ -9,6 +9,7 @@ import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -55,6 +56,22 @@ class PessoaWebClient {
     var decodedJson = jsonDecode(response.body);
     return decodedJson["vendedores"].map<PessoaDTOnew>((e) {
       return PessoaDTOnew.fromJson(e['pessoaDTO']);
+    }).toList();
+  }
+
+  Future<List<CashBackDTO>> meuSaldo() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url =
+        "${Constantes.HOST_DOMAIN}/contaCorrent/$nomeIdVendedor/DashCliente/$userId";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    print(decodedJson);
+    return decodedJson.map<CashBackDTO>((e) {
+      return CashBackDTO.fromJson(e);
     }).toList();
   }
 
