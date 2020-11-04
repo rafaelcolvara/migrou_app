@@ -4,9 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
-import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -32,7 +30,9 @@ class _TelaClienteState extends State<TelaCliente> {
 
   @override
   Widget build(BuildContext context) {
-    final PessoaWebClient httpServer = PessoaWebClient();
+    var ddd = nomeTelefone.substring(0, 2);
+    var teleP1 = nomeTelefone.substring(2, 7);
+    var teleP2 = nomeTelefone.substring(7, 11);
     String profileIMG = nomeFotoStabelecimento;
     Uint8List bytes = base64.decode(profileIMG);
     String texto = """**Faltam** """ +
@@ -82,13 +82,13 @@ class _TelaClienteState extends State<TelaCliente> {
                   height: 8.0,
                 ),
                 Text(
-                  nomeSegimento,
+                  "Atividade: $nomeSegimento",
                   style: TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic),
                 ),
                 SizedBox(
                   height: 4.0,
                 ),
-                Text(nomeTelefone)
+                Text('Tel: ($ddd) $teleP1-$teleP2')
               ],
             ),
           ],
@@ -138,34 +138,6 @@ class _TelaClienteState extends State<TelaCliente> {
                   SizedBox(
                     height: 8,
                   ),
-                  FutureBuilder(
-                    future: httpServer.meuSaldo(),
-                    builder: (_, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (!snapshot.hasData)
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Center(child: Text('Nenhum')),
-                              Center(
-                                child: Text("VENDEDOR VINCULADO!"),
-                              ),
-                            ],
-                          );
-                        final List<CashBackDTO> meusClientes = snapshot.data;
-                        return ListView.builder(
-                            itemCount: meusClientes.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              CashBackDTO _p = meusClientes[index];
-                              return Text(_p.dtUltimaCompra);
-                            });
-                      } else
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                    },
-                  ),
                   Text(
                     'R\$ 882,09',
                     style: TextStyle(
@@ -174,7 +146,7 @@ class _TelaClienteState extends State<TelaCliente> {
                   SizedBox(
                     height: 8,
                   ),
-                  MarkdownBody(data: texto)
+                  MarkdownBody(data: texto),
                 ],
               ),
             ),
@@ -186,28 +158,31 @@ class _TelaClienteState extends State<TelaCliente> {
         Column(
           children: <Widget>[
             RaisedButton(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'Resgatar crédito disponível',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'R\$ 8,82',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Resgatar crédito disponível',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'R\$ 8,82',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
-                color: Constantes.customColorOrange,
+                color: Constantes.LARANJA,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Constantes.customColorOrange)),
+                    side: BorderSide(color: Constantes.LARANJA)),
                 onPressed: () {}),
           ],
         )
