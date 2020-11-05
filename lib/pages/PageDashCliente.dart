@@ -165,7 +165,7 @@ class _TelaClienteState extends State<TelaCliente> {
                     ),
                   );
                 } else {
-                  return Center(child: Text("Ops... Verique Sua Conexcão."));
+                  return Center(child: Text("..."));
                 }
               },
             )
