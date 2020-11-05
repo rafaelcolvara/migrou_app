@@ -4,7 +4,7 @@ class CashBackDTO {
   String dtUltimaCompra;
   double vlrComprasRealizadas;
   int qtdComprasRealizadas;
-  int vlrCashBack;
+  double vlrCashBack;
   CampanhaDTO campanhaDTO;
 
   CashBackDTO(

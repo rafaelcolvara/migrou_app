@@ -39,6 +39,9 @@ class VinculadosVendedores extends StatelessWidget {
                   PessoaDTOnew _p = meusClientes[index];
                   String profileIMG = _p.base64Foto;
                   Uint8List bytes = base64.decode(profileIMG);
+                  var ddd = _p.nrCelular.substring(0, 2);
+                  var teleP1 = _p.nrCelular.substring(2, 7);
+                  var teleP2 = _p.nrCelular.substring(7, 11);
                   return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Card(
@@ -74,7 +77,7 @@ class VinculadosVendedores extends StatelessWidget {
                                         title: Text(
                                           _p.nomeNegocio,
                                           style: TextStyle(
-                                              color: Constantes.customColorBlue,
+                                              color: Colors.blueAccent,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         subtitle: Text(_p.segmentoComercial),
@@ -83,7 +86,9 @@ class VinculadosVendedores extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(Icons.email),
+                                          Icon(Icons.alternate_email,
+                                              color:
+                                                  Constantes.customColorOrange),
                                           SizedBox(width: 2),
                                           Text(_p.email),
                                         ],
@@ -92,9 +97,12 @@ class VinculadosVendedores extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(Icons.phone_android),
+                                          Icon(
+                                            Icons.phone_android,
+                                            color: Constantes.customColorOrange,
+                                          ),
                                           SizedBox(width: 2),
-                                          Text(_p.nrCelular)
+                                          Text("($ddd) $teleP1-$teleP2")
                                         ],
                                       )
                                     ],
