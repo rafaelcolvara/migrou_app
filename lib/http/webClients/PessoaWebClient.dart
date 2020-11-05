@@ -8,7 +8,9 @@ import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -56,6 +58,33 @@ class PessoaWebClient {
     return decodedJson["vendedores"].map<PessoaDTOnew>((e) {
       return PessoaDTOnew.fromJson(e['pessoaDTO']);
     }).toList();
+  }
+
+  Future<InforDTO> infoCliente() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url = "${Constantes.HOST_DOMAIN}/pessoas/id/$userId";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    // print(decodedJson);
+    return InforDTO.fromJson(decodedJson);
+  }
+
+  Future<CashBackDTO> saldoResgate() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url =
+        "${Constantes.HOST_DOMAIN}/contaCorrente/$nomeIdVendedor/DashCliente/$userId";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    // print(decodedJson);
+    return CashBackDTO.fromJson(decodedJson);
   }
 
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {

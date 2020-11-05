@@ -2,7 +2,7 @@ class CashBackDTO {
   ClienteDTO clienteDTO;
   VendedorDTO vendedorDTO;
   String dtUltimaCompra;
-  int vlrComprasRealizadas;
+  double vlrComprasRealizadas;
   int qtdComprasRealizadas;
   int vlrCashBack;
   CampanhaDTO campanhaDTO;
@@ -172,8 +172,8 @@ class CampanhaDTO {
   String nomeCampanha;
   bool flgPercentualSobreCompras;
   bool flgValorFixo;
-  int vlrTotalComprasValorFixo;
-  int vlrPremioValorFixo;
+  double vlrTotalComprasValorFixo;
+  double vlrPremioValorFixo;
 
   CampanhaDTO(
       {this.nomeCampanha,
