@@ -4,7 +4,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:intl/intl.dart';
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
+import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -30,6 +33,8 @@ class _TelaClienteState extends State<TelaCliente> {
 
   @override
   Widget build(BuildContext context) {
+    final PessoaWebClient httpService = new PessoaWebClient();
+    var myDate = DateFormat("dd/MM/yyyy").format(DateTime.now());
     var ddd = nomeTelefone.substring(0, 2);
     var teleP1 = nomeTelefone.substring(2, 7);
     var teleP2 = nomeTelefone.substring(7, 11);
@@ -131,25 +136,39 @@ class _TelaClienteState extends State<TelaCliente> {
                 percentageValues: true,
               ),
             ),
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  Text('Valor gasto até: 15/01/2020'),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    'R\$ 882,09',
-                    style: TextStyle(
-                        color: Colors.blueAccent, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  MarkdownBody(data: texto),
-                ],
-              ),
-            ),
+            FutureBuilder(
+              future: httpService.saldoResgate(),
+              builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  print(snapshot.error);
+                  if (!snapshot.hasData)
+                    return Text("Verifique\n a sua conexão");
+                  return Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Valor gasto até: $myDate'),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          ("R\$${(snapshot.data.vlrComprasRealizadas.toStringAsFixed(2))}"),
+                          style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        MarkdownBody(data: texto),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            )
           ],
         ),
         SizedBox(
