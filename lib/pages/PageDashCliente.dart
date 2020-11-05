@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+// import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
@@ -33,6 +33,7 @@ class _TelaClienteState extends State<TelaCliente> {
 
   @override
   Widget build(BuildContext context) {
+    bool resgateElegive = true;
     final PessoaWebClient httpService = new PessoaWebClient();
     var myDate = DateFormat("dd/MM/yyyy").format(DateTime.now());
     var ddd = nomeTelefone.substring(0, 2);
@@ -40,9 +41,9 @@ class _TelaClienteState extends State<TelaCliente> {
     var teleP2 = nomeTelefone.substring(7, 11);
     String profileIMG = nomeFotoStabelecimento;
     Uint8List bytes = base64.decode(profileIMG);
-    String texto = """**Faltam** """ +
-        widget.teste +
-        """ compras para você ter __10%__ de desconto nas próximas compras. """;
+    // String texto = """**Faltam** """ +
+    //     widget.teste +
+    //     """ compras para você ter __10%__ de desconto nas próximas compras. """;
     return Scaffold(
         body: ListView(
       children: <Widget>[
@@ -101,110 +102,157 @@ class _TelaClienteState extends State<TelaCliente> {
         SizedBox(
           height: 24.0,
         ),
-        Row(
-          children: <Widget>[
-            SizedBox(
-              width: 12,
-            ),
-            SizedBox(
-              width: 180,
-              height: 180,
-              child: new AnimatedCircularChart(
-                key: _chartKey,
-                size: Size(150.0, 150.0),
-                holeRadius: 40.0,
-                holeLabel: '8/10',
-                initialChartData: <CircularStackEntry>[
-                  new CircularStackEntry(
-                    <CircularSegmentEntry>[
-                      new CircularSegmentEntry(
-                        85.5,
-                        Constantes.LARANJA,
-                        rankKey: 'completed',
-                      ),
-                      new CircularSegmentEntry(
-                        14.5,
-                        Colors.blueGrey[100],
-                        rankKey: 'remaining',
-                      ),
-                    ],
-                    rankKey: 'progress',
-                  ),
-                ],
-                chartType: CircularChartType.Radial,
-                edgeStyle: SegmentEdgeStyle.round,
-                percentageValues: true,
-              ),
-            ),
-            FutureBuilder(
-              future: httpService.saldoResgate(),
-              builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  print(snapshot.error);
-                  if (!snapshot.hasData)
-                    return Text("Verifique\n a sua conexão");
-                  return Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('Valor gasto até: $myDate'),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          ("R\$${(snapshot.data.vlrComprasRealizadas.toStringAsFixed(2))}"),
-                          style: TextStyle(
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        MarkdownBody(data: texto),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Center(child: Text("..."));
-                }
-              },
-            )
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Column(
-          children: <Widget>[
-            RaisedButton(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'Resgatar crédito disponível',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+        FutureBuilder(
+          future: httpService.saldoResgate(),
+          builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              print(snapshot.error);
+              if (!snapshot.hasData) return Text("Dados\nIndisponíveis");
+              return Column(
+                children: [
+                  Row(
+                    children: [
                       SizedBox(
-                        height: 8,
+                        width: 180,
+                        height: 180,
+                        child: new AnimatedCircularChart(
+                          key: _chartKey,
+                          size: Size(150.0, 150.0),
+                          holeRadius: 60.0,
+                          holeLabel: '8/10',
+                          initialChartData: <CircularStackEntry>[
+                            new CircularStackEntry(
+                              <CircularSegmentEntry>[
+                                new CircularSegmentEntry(
+                                  85.5,
+                                  Constantes.LARANJA,
+                                  rankKey: 'completed',
+                                ),
+                                new CircularSegmentEntry(
+                                  14.5,
+                                  Colors.blueGrey[100],
+                                  rankKey: 'remaining',
+                                ),
+                              ],
+                              rankKey: 'progress',
+                            ),
+                          ],
+                          chartType: CircularChartType.Radial,
+                          edgeStyle: SegmentEdgeStyle.round,
+                          percentageValues: true,
+                        ),
                       ),
-                      Text(
-                        'R\$ 8,82',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Valor gasto até: $myDate'),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              ("R\$${(snapshot.data.vlrComprasRealizadas.toStringAsFixed(2))}"),
+                              style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text:
+                                      "${snapshot.data.campanhaDTO.nomeCampanha}.",
+                                  style: TextStyle(
+                                      color: Constantes.customColorBlue)),
+                            )
+                            // MarkdownBody(data: texto),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-                color: Constantes.LARANJA,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Constantes.LARANJA)),
-                onPressed: () {}),
-          ],
-        )
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      resgateElegive == true
+                          ? RaisedButton(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'Resgatar crédito disponível',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      snapshot.data.vlrCashBack
+                                          .toStringAsFixed(2),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              color: Constantes.LARANJA,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(
+                                      color: Constantes.customColorOrange)),
+                              onPressed: () {})
+                          : RaisedButton(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'Crédito Acumulado',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      snapshot.data.vlrCashBack
+                                          .toStringAsFixed(2),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              color: Constantes.customColorCinza,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(
+                                      color: Constantes.customColorCinza)),
+                              onPressed: () {}),
+                    ],
+                  )
+                ],
+              );
+            } else {
+              return Center(
+                  child: Column(
+                children: [
+                  CircularProgressIndicator(),
+                  Text("Aguarde..."),
+                ],
+              ));
+            }
+          },
+        ),
       ],
     ));
   }
