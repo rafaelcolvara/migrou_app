@@ -108,6 +108,9 @@ class _TelaClienteState extends State<TelaCliente> {
             if (snapshot.connectionState == ConnectionState.done) {
               print(snapshot.error);
               if (!snapshot.hasData) return Text("Dados\nIndisponíveis");
+              var contador =
+                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo -
+                      snapshot.data.vlrComprasRealizadas;
               return Column(
                 children: [
                   Row(
@@ -118,19 +121,22 @@ class _TelaClienteState extends State<TelaCliente> {
                         child: new AnimatedCircularChart(
                           key: _chartKey,
                           size: Size(150.0, 150.0),
-                          holeRadius: 60.0,
-                          holeLabel: '8/10',
+                          holeRadius: 50.0,
+                          holeLabel: '${contador.toStringAsFixed(2)}',
+                          labelStyle: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold),
                           initialChartData: <CircularStackEntry>[
                             new CircularStackEntry(
                               <CircularSegmentEntry>[
                                 new CircularSegmentEntry(
                                   85.5,
-                                  Constantes.LARANJA,
+                                  Constantes.customColorOrange,
                                   rankKey: 'completed',
                                 ),
                                 new CircularSegmentEntry(
                                   14.5,
-                                  Colors.blueGrey[100],
+                                  Constantes.customColorCinza,
                                   rankKey: 'remaining',
                                 ),
                               ],
