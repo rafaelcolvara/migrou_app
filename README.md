@@ -1,6 +1,6 @@
 # migrou_app
 
-Migrou APP
+Migrou Application in Flutter for CashBack Management
 
 ## Getting Started
 
