@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
-import 'package:migrou_app/model/PessoaDTO.dart';
+import 'package:migrou_app/model/contaDTO.dart';
 
 class VinculadosClientes extends StatelessWidget {
   @override
@@ -18,11 +18,11 @@ class VinculadosClientes extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasData) return Text('nao ha dados');
               // print(snapshot.data);
-              final List<PessoaDTO> meusClientes = snapshot.data;
+              final List<PessoaDTOnew> meusClientes = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
-                  PessoaDTO _p = meusClientes[index];
+                  PessoaDTOnew _p = meusClientes[index];
                   return Card(
                     child: new ListTile(
                       title: Text(_p.nome),

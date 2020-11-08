@@ -4,7 +4,6 @@ import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
 import 'package:migrou_app/pages/menu_setings/settings_page.dart';
 import 'package:migrou_app/pages/vendedor_logado/adicinar_cliente.dart';
-import 'package:migrou_app/pages/vendedor_logado/my_scan.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 
 import 'meus_clientes.dart';

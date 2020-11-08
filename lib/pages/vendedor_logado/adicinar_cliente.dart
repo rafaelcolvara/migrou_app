@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
+import 'package:migrou_app/pages/vendedor_logado/adicionar_por_email.dart';
 import 'package:migrou_app/pages/vendedor_logado/my_scan.dart';
 
 class AddClienteMenu extends StatelessWidget {
@@ -15,7 +16,12 @@ class AddClienteMenu extends StatelessWidget {
           children: [
             InkWell(
                 child: MyCustomButton(text: "Adicionar por e-mail"),
-                onTap: () {}),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddPorEmail()),
+                  );
+                }),
             InkWell(
                 child: MyCustomButton(text: "Adicionar por QRCODE"),
                 onTap: () {

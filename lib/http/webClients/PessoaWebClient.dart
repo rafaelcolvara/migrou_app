@@ -11,6 +11,7 @@ import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
+import 'package:migrou_app/pages/vendedor_logado/adicionar_por_email.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -29,7 +30,7 @@ class PessoaWebClient {
   }
 
 //essa list faz um get e retorna os clientes vinculados ao vendedor logado app
-  Future<List<PessoaDTO>> clientesVinculadosAoVendedor() async {
+  Future<List<PessoaDTOnew>> clientesVinculadosAoVendedor() async {
     var headers = {
       'Content-Type': 'application/json',
       'userSession': Constantes.TOKEN_ID
@@ -39,8 +40,8 @@ class PessoaWebClient {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    return decodedJson["clientes"].map<PessoaDTO>((e) {
-      return PessoaDTO.fromJson(e['pessoaDTO']);
+    return decodedJson["clientes"].map<PessoaDTOnew>((e) {
+      return PessoaDTOnew.fromJson(e['pessoaDTO']);
     }).toList();
   }
 
@@ -85,6 +86,19 @@ class PessoaWebClient {
     var decodedJson = jsonDecode(response.body);
     // print(decodedJson);
     return CashBackDTO.fromJson(decodedJson);
+  }
+
+  Future<PessoaDTOnew> localizarPorEmail() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url = "${Constantes.HOST_DOMAIN}/pessoas/$emailUser";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    // print(decodedJson);
+    return PessoaDTOnew.fromJson(decodedJson);
   }
 
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
