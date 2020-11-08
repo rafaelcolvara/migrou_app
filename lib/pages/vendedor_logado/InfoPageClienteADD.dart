@@ -7,6 +7,7 @@ import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/vendedor_logado/VendedorLogado.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class Capivara extends StatefulWidget {
@@ -14,33 +15,69 @@ class Capivara extends StatefulWidget {
   _CapivaraState createState() => _CapivaraState();
 }
 
-Future creatUser(String idCliente, String idVendedor) async {
-  final headers = {
-    "Accept": "application/json",
-    'Content-Type': 'application/json',
-    'userSession': Constantes.TOKEN_ID
-  };
-  final body = jsonEncode({
-    "cliente": {"idCliente": idCliente},
-    "vendedor": {"idVendedor": idVendedor}
-  });
-  final String urlAPI = "${Constantes.HOST_DOMAIN}/vendedor/vinculaCliente";
-  final response = await client.patch(urlAPI, headers: headers, body: body);
-
-  if (response.statusCode == 200) {
-    print("adicionado");
-    final String responseString = response.body;
-    return AlertDialog(title: Text(responseString));
-  } else {
-    print(
-        "${response.statusCode} ${response.body} \ne cliente $idCliente e vendedor $idVendedor");
-    return AlertDialog(title: Text("${response.body}"));
-  }
-}
-
 class _CapivaraState extends State<Capivara> {
   @override
   Widget build(BuildContext context) {
+    Future creatUser(String idCliente, String idVendedor) async {
+      final headers = {
+        "Accept": "application/json",
+        'Content-Type': 'application/json',
+        'userSession': Constantes.TOKEN_ID
+      };
+      final body = jsonEncode({
+        "cliente": {"idCliente": idCliente},
+        "vendedor": {"idVendedor": idVendedor}
+      });
+      final String urlAPI = "${Constantes.HOST_DOMAIN}/vendedor/vinculaCliente";
+      final response = await client.patch(urlAPI, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        final String responseDone = response.body;
+        print(responseDone);
+        return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text(response.body),
+              actions: <Widget>[
+                FlatButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => VendedorLogado()),
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        final String responseFail = response.body;
+        print(responseFail);
+        return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text(response.body),
+              actions: <Widget>[
+                FlatButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => VendedorLogado()),
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+
     final PessoaWebClient httpServices = PessoaWebClient();
     return Scaffold(
         appBar: AppBar(title: Text("Adicionar Cliente")),
@@ -103,3 +140,5 @@ class _CapivaraState extends State<Capivara> {
         ));
   }
 }
+
+showAlert(BuildContext context) {}

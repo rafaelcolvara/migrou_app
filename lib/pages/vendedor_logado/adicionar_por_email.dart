@@ -9,10 +9,9 @@ class AddPorEmail extends StatefulWidget {
 }
 
 class _AddPorEmailState extends State<AddPorEmail> {
-  final TextEditingController _myController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _myController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: Column(

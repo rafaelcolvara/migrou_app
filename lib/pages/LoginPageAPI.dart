@@ -383,7 +383,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
                   elevation: 5.0,
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0)),
-                  color: Constantes.CINZA,
+                  color: Constantes.customColorCinza,
                   child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
                       style:
                           new TextStyle(fontSize: 20.0, color: Colors.white)),
