@@ -137,6 +137,8 @@ class PessoaWebClient {
     }
   }
 
+//creatUser serve para vincular um cliente(usuario) ao um vendedor logado seja
+//por email ou qrcode.
   Future creatUser(
       BuildContext context, String idCliente, String idVendedor) async {
     final headers = {
