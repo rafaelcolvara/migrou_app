@@ -32,8 +32,8 @@ class _ResgateCreditoState extends State<ResgateCredito> {
               return ListView.builder(
                 itemCount: meusgetInfo.length,
                 itemBuilder: (BuildContext context, int index) {
-                  PessoaDTOnew i = meusgetInfo[index];
-                  String profileIMG = i.base64Foto;
+                  PessoaDTOnew _i = meusgetInfo[index];
+                  String profileIMG = _i.base64Foto;
                   Uint8List bytes = base64.decode(profileIMG);
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -45,7 +45,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                i.base64Foto == null || i.base64Foto == ""
+                                _i.base64Foto == null || _i.base64Foto == ""
                                     ? Image.asset("images/no-image-default.png",
                                         fit: BoxFit.cover,
                                         height: 100,
@@ -63,7 +63,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                         Center(
                                           child: ListTile(
                                             title: Text(
-                                              i.nomeNegocio,
+                                              _i.nomeNegocio,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: Theme.of(context)
@@ -71,7 +71,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             subtitle: Text(
-                                              "${i.segmentoComercial}\n${i.nrCelular}",
+                                              "${_i.segmentoComercial}\n${_i.nrCelular}",
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -104,13 +104,13 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                               onTap: () {
                                                 setState(() {
                                                   nomeStabelecimento =
-                                                      i.nomeNegocio;
+                                                      _i.nomeNegocio;
                                                   nomeSegimento =
-                                                      i.segmentoComercial;
-                                                  nomeTelefone = i.nrCelular;
+                                                      _i.segmentoComercial;
+                                                  nomeTelefone = _i.nrCelular;
                                                   nomeFotoStabelecimento =
-                                                      i.base64Foto;
-                                                  nomeIdVendedor = i.id;
+                                                      _i.base64Foto;
+                                                  nomeIdVendedor = _i.id;
                                                 });
                                                 Navigator.push(
                                                   context,
