@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
@@ -11,6 +12,7 @@ import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
+import 'package:migrou_app/pages/vendedor_logado/VendedorLogado.dart';
 import 'package:migrou_app/pages/vendedor_logado/adicionar_por_email.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -61,6 +63,7 @@ class PessoaWebClient {
     }).toList();
   }
 
+//get das informações do cadastro do cliente
   Future<InforDTO> infoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -74,6 +77,7 @@ class PessoaWebClient {
     return InforDTO.fromJson(decodedJson);
   }
 
+//slado resgate para resgate do cliente
   Future<CashBackDTO> saldoResgate() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -88,7 +92,8 @@ class PessoaWebClient {
     return CashBackDTO.fromJson(decodedJson);
   }
 
-  Future<PessoaDTOnew> localizarPorEmail() async {
+//localizar cliente por email para addicionar ao vendedor
+  Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
     var headers = {
       'Content-Type': 'application/json',
       'userSession': Constantes.TOKEN_ID
@@ -96,9 +101,115 @@ class PessoaWebClient {
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/$emailUser";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
-    var decodedJson = jsonDecode(response.body);
-    // print(decodedJson);
-    return PessoaDTOnew.fromJson(decodedJson);
+    if (response.statusCode == 200) {
+      var decodedJson = jsonDecode(response.body);
+      // print(decodedJson);
+      return PessoaDTOnew.fromJson(decodedJson);
+    } else {
+      final String responseFail = response.body;
+      print(responseFail);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text("E-mail não localizado",
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future creatUser(
+      BuildContext context, String idCliente, String idVendedor) async {
+    final headers = {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final body = jsonEncode({
+      "cliente": {"idCliente": idCliente},
+      "vendedor": {"idVendedor": idVendedor}
+    });
+    final String urlAPI = "${Constantes.HOST_DOMAIN}/vendedor/vinculaCliente";
+    final response = await client.patch(urlAPI, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final String responseDone = response.body;
+      print(responseDone);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text(response.body,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final String responseFail = response.body;
+      print(responseFail);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text(response.body,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {

@@ -17,8 +17,7 @@ class AddClienteMenu extends StatelessWidget {
           children: [
             InkWell(
                 child: MyCustomButton(
-                    color: Constantes.customColorBlue,
-                    text: "Adicionar por e-mail"),
+                    color: Constantes.customColorBlue, text: "Por e-mail"),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -27,8 +26,7 @@ class AddClienteMenu extends StatelessWidget {
                 }),
             InkWell(
                 child: MyCustomButton(
-                    color: Constantes.customColorBlue,
-                    text: "Adicionar por QRCODE"),
+                    color: Constantes.customColorBlue, text: "Por QRCODE"),
                 onTap: () {
                   Navigator.push(
                     context,

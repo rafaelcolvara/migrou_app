@@ -13,7 +13,9 @@ class _AddPorEmailState extends State<AddPorEmail> {
   Widget build(BuildContext context) {
     final TextEditingController _myController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Localizar por e-mail"),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
