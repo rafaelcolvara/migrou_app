@@ -214,6 +214,98 @@ class PessoaWebClient {
     }
   }
 
+  Future lancarCreditoAPI(BuildContext context, String idCliente, String userId,
+      double lancamento) async {
+    final headers = {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final body = jsonEncode({
+      "cliente": {"idCliente": idCliente},
+      "valorLancamento": lancamento,
+      "vendedor": {"idVendedor": userId}
+    });
+    final String urlAPI = "${Constantes.HOST_DOMAIN}/contaCorrente/";
+    final response = await client.post(urlAPI, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: RichText(
+                text: TextSpan(
+                    text: "Crédito de ",
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.red,
+                        height: 1.0,
+                        fontWeight: FontWeight.w300),
+                    children: [
+                  TextSpan(
+                      text: "R\$ $lancamento ",
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Constantes.customColorBlue,
+                          height: 1.0,
+                          fontWeight: FontWeight.bold)),
+                  TextSpan(
+                      text: "adicionado com sucesso!",
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.red,
+                          height: 1.0,
+                          fontWeight: FontWeight.w300))
+                ])),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final String responseFail = response.body;
+      print(responseFail);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text(responseFail,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
     var headers = {
       'Content-Type': 'application/json',
