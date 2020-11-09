@@ -3,8 +3,10 @@ import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
 import 'package:migrou_app/pages/menu_setings/settings_page.dart';
-import 'package:migrou_app/pages/vendedor_logado/my_scan.dart';
+import 'package:migrou_app/pages/vendedor_logado/AdicionarCredito.dart';
+import 'package:migrou_app/pages/vendedor_logado/adicinar_cliente.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 import 'meus_clientes.dart';
 
@@ -196,19 +198,28 @@ class _VendedorLogadoState extends State<VendedorLogado>
               ontap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyScanCode()),
+                  MaterialPageRoute(builder: (context) => AddClienteMenu()),
                 );
               },
               ontapUp: _onTapUp,
               scale: _scale,
-              filho: MyCustomButton(text: "Adicionar Cliente"),
+              filho: MyCustomButton(
+                  color: Constantes.customColorBlue, text: "Adicionar Cliente"),
             ),
             DetectoHome(
                 ontapDown: _onTapDown,
-                ontap: () {},
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AdicinarCreditoClientes()),
+                  );
+                },
                 ontapUp: _onTapUp,
                 scale: _scale,
-                filho: MyCustomButton(text: "Adicionar Crédito")),
+                filho: MyCustomButton(
+                    color: Constantes.customColorBlue,
+                    text: "Adicionar Crédito")),
             DetectoHome(
                 ontapDown: _onTapDown,
                 ontap: () {
@@ -220,13 +231,16 @@ class _VendedorLogadoState extends State<VendedorLogado>
                 },
                 ontapUp: _onTapUp,
                 scale: _scale,
-                filho: MyCustomButton(text: "Meus Clientes")),
+                filho: MyCustomButton(
+                    color: Constantes.customColorBlue, text: "Meus Clientes")),
             DetectoHome(
                 ontapDown: _onTapDown,
                 ontap: () {},
                 ontapUp: _onTapUp,
                 scale: _scale,
-                filho: MyCustomButton(text: "Créditos Recebidos")),
+                filho: MyCustomButton(
+                    color: Constantes.customColorBlue,
+                    text: "Créditos Recebidos")),
           ],
         ),
       ),

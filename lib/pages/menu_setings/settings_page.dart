@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/menu_setings/dadospessoaisPage.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 class MenuSettings extends StatelessWidget {
   MenuSettings({Key key, this.auth, this.userId, this.logoutCallback})
@@ -31,16 +32,21 @@ class MenuSettings extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                  child: MyCustomButton(text: "Dados Pessoias"),
+                  child: MyCustomButton(
+                      color: Constantes.customColorBlue,
+                      text: "Dados Pessoias"),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => DadosPessoais()),
                     );
                   }),
-              MyCustomButton(text: "Alterar Senha"),
-              MyCustomButton(text: "Contato"),
-              MyCustomButton(text: "Indique e Ganhe"),
+              MyCustomButton(
+                  color: Constantes.customColorBlue, text: "Alterar Senha"),
+              MyCustomButton(
+                  color: Constantes.customColorBlue, text: "Contato"),
+              MyCustomButton(
+                  color: Constantes.customColorBlue, text: "Indique e Ganhe"),
             ],
           ),
         ));

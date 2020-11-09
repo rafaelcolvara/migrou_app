@@ -213,7 +213,8 @@ class _ClienteLogadoState extends State<ClienteLogado>
                 height: 20.0,
               ),
               DetectoHome(
-                filho: MyCustomButton(text: "Meus vendedores"),
+                filho: MyCustomButton(
+                    color: Constantes.customColorBlue, text: "Meus vendedores"),
                 scale: _scale,
                 ontap: () {
                   Navigator.push(
@@ -229,7 +230,8 @@ class _ClienteLogadoState extends State<ClienteLogado>
                 height: 20.0,
               ),
               DetectoHome(
-                filho: MyCustomButton(text: "Meus créditos"),
+                filho: MyCustomButton(
+                    color: Constantes.customColorBlue, text: "Meus créditos"),
                 scale: _scale,
                 ontap: () {
                   Navigator.push(
@@ -244,7 +246,8 @@ class _ClienteLogadoState extends State<ClienteLogado>
                 height: 20.0,
               ),
               DetectoHome(
-                filho: MyCustomButton(text: "Meu QRCODE"),
+                filho: MyCustomButton(
+                    color: Constantes.customColorBlue, text: "Meu QRCODE"),
                 scale: _scale,
                 ontap: () {
                   Navigator.push(
