@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class MyCustomButton extends StatelessWidget {
   var text = "";
+  Color color = Colors.white;
 
   MyCustomButton({
     @required this.text,
+    @required this.color,
   });
 
   @override
@@ -14,7 +16,7 @@ class MyCustomButton extends StatelessWidget {
       height: 50,
       width: 250,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: color,
         borderRadius: BorderRadius.circular(20.0),
         boxShadow: [
           BoxShadow(

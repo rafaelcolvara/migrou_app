@@ -115,7 +115,9 @@ class PessoaDTOnew {
     dataNascimento = json['dataNascimento'];
     nrCelular = json['nrCelular'];
     flgEmailValido = json['flgEmailValido'];
-    base64Foto = json['base64Foto'];
+    base64Foto = json['base64Foto'] != null
+        ? base64Foto = json['base64Foto']
+        : base64Foto = "";
     segmentoComercial = json['segmentoComercial'];
     nomeNegocio = json['nomeNegocio'];
   }

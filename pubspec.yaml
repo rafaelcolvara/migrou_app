@@ -37,6 +37,7 @@ dependencies:
   flutter_circular_chart: ^0.1.0
   qr_flutter: ^3.2.0
   flutter_barcode_scanner: ^1.0.1
+  flutter_masked_text: ^0.8.0
   
   
 

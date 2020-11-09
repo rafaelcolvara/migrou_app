@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/vendedor_logado/adicionar_por_email.dart';
 import 'package:migrou_app/pages/vendedor_logado/my_scan.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 class AddClienteMenu extends StatelessWidget {
   @override
@@ -15,7 +16,9 @@ class AddClienteMenu extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             InkWell(
-                child: MyCustomButton(text: "Adicionar por e-mail"),
+                child: MyCustomButton(
+                    color: Constantes.customColorBlue,
+                    text: "Adicionar por e-mail"),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -23,7 +26,9 @@ class AddClienteMenu extends StatelessWidget {
                   );
                 }),
             InkWell(
-                child: MyCustomButton(text: "Adicionar por QRCODE"),
+                child: MyCustomButton(
+                    color: Constantes.customColorBlue,
+                    text: "Adicionar por QRCODE"),
                 onTap: () {
                   Navigator.push(
                     context,
