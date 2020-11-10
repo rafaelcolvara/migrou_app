@@ -115,7 +115,9 @@ class _TelaClienteState extends State<TelaCliente> {
                       ? snapshot.data.vlrComprasRealizadas /
                           snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
                           100
-                      : 5 - snapshot.data.qtdComprasRealizadas;
+                      : 5 - snapshot.data.qtdComprasRealizadas >= 5
+                          ? 0
+                          : 5 - snapshot.data.qtdComprasRealizadas;
               double vrCompleted =
                   snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
                       ? snapshot.data.vlrComprasRealizadas /
