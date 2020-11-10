@@ -227,7 +227,7 @@ class PessoaWebClient {
       "vendedor": {"idVendedor": idVendedor}
     });
     final String urlAPI =
-        "${Constantes.HOST_DOMAIN}/contaCorrente/vendedor/$idVendedor/cliente/$userId";
+        "${Constantes.HOST_DOMAIN}/contaCorrente/resgate/vendedor/$idVendedor/cliente/$userId";
     final response = await client.patch(urlAPI, headers: headers, body: body);
 
     if (response.statusCode == 200) {

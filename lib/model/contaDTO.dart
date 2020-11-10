@@ -24,7 +24,10 @@ class CashBackDTO {
         ? new VendedorDTO.fromJson(json['vendedorDTO'])
         : null;
     dtUltimaCompra = json['dtUltimaCompra'];
-    vlrComprasRealizadas = json['vlrComprasRealizadas'];
+    vlrComprasRealizadas = json['vlrComprasRealizadas'] == null ||
+            json['vlrComprasRealizadas'] == 0
+        ? 0.00
+        : json['vlrComprasRealizadas'];
     qtdComprasRealizadas = json['qtdComprasRealizadas'];
     vlrCashBack = json['vlrCashBack'] == null || json['vlrCashBack'] == 0
         ? 0.00
@@ -190,7 +193,10 @@ class CampanhaDTO {
     nomeCampanha = json['nomeCampanha'];
     flgPercentualSobreCompras = json['flgPercentualSobreCompras'];
     flgValorFixo = json['flgValorFixo'];
-    vlrTotalComprasValorFixo = json['vlrTotalComprasValorFixo'];
+    vlrTotalComprasValorFixo = json['vlrTotalComprasValorFixo'] == null ||
+            json["vlrTotalComprasValorFixo"] == 0
+        ? 0.00
+        : json['vlrTotalComprasValorFixo'];
     vlrPremioValorFixo = json['vlrPremioValorFixo'];
   }
 

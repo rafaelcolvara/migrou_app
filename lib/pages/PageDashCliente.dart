@@ -108,13 +108,20 @@ class _TelaClienteState extends State<TelaCliente> {
           builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               print(snapshot.error);
-              if (!snapshot.hasData) return Text("Dados\nIndisponíveis");
-              var contador = snapshot.data.vlrComprasRealizadas /
-                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
-                  100;
-              double vrCompleted = snapshot.data.vlrComprasRealizadas /
-                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
-                  100;
+              if (!snapshot.hasData)
+                return Center(child: Text("Dados\nIndisponíveis"));
+              var contador =
+                  snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
+                      ? snapshot.data.vlrComprasRealizadas /
+                          snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
+                          100
+                      : 5 - snapshot.data.qtdComprasRealizadas;
+              double vrCompleted =
+                  snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
+                      ? snapshot.data.vlrComprasRealizadas /
+                          snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
+                          100
+                      : snapshot.data.qtdComprasRealizadas / 5 * 100;
               double vrRemaining = 100 - vrCompleted;
               return Column(
                 children: [
@@ -127,7 +134,11 @@ class _TelaClienteState extends State<TelaCliente> {
                           key: _chartKey,
                           size: Size(150.0, 150.0),
                           holeRadius: 50.0,
-                          holeLabel: '${contador.toStringAsFixed(2)}%',
+                          holeLabel: snapshot.data.campanhaDTO
+                                      .flgPercentualSobreCompras ==
+                                  false
+                              ? '${contador.toStringAsFixed(2)}%'
+                              : '${contador.toString()}/5',
                           labelStyle: TextStyle(
                               fontSize: 24,
                               color: Colors.blueAccent,
