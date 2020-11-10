@@ -14,9 +14,7 @@ class DashCliente extends StatelessWidget {
 
     return Container(
       child: Scaffold(
-          appBar: new AppBar(
-            title: Text("Seu Saldo"),
-          ),
+          appBar: AppBar(title: Text("Saldo Resgate"), centerTitle: true),
           body: FutureBuilder<ClienteDashDTO>(
               future: movimentacaoWebClient.buscaDashCliente(
                   idCliente: idCliente, idVendedor: idVendedor),

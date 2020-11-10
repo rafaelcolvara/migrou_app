@@ -109,9 +109,13 @@ class _TelaClienteState extends State<TelaCliente> {
             if (snapshot.connectionState == ConnectionState.done) {
               print(snapshot.error);
               if (!snapshot.hasData) return Text("Dados\nIndisponíveis");
-              var contador =
-                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo -
-                      snapshot.data.vlrComprasRealizadas;
+              var contador = snapshot.data.vlrComprasRealizadas /
+                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
+                  100;
+              double vrCompleted = snapshot.data.vlrComprasRealizadas /
+                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
+                  100;
+              double vrRemaining = 100 - vrCompleted;
               return Column(
                 children: [
                   Row(
@@ -123,20 +127,21 @@ class _TelaClienteState extends State<TelaCliente> {
                           key: _chartKey,
                           size: Size(150.0, 150.0),
                           holeRadius: 50.0,
-                          holeLabel: '${contador.toStringAsFixed(2)}',
+                          holeLabel: '${contador.toStringAsFixed(2)}%',
                           labelStyle: TextStyle(
+                              fontSize: 24,
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold),
                           initialChartData: <CircularStackEntry>[
                             new CircularStackEntry(
                               <CircularSegmentEntry>[
                                 new CircularSegmentEntry(
-                                  100,
+                                  vrCompleted,
                                   Constantes.customColorOrange,
                                   rankKey: 'completed',
                                 ),
                                 new CircularSegmentEntry(
-                                  00,
+                                  vrRemaining,
                                   Constantes.customColorCinza,
                                   rankKey: 'remaining',
                                 ),
