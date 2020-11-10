@@ -22,7 +22,10 @@ class _ResgateCreditoState extends State<ResgateCredito> {
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Seleicone um Vendedor"),
+        centerTitle: true,
+      ),
       body: FutureBuilder(
           future: httpServer.vendedoresVinculadosAoCliente(),
           builder: (_, snapshot) {

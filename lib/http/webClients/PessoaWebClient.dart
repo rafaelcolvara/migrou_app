@@ -78,7 +78,7 @@ class PessoaWebClient {
     return InforDTO.fromJson(decodedJson);
   }
 
-//slado resgate para resgate do cliente
+//salado resgate para resgate do cliente
   Future<CashBackDTO> saldoResgate() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -227,12 +227,13 @@ class PessoaWebClient {
       "vendedor": {"idVendedor": idVendedor}
     });
     final String urlAPI =
-        "${Constantes.HOST_DOMAIN}/contaCorrente/vendedor/$idVendedor/cliente/$userId";
+        "${Constantes.HOST_DOMAIN}/contaCorrente/resgate/vendedor/$idVendedor/cliente/$userId";
     final response = await client.patch(urlAPI, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      final String responseDone = response.body;
-      print(responseDone);
+      // print("o codigo do resgate é: ${response.statusCode}");
+      // final String responseDone = response.body;
+      // print(responseDone);
       return showDialog(
         context: context,
         builder: (BuildContext context) {
