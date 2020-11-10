@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 // import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
+import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -33,7 +35,6 @@ class _TelaClienteState extends State<TelaCliente> {
 
   @override
   Widget build(BuildContext context) {
-    bool resgateElegive = true;
     final PessoaWebClient httpService = new PessoaWebClient();
     var myDate = DateFormat("dd/MM/yyyy").format(DateTime.now());
     var ddd = nomeTelefone.substring(0, 2);
@@ -130,12 +131,12 @@ class _TelaClienteState extends State<TelaCliente> {
                             new CircularStackEntry(
                               <CircularSegmentEntry>[
                                 new CircularSegmentEntry(
-                                  85.5,
+                                  100,
                                   Constantes.customColorOrange,
                                   rankKey: 'completed',
                                 ),
                                 new CircularSegmentEntry(
-                                  14.5,
+                                  00,
                                   Constantes.customColorCinza,
                                   rankKey: 'remaining',
                                 ),
@@ -183,7 +184,7 @@ class _TelaClienteState extends State<TelaCliente> {
                   ),
                   Column(
                     children: <Widget>[
-                      resgateElegive == true
+                      snapshot.data.vlrCashBack > 0
                           ? RaisedButton(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -213,7 +214,15 @@ class _TelaClienteState extends State<TelaCliente> {
                                   borderRadius: BorderRadius.circular(18.0),
                                   side: BorderSide(
                                       color: Constantes.customColorOrange)),
-                              onPressed: () {})
+                              onPressed: () {
+                                setState(() {
+                                  idVendedor =
+                                      snapshot.data.vendedorDTO.idVendedor;
+                                  idCliente = userId;
+                                });
+                                httpService.resgatarCredito(
+                                    context, idCliente, idVendedor);
+                              })
                           : RaisedButton(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

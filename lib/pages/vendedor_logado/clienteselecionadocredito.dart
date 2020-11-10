@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
+import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-class LancaCredito extends StatelessWidget {
+class LancaCredito extends StatefulWidget {
   final nome;
   final telefone;
   final id;
@@ -19,13 +22,21 @@ class LancaCredito extends StatelessWidget {
       @required this.telefone});
 
   @override
+  _LancaCreditoState createState() => _LancaCreditoState();
+}
+
+class _LancaCreditoState extends State<LancaCredito> {
+  @override
   Widget build(BuildContext context) {
-    var valor = new MoneyMaskedTextController(leftSymbol: 'R\$ ', precision: 2);
-    var ddd = telefone.substring(0, 2);
-    var teleP1 = telefone.substring(2, 7);
-    var teleP2 = telefone.substring(7, 11);
-    String profileIMG = foto;
+    final PessoaWebClient httpServices = PessoaWebClient();
+    var valor = new MoneyMaskedTextController(
+        decimalSeparator: ".", leftSymbol: 'R\$ ', precision: 2);
+    var ddd = widget.telefone.substring(0, 2);
+    var teleP1 = widget.telefone.substring(2, 7);
+    var teleP2 = widget.telefone.substring(7, 11);
+    String profileIMG = widget.foto;
     Uint8List bytes = base64.decode(profileIMG);
+    double lancamento;
     return Scaffold(
       appBar: AppBar(title: Text("Cliente Selecionado")),
       body: SingleChildScrollView(
@@ -34,13 +45,13 @@ class LancaCredito extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 20),
-            foto == null || foto == ""
+            widget.foto == null || widget.foto == ""
                 ? Image.asset("images/no-image-default.png",
                     fit: BoxFit.cover, height: 100, width: 80)
                 : Image.memory(bytes,
                     fit: BoxFit.cover, height: 100, width: 80),
             SizedBox(height: 10),
-            Text(nome, style: TextStyle(fontSize: 20)),
+            Text(widget.nome, style: TextStyle(fontSize: 20)),
             Text(
               "($ddd) $teleP1-$teleP2",
               style: TextStyle(fontSize: 16),
@@ -60,7 +71,13 @@ class LancaCredito extends StatelessWidget {
             ),
             SizedBox(height: 15),
             InkWell(
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    lancamento = valor.numberValue;
+                    httpServices.lancarCreditoAPI(
+                        context, idCliente, userId, lancamento);
+                  });
+                },
                 child: MyCustomButton(
                     color: Constantes.customColorOrange,
                     text: "ADICIONAR CRÉDITO")),

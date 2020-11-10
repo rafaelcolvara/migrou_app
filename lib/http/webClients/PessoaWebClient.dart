@@ -11,6 +11,7 @@ import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/pages/vendedor_logado/VendedorLogado.dart';
 import 'package:migrou_app/pages/vendedor_logado/adicionar_por_email.dart';
@@ -137,6 +138,8 @@ class PessoaWebClient {
     }
   }
 
+//creatUser serve para vincular um cliente(usuario) ao um vendedor logado seja
+//por email ou qrcode.
   Future creatUser(
       BuildContext context, String idCliente, String idVendedor) async {
     final headers = {
@@ -190,6 +193,174 @@ class PessoaWebClient {
             title: new Text("Atenção!",
                 style: TextStyle(color: Theme.of(context).primaryColor)),
             content: Text(response.body,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future resgatarCredito(
+      BuildContext context, String idCliente, String idVendedor) async {
+    final headers = {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final body = jsonEncode({
+      "cliente": {"idCliente": idCliente},
+      "vendedor": {"idVendedor": idVendedor}
+    });
+    final String urlAPI =
+        "${Constantes.HOST_DOMAIN}/contaCorrente/vendedor/$idVendedor/cliente/$userId";
+    final response = await client.patch(urlAPI, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final String responseDone = response.body;
+      print(responseDone);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text("Resgate realizado com sucesso.",
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ClienteLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final String responseFail = response.body;
+      print(responseFail);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text(response.body,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ClienteLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future lancarCreditoAPI(BuildContext context, String idCliente, String userId,
+      double lancamento) async {
+    final headers = {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final body = jsonEncode({
+      "cliente": {"idCliente": idCliente},
+      "valorLancamento": lancamento,
+      "vendedor": {"idVendedor": userId}
+    });
+    final String urlAPI = "${Constantes.HOST_DOMAIN}/contaCorrente/";
+    final response = await client.post(urlAPI, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: RichText(
+                text: TextSpan(
+                    text: "Crédito de ",
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.red,
+                        height: 1.0,
+                        fontWeight: FontWeight.w300),
+                    children: [
+                  TextSpan(
+                      text: "R\$ $lancamento ",
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Constantes.customColorBlue,
+                          height: 1.0,
+                          fontWeight: FontWeight.bold)),
+                  TextSpan(
+                      text: "adicionado com sucesso!",
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.red,
+                          height: 1.0,
+                          fontWeight: FontWeight.w300))
+                ])),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VendedorLogado()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final String responseFail = response.body;
+      print(responseFail);
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text(responseFail,
                 style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,

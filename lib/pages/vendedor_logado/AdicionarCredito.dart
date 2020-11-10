@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/vendedor_logado/clienteselecionadocredito.dart';
@@ -25,6 +26,7 @@ class AdicinarCreditoClientes extends StatelessWidget {
                 PessoaDTOnew _p = meusClientes[index];
                 return ListTile(
                     onTap: () {
+                      idCliente = _p.id;
                       Navigator.push(
                         _,
                         MaterialPageRoute(

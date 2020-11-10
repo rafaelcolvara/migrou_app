@@ -34,7 +34,6 @@ class DashCliente extends StatelessWidget {
                       clienteDashDTO: snapshot.data,
                       teste: '8',
                     );
-
                     break;
                 }
                 return Text('Unknown Error');

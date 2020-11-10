@@ -26,7 +26,9 @@ class CashBackDTO {
     dtUltimaCompra = json['dtUltimaCompra'];
     vlrComprasRealizadas = json['vlrComprasRealizadas'];
     qtdComprasRealizadas = json['qtdComprasRealizadas'];
-    vlrCashBack = json['vlrCashBack'];
+    vlrCashBack = json['vlrCashBack'] == null || json['vlrCashBack'] == 0
+        ? 0.00
+        : json['vlrCashBack'];
     campanhaDTO = json['campanhaDTO'] != null
         ? new CampanhaDTO.fromJson(json['campanhaDTO'])
         : null;
