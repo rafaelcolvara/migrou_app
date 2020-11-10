@@ -180,6 +180,7 @@ class CampanhaDTO {
   bool flgPercentualSobreCompras;
   bool flgValorFixo;
   double vlrTotalComprasValorFixo;
+  int qtLancamentosPercentualSobreCompras;
   double vlrPremioValorFixo;
 
   CampanhaDTO(
@@ -187,6 +188,7 @@ class CampanhaDTO {
       this.flgPercentualSobreCompras,
       this.flgValorFixo,
       this.vlrTotalComprasValorFixo,
+      this.qtLancamentosPercentualSobreCompras,
       this.vlrPremioValorFixo});
 
   CampanhaDTO.fromJson(Map<String, dynamic> json) {
@@ -197,6 +199,8 @@ class CampanhaDTO {
             json["vlrTotalComprasValorFixo"] == 0
         ? 0.00
         : json['vlrTotalComprasValorFixo'];
+    qtLancamentosPercentualSobreCompras =
+        json['qtLancamentosPercentualSobreCompras'];
     vlrPremioValorFixo = json['vlrPremioValorFixo'];
   }
 
@@ -206,6 +210,8 @@ class CampanhaDTO {
     data['flgPercentualSobreCompras'] = this.flgPercentualSobreCompras;
     data['flgValorFixo'] = this.flgValorFixo;
     data['vlrTotalComprasValorFixo'] = this.vlrTotalComprasValorFixo;
+    data['qtLancamentosPercentualSobreCompras'] =
+        this.qtLancamentosPercentualSobreCompras;
     data['vlrPremioValorFixo'] = this.vlrPremioValorFixo;
     return data;
   }
