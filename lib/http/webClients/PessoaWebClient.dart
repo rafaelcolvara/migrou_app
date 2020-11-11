@@ -57,7 +57,8 @@ class PessoaWebClient {
     final String _url =
         "${Constantes.HOST_DOMAIN}/cliente/$userId/buscaSeusVendedores";
     final Response response =
-        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 30));
+    print(response.body);
     var decodedJson = jsonDecode(response.body);
     return decodedJson["vendedores"].map<PessoaDTOnew>((e) {
       return PessoaDTOnew.fromJson(e['pessoaDTO']);

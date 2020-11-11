@@ -23,7 +23,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
     final PessoaWebClient httpServer = PessoaWebClient();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Seleicone um Vendedor"),
+        title: Text("Selecione um Vendedor"),
         centerTitle: true,
       ),
       body: FutureBuilder(

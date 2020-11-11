@@ -113,18 +113,21 @@ class _TelaClienteState extends State<TelaCliente> {
                 print(snapshot.error);
                 if (!snapshot.hasData)
                   return Center(child: Text("Dados\nIndisponíveis"));
+                var vltTotal =
+                    snapshot.data.campanhaDTO.vlrTotalComprasValorFixo <
+                            snapshot.data.vlrComprasRealizadas
+                        ? snapshot.data.vlrComprasRealizadas
+                        : snapshot.data.campanhaDTO.vlrTotalComprasValorFixo;
                 var contador =
                     snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
-                        ? snapshot.data.vlrComprasRealizadas /
-                            snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
-                            100
+                        ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
                         : snapshot.data.qtdComprasRealizadas;
                 double vrCompleted =
                     snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
-                        ? snapshot.data.vlrComprasRealizadas /
+                        ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
+                        : snapshot.data.qtdComprasRealizadas /
                             snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
-                            100
-                        : snapshot.data.qtdComprasRealizadas / 5 * 100;
+                            100;
                 double vrRemaining = 100 - vrCompleted;
                 return Column(
                   children: [
