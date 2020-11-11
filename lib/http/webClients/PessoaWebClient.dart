@@ -325,7 +325,7 @@ class PessoaWebClient {
                         fontWeight: FontWeight.w300),
                     children: [
                   TextSpan(
-                      text: "R\$ $lancamento ",
+                      text: "R\$ ${lancamento.toStringAsFixed(2)}} ",
                       style: TextStyle(
                           fontSize: 18.0,
                           color: Constantes.customColorBlue,
