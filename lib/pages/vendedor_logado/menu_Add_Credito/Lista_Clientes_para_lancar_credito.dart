@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
-import 'package:migrou_app/pages/vendedor_logado/clienteselecionadocredito.dart';
+import 'package:migrou_app/pages/vendedor_logado/menu_Add_Credito/Lancar_credito_Cliente_selecionado.dart';
 
 class AdicinarCreditoClientes extends StatelessWidget {
   @override

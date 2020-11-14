@@ -3,8 +3,8 @@ import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
 import 'package:migrou_app/pages/menu_setings/settings_page.dart';
-import 'package:migrou_app/pages/vendedor_logado/AdicionarCredito.dart';
-import 'package:migrou_app/pages/vendedor_logado/adicinar_cliente.dart';
+import 'package:migrou_app/pages/vendedor_logado/menu_Add_Credito/Lista_Clientes_para_lancar_credito.dart';
+import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/adicinar_cliente.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 

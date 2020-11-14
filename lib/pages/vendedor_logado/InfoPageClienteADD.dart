@@ -56,7 +56,7 @@ class _CapivaraState extends State<Capivara> {
                           setState(() {
                             idVendedor = userId;
                             idCliente = snapshot.data.id;
-                            httpServices.creatUser(
+                            httpServices.vincularCliente(
                                 context, idCliente, idVendedor);
                           });
                         },

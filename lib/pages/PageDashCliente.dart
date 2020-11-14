@@ -123,7 +123,8 @@ class _TelaClienteState extends State<TelaCliente> {
                   snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
                       ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
                       : snapshot.data.qtdComprasRealizadas /
-                          snapshot.data.campanhaDTO.vlrTotalComprasValorFixo *
+                          snapshot.data.campanhaDTO
+                              .qtLancamentosPercentualSobreCompras *
                           100;
               double vrRemaining = 100 - vrCompleted;
               return Column(
@@ -203,7 +204,17 @@ class _TelaClienteState extends State<TelaCliente> {
                   ),
                   Column(
                     children: <Widget>[
-                      snapshot.data.vlrCashBack > 0
+                      snapshot.data.campanhaDTO.flgPercentualSobreCompras ==
+                                      false &&
+                                  snapshot.data.vlrComprasRealizadas >=
+                                      snapshot.data.campanhaDTO
+                                          .vlrTotalComprasValorFixo ||
+                              snapshot.data.campanhaDTO
+                                          .flgPercentualSobreCompras ==
+                                      true &&
+                                  snapshot.data.qtdComprasRealizadas >=
+                                      snapshot.data.campanhaDTO
+                                          .qtLancamentosPercentualSobreCompras
                           ? RaisedButton(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -233,13 +244,13 @@ class _TelaClienteState extends State<TelaCliente> {
                                   borderRadius: BorderRadius.circular(18.0),
                                   side: BorderSide(
                                       color: Constantes.customColorOrange)),
-                              onPressed: () {
+                              onPressed: () async {
                                 setState(() {
                                   idVendedor =
                                       snapshot.data.vendedorDTO.idVendedor;
                                   idCliente = userId;
                                 });
-                                httpService.resgatarCredito(
+                                await httpService.resgatarCredito(
                                     context, idCliente, idVendedor);
                               })
                           : RaisedButton(
@@ -269,8 +280,7 @@ class _TelaClienteState extends State<TelaCliente> {
                               color: Constantes.customColorCinza,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18.0),
-                                  side: BorderSide(
-                                      color: Constantes.customColorCinza)),
+                                  side: BorderSide(color: Constantes.customColorCinza)),
                               onPressed: () {}),
                     ],
                   )

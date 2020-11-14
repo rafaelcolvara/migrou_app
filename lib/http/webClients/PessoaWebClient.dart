@@ -11,10 +11,9 @@ import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
-import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/pages/vendedor_logado/VendedorLogado.dart';
-import 'package:migrou_app/pages/vendedor_logado/adicionar_por_email.dart';
+import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/adicionar_por_email.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
@@ -33,6 +32,7 @@ class PessoaWebClient {
   }
 
 //essa list faz um get e retorna os clientes vinculados ao vendedor logado app
+//Cliente é um usuario final tipo consumidor.
   Future<List<PessoaDTOnew>> clientesVinculadosAoVendedor() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -49,6 +49,7 @@ class PessoaWebClient {
   }
 
 //essa list faz um get e retorna os vendedores vinculados ao cliente logado app
+// vendedor é aquele que vende seus srvicos ou produto.
   Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -58,14 +59,15 @@ class PessoaWebClient {
         "${Constantes.HOST_DOMAIN}/cliente/$userId/buscaSeusVendedores";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 30));
-    print(response.body);
+    // print(response.body);
     var decodedJson = jsonDecode(response.body);
     return decodedJson["vendedores"].map<PessoaDTOnew>((e) {
       return PessoaDTOnew.fromJson(e['pessoaDTO']);
     }).toList();
   }
 
-//get das informações do cadastro do cliente
+//get das informações do cadastro do usuario logado no
+//aplicativo seja ele cliente ou vendedor.
   Future<InforDTO> infoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -79,7 +81,7 @@ class PessoaWebClient {
     return InforDTO.fromJson(decodedJson);
   }
 
-//salado resgate para resgate do cliente
+//essa chamada da API é para o cliente vrificar o saldo disponivel de credito
   Future<CashBackDTO> saldoResgate() async {
     var headers = {
       'Content-Type': 'application/json',
@@ -94,7 +96,7 @@ class PessoaWebClient {
     return CashBackDTO.fromJson(decodedJson);
   }
 
-//localizar cliente por email para addicionar ao vendedor
+//essa chamada retorna para o vendedor logado um usuario pelo email cadastrado
   Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
     var headers = {
       'Content-Type': 'application/json',
@@ -109,7 +111,7 @@ class PessoaWebClient {
       return PessoaDTOnew.fromJson(decodedJson);
     } else {
       final String responseFail = response.body;
-      print(responseFail);
+      print("erro resposte.body: $responseFail");
       return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -126,10 +128,7 @@ class PessoaWebClient {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VendedorLogado()),
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -139,9 +138,8 @@ class PessoaWebClient {
     }
   }
 
-//creatUser serve para vincular um cliente(usuario) ao um vendedor logado seja
-//por email ou qrcode.
-  Future creatUser(
+//essa chamanda adiciona um cliente ao vindedor que esta logado no aplicativo
+  Future vincularCliente(
       BuildContext context, String idCliente, String idVendedor) async {
     final headers = {
       "Accept": "application/json",
@@ -156,8 +154,7 @@ class PessoaWebClient {
     final response = await client.patch(urlAPI, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      final String responseDone = response.body;
-      print(responseDone);
+      // print(responseDone);
       return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -174,10 +171,7 @@ class PessoaWebClient {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VendedorLogado()),
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -185,8 +179,7 @@ class PessoaWebClient {
         },
       );
     } else {
-      final String responseFail = response.body;
-      print(responseFail);
+      // print(responseFail);
       return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -203,10 +196,7 @@ class PessoaWebClient {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VendedorLogado()),
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -216,6 +206,8 @@ class PessoaWebClient {
     }
   }
 
+//essa chanda API realiza o resgate do
+//credito disponivel para o cliente logado no app
   Future resgatarCredito(
       BuildContext context, String idCliente, String idVendedor) async {
     final headers = {
@@ -251,10 +243,7 @@ class PessoaWebClient {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ClienteLogado()),
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -262,8 +251,7 @@ class PessoaWebClient {
         },
       );
     } else {
-      final String responseFail = response.body;
-      print(responseFail);
+      // print(responseFail);
       return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -280,10 +268,7 @@ class PessoaWebClient {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ClienteLogado()),
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -293,6 +278,7 @@ class PessoaWebClient {
     }
   }
 
+//essa chamada o vendedor logado lanca o credito para seu cliente
   Future lancarCreditoAPI(BuildContext context, String idCliente, String userId,
       double lancamento) async {
     final headers = {
@@ -325,7 +311,7 @@ class PessoaWebClient {
                         fontWeight: FontWeight.w300),
                     children: [
                   TextSpan(
-                      text: "R\$ ${lancamento.toStringAsFixed(2)}} ",
+                      text: "R\$ ${lancamento.toStringAsFixed(2)} ",
                       style: TextStyle(
                           fontSize: 18.0,
                           color: Constantes.customColorBlue,
@@ -343,10 +329,7 @@ class PessoaWebClient {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VendedorLogado()),
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -355,7 +338,7 @@ class PessoaWebClient {
       );
     } else {
       final String responseFail = response.body;
-      print(responseFail);
+      // print(responseFail);
       return showDialog(
         context: context,
         builder: (BuildContext context) {

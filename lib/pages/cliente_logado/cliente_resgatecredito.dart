@@ -20,14 +20,14 @@ class ResgateCredito extends StatefulWidget {
 class _ResgateCreditoState extends State<ResgateCredito> {
   @override
   Widget build(BuildContext context) {
-    final PessoaWebClient httpServer = PessoaWebClient();
+    final PessoaWebClient pessoaWebClient = PessoaWebClient();
     return Scaffold(
       appBar: AppBar(
         title: Text("Selecione um Vendedor"),
         centerTitle: true,
       ),
       body: FutureBuilder(
-          future: httpServer.vendedoresVinculadosAoCliente(),
+          future: pessoaWebClient.vendedoresVinculadosAoCliente(),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) return Center(child: Text("ops..."));
