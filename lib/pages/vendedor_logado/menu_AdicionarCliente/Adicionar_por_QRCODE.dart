@@ -68,15 +68,6 @@ class _MyScanCodeState extends State<MyScanCode> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: Text("Valor do codigo qrcode"),
-            ),
-            Center(
-              child: Text(
-                "$idCliente \n $idVendedor",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Center(
               child: busy
                   ? Container()
                   : FlatButton(
