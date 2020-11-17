@@ -9,14 +9,14 @@ import 'package:migrou_app/utils/definicoes.dart';
 class VinculadosVendedores extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final PessoaWebClient httpServer = PessoaWebClient();
+    final PessoaWebClient pessoaWebClient = PessoaWebClient();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Meus Vendedores"),
           centerTitle: true,
         ),
         body: FutureBuilder(
-          future: httpServer.vendedoresVinculadosAoCliente(),
+          future: pessoaWebClient.vendedoresVinculadosAoCliente(),
           builder: (_, snapshot) {
             // print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.done) {

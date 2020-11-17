@@ -79,7 +79,6 @@ class ListaVendedores extends StatelessWidget {
                       },
                       itemCount: vendedores.length,
                     );
-
                     break;
                 }
                 return Text('Unknown Error');

@@ -39,7 +39,8 @@ class _AddPorEmailState extends State<AddPorEmail> {
                 emailUser = _myController.text;
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Capivara()),
+                  MaterialPageRoute(
+                      builder: (context) => InfoClienteLocaliado()),
                 );
               });
             },

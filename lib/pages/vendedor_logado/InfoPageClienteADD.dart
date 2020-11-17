@@ -7,12 +7,12 @@ import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 
-class Capivara extends StatefulWidget {
+class InfoClienteLocaliado extends StatefulWidget {
   @override
-  _CapivaraState createState() => _CapivaraState();
+  _InfoClienteLocaliado createState() => _InfoClienteLocaliado();
 }
 
-class _CapivaraState extends State<Capivara> {
+class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServices = PessoaWebClient();
@@ -56,7 +56,7 @@ class _CapivaraState extends State<Capivara> {
                           setState(() {
                             idVendedor = userId;
                             idCliente = snapshot.data.id;
-                            httpServices.creatUser(
+                            httpServices.vincularCliente(
                                 context, idCliente, idVendedor);
                           });
                         },
