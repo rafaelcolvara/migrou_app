@@ -13,7 +13,7 @@ import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/pages/vendedor_logado/VendedorLogado.dart';
-import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/adicionar_por_email.dart';
+import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/Adicionar_por_Email.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {
