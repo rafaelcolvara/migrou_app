@@ -10,10 +10,10 @@ import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
+import 'package:migrou_app/pages/Cliente_Logado/ClienteResgateCredito.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarClientePorEmail.dart';
 import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
-import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient {

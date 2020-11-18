@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
+import 'package:migrou_app/pages/Cliente_Logado/ClienteResgateCredito.dart';
+import 'package:migrou_app/pages/Cliente_Logado/GerarQRCODE.dart';
+import 'package:migrou_app/pages/Cliente_Logado/MeusVendedores.dart';
+import 'package:migrou_app/pages/Cliente_Logado/WidgetClienteLogado.dart';
 import 'package:migrou_app/pages/MenuDeConfiguracao/ConfiguracaoPage.dart';
-import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
-import 'package:migrou_app/pages/cliente_logado/meus_vendedores.dart';
-import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
-import 'package:migrou_app/pages/cliente_logado/my_qrcode.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
