@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 String userId = "";
 
@@ -19,6 +19,7 @@ class LoginPageAPI extends StatefulWidget {
 
 class _LoginPageAPIState extends State<LoginPageAPI> {
   final _formKey = new GlobalKey<FormState>();
+  SharedPref sharedPref = SharedPref();
 
   String _email;
   String _password;
@@ -32,9 +33,8 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     1: Text("Cliente")
   };
 
-  Future<Null> gravaTipoPessoa(String tipoPessoa) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('tipoPessoa', tipoPessoa);
+  gravaTipoPessoa(String tipoPessoa) async {
+    await sharedPref.save('tipoPessoa', tipoPessoa);
     setState(() {
       _tipoPessoa = tipoPessoa;
     });

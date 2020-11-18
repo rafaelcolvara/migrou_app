@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Progress.dart';
+import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'vendedor_logado/VendedorLogado.dart';
 
 enum AuthStatus {
@@ -12,6 +12,9 @@ enum AuthStatus {
   NOT_LOGGED_IN,
   LOGGED_IN,
 }
+
+String _userId = '';
+String tipoPessoa = '.';
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
@@ -25,20 +28,27 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   bool isLoggedIn = false;
-  String _userId = '';
-  String _tipoPessoa;
+
+  SharedPref sharedPref = SharedPref();
 
   @override
   void initState() {
+    print("PASSO 1");
     super.initState();
     autoLogIn();
+    print("PASSO 2");
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
-          _userId = user?.id.toString();
+          if (user.id.toString() != "null") {
+            print('PASSOU 8' + user.id.toString());
+            _userId = user.id.toString();
+          } else {
+            _userId = '';
+          }
         }
         authStatus =
-            user?.id == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
+            user.id == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
       });
     });
 
@@ -48,29 +58,28 @@ class _RootPageState extends State<RootPage> {
   }
 
   Future<Null> logout() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', null);
-
+    sharedPref.remove('id');
     setState(() {
       _userId = '';
     });
   }
 
   Future<Null> loginUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', this._userId);
+    await sharedPref.save('id', _userId);
+    print('PASSOU 9');
     setState(() {
       isLoggedIn = true;
     });
   }
 
   void autoLogIn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String userId = prefs.getString('id');
-    final String userNome = prefs.getString('nome');
-    final String userEmail = prefs.getString('email');
-    final String userEmailConfirmado = prefs.getString('flgConfirmacaoEmail');
-    _tipoPessoa = prefs.getString('tipoPessoa');
+    print("PASSO 3");
+    final String userId = await sharedPref.read('id');
+    final String userNome = await sharedPref.read('nome');
+    final String userEmail = await sharedPref.read('email');
+    final String userEmailConfirmado =
+        await sharedPref.read('flgConfirmacaoEmail');
+    tipoPessoa = await sharedPref.read('tipoPessoa');
     final PessoaDTO pessoaLogada = new PessoaDTO();
     if (userId != null) {
       setState(() {
@@ -88,7 +97,9 @@ class _RootPageState extends State<RootPage> {
   void loginCallback() {
     widget.auth.getCurrentUser().then((user) {
       setState(() {
+        tipoPessoa = user.tipoPessoa.toString();
         _userId = user.id.toString();
+        print("PASSO 4");
       });
     });
     setState(() {
@@ -98,8 +109,10 @@ class _RootPageState extends State<RootPage> {
 
   void logoutCallback() {
     setState(() {
+      print("PASSO 5");
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
+      tipoPessoa = "";
       isLoggedIn = false;
     });
   }
@@ -116,30 +129,34 @@ class _RootPageState extends State<RootPage> {
 */
   @override
   Widget build(BuildContext context) {
+    print('PASSOU 10');
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
         return Scaffold(body: Center(child: Progress()));
         break;
       case AuthStatus.NOT_LOGGED_IN:
+        print("PASSO 7");
         return Scaffold(
           body: Center(
             child: new LoginPageAPI(
               auth: widget.auth,
               loginCallback: loginCallback,
-              tipoPessoa: _tipoPessoa,
+              tipoPessoa: tipoPessoa,
             ),
           ),
         );
         break;
       case AuthStatus.LOGGED_IN:
+        print("PASSO 6");
+        //print("&&&&&&&&&&&&& ->> AUTOLOGIN COMO " + _tipoPessoa);
         if (_userId.length > 0 && _userId != null) {
-          if (_tipoPessoa == "CLIENTE") {
+          if (tipoPessoa == "CLIENTE") {
             return new ClienteLogado(
               userId: _userId,
               auth: widget.auth,
               logoutCallback: logoutCallback,
             );
-          } else if (_tipoPessoa == "VENDEDOR") {
+          } else if (tipoPessoa == "VENDEDOR") {
             return new VendedorLogado(
               userId: _userId,
               auth: widget.auth,
