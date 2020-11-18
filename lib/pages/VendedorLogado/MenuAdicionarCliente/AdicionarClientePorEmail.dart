@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:migrou_app/pages/vendedor_logado/InfoPageClienteADD.dart';
+import 'package:migrou_app/pages/VendedorLogado/InfoPageClienteADD.dart';
 
 var emailUser;
 

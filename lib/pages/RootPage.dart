@@ -3,9 +3,9 @@ import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
 import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
-import 'vendedor_logado/VendedorLogado.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
@@ -13,8 +13,8 @@ enum AuthStatus {
   LOGGED_IN,
 }
 
-String _userId = '';
-String tipoPessoa = '.';
+String _userId;
+String tipoPessoa;
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});

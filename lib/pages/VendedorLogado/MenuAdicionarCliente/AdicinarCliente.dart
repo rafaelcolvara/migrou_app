@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
+import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarPorQRCODE.dart';
 import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/adicionar_por_email.dart';
-import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/Adicionar_por_QRCODE.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class AddClienteMenu extends StatelessWidget {
