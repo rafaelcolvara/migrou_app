@@ -8,7 +8,7 @@ import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCredito/ListaClient
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-import 'MeusClientes.dart';
+import 'MenuListaMeusClientes/MeusClientes.dart';
 
 class VendedorLogado extends StatefulWidget {
   VendedorLogado({Key key, this.auth, this.userId, this.logoutCallback})
