@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:migrou_app/componentes/botos_home.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 class InfoClienteLocaliado extends StatefulWidget {
   @override
@@ -50,9 +53,10 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                       Text("Data Nascimento: ${snapshot.data.dataNascimento}"),
                       SizedBox(height: 10),
                       Text("E-mail: ${snapshot.data.email}"),
-                      SizedBox(width: 10),
-                      RaisedButton(
-                        onPressed: () {
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05),
+                      InkWell(
+                        onTap: () {
                           setState(() {
                             idVendedor = userId;
                             idCliente = snapshot.data.id;
@@ -60,13 +64,17 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                                 context, idCliente, idVendedor);
                           });
                         },
-                        child: Text("Adicinar"),
+                        child: MyCustomButton(
+                            color: Constantes.customColorBlue,
+                            text: "Adicinar"),
                       )
                     ]),
               );
             } else {
               return Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircularProgressIndicator(),
                     Text("Aguarde..."),
