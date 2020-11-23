@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
+import 'package:migrou_app/model/ContaDTOnew.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
@@ -31,6 +32,20 @@ class PessoaWebClient {
     return PessoaDTO.fromJson(decodedJson);
   }
 
+  Future<Sabata> testando() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url =
+        "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    // print(decodedJson);
+    return Sabata.fromJson(decodedJson);
+  }
+
 //essa list faz um get e retorna os clientes vinculados ao vendedor logado app
 //Cliente é um usuario final tipo consumidor.
   Future<List<PessoaDTOnew>> clientesVinculadosAoVendedor() async {
@@ -43,6 +58,7 @@ class PessoaWebClient {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
+    // print("meu body: $decodedJson");
     return decodedJson["clientes"].map<PessoaDTOnew>((e) {
       return PessoaDTOnew.fromJson(e['pessoaDTO']);
     }).toList();
@@ -110,8 +126,8 @@ class PessoaWebClient {
       // print(decodedJson);
       return PessoaDTOnew.fromJson(decodedJson);
     } else {
-      final String responseFail = response.body;
-      print("erro resposte.body: $responseFail");
+      // final String responseFail = response.body;
+      // print("erro resposte.body: $responseFail");
       return showDialog(
         context: context,
         builder: (BuildContext context) {

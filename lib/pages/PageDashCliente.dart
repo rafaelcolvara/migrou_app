@@ -107,7 +107,7 @@ class _TelaClienteState extends State<TelaCliente> {
           future: httpService.saldoResgate(),
           builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.error);
+              // print(snapshot.error);
               if (!snapshot.hasData)
                 return Center(child: Text("Dados\nIndisponíveis"));
               var vltTotal =

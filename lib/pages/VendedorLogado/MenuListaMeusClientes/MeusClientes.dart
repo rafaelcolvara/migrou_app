@@ -3,11 +3,20 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/ContaDTOnew.dart';
 import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-class VinculadosClientes extends StatelessWidget {
+class VinculadosClientes extends StatefulWidget {
+  @override
+  _VinculadosClientesState createState() => _VinculadosClientesState();
+}
+
+class _VinculadosClientesState extends State<VinculadosClientes> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
@@ -93,6 +102,47 @@ class VinculadosClientes extends StatelessWidget {
                                         edgeStyle: SegmentEdgeStyle.round,
                                         percentageValues: true,
                                       ),
+                                      FutureBuilder(
+                                        future: httpServer.testando(),
+                                        builder: (_,
+                                            AsyncSnapshot<Sabata> snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            return Center(
+                                                child: Text(snapshot
+                                                    .data.vlrCashBack
+                                                    .toStringAsFixed(2)));
+                                          } else {
+                                            return Column(children: [
+                                              Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                              Center(
+                                                child: Text("Aguarde..."),
+                                              )
+                                            ]);
+                                          }
+                                        },
+                                      ),
+                                      IconButton(
+                                          icon: Icon(
+                                            Icons.chat,
+                                            color: Constantes.customColorOrange,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              idCliente = _p.id;
+                                            });
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VendedorChatePage(
+                                                        idCliente: idCliente,
+                                                        userId: userId,
+                                                      )),
+                                            );
+                                          })
                                     ],
                                   )
                                 ]),

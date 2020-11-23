@@ -2,11 +2,20 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/pages/Cliente_Logado/ChatPage.dart/ClienteChatPage.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-class VinculadosVendedores extends StatelessWidget {
+class VinculadosVendedores extends StatefulWidget {
+  @override
+  _VinculadosVendedoresState createState() => _VinculadosVendedoresState();
+}
+
+class _VinculadosVendedoresState extends State<VinculadosVendedores> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient pessoaWebClient = PessoaWebClient();
@@ -102,7 +111,27 @@ class VinculadosVendedores extends StatelessWidget {
                                             color: Constantes.customColorOrange,
                                           ),
                                           SizedBox(width: 2),
-                                          Text("($ddd) $teleP1-$teleP2")
+                                          Text("($ddd) $teleP1-$teleP2"),
+                                          IconButton(
+                                              icon: Icon(
+                                                Icons.chat,
+                                                color: Constantes
+                                                    .customColorOrange,
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  idVendedor = _p.id;
+                                                });
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ClienteChatePage(
+                                                            idCliente: userId,
+                                                            userId: idVendedor,
+                                                          )),
+                                                );
+                                              })
                                         ],
                                       )
                                     ],
