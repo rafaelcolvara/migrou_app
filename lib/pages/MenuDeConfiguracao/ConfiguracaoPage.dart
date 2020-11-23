@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
-import 'package:migrou_app/pages/menu_setings/dadospessoaisPage.dart';
+import 'package:migrou_app/pages/MenuDeConfiguracao/DadosPessoaisPage.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 

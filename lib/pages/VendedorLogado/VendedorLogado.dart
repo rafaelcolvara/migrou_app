@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
-import 'package:migrou_app/pages/cliente_logado/widget_cliente_logado.dart';
-import 'package:migrou_app/pages/menu_setings/settings_page.dart';
-import 'package:migrou_app/pages/vendedor_logado/menu_Add_Credito/Lista_Clientes_para_lancar_credito.dart';
-import 'package:migrou_app/pages/vendedor_logado/menu_AdicionarCliente/adicinar_cliente.dart';
+import 'package:migrou_app/pages/Cliente_Logado/WidgetClienteLogado.dart';
+import 'package:migrou_app/pages/MenuDeConfiguracao/ConfiguracaoPage.dart';
+import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarCliente.dart';
+import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCredito/ListaClientesParaLancarCredito.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-import 'meus_clientes.dart';
+import 'MenuListaMeusClientes/MeusClientes.dart';
 
 class VendedorLogado extends StatefulWidget {
   VendedorLogado({Key key, this.auth, this.userId, this.logoutCallback})

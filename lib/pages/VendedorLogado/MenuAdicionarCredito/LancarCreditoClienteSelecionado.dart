@@ -26,6 +26,7 @@ class LancaCredito extends StatefulWidget {
 }
 
 class _LancaCreditoState extends State<LancaCredito> {
+  bool busy = false;
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServices = PessoaWebClient();
@@ -53,7 +54,7 @@ class _LancaCreditoState extends State<LancaCredito> {
             SizedBox(height: 10),
             Text(widget.nome, style: TextStyle(fontSize: 20)),
             Text(
-              "($ddd) $teleP1-$teleP2",
+              "Tel.: ($ddd) $teleP1-$teleP2",
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
@@ -71,16 +72,20 @@ class _LancaCreditoState extends State<LancaCredito> {
             ),
             SizedBox(height: 15),
             InkWell(
-                onTap: () {
+                onTap: () async {
                   setState(() {
                     lancamento = valor.numberValue;
-                    httpServices.lancarCreditoAPI(
-                        context, idCliente, userId, lancamento);
                   });
+                  await httpServices.lancarCreditoAPI(
+                      context, idCliente, userId, lancamento);
                 },
-                child: MyCustomButton(
-                    color: Constantes.customColorOrange,
-                    text: "ADICIONAR CRÉDITO")),
+                child: busy == true
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : MyCustomButton(
+                        color: Constantes.customColorOrange,
+                        text: "ADICIONAR CRÉDITO")),
           ],
         ),
       ),

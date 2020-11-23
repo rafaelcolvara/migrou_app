@@ -3,9 +3,9 @@ import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
+import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
 import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
-import 'vendedor_logado/VendedorLogado.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
@@ -13,8 +13,8 @@ enum AuthStatus {
   LOGGED_IN,
 }
 
-String _userId = '';
-String tipoPessoa = '.';
+String _userId;
+String tipoPessoa;
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
@@ -33,15 +33,15 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
-    print("PASSO 1");
+    // print("PASSO 1");
     super.initState();
     autoLogIn();
-    print("PASSO 2");
+    // print("PASSO 2");
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
           if (user.id.toString() != "null") {
-            print('PASSOU 8' + user.id.toString());
+            // print('PASSOU 8' + user.id.toString());
             _userId = user.id.toString();
           } else {
             _userId = '';
@@ -66,14 +66,14 @@ class _RootPageState extends State<RootPage> {
 
   Future<Null> loginUser() async {
     await sharedPref.save('id', _userId);
-    print('PASSOU 9');
+    // print('PASSOU 9');
     setState(() {
       isLoggedIn = true;
     });
   }
 
   void autoLogIn() async {
-    print("PASSO 3");
+    // print("PASSO 3");
     final String userId = await sharedPref.read('id');
     final String userNome = await sharedPref.read('nome');
     final String userEmail = await sharedPref.read('email');
@@ -129,13 +129,13 @@ class _RootPageState extends State<RootPage> {
 */
   @override
   Widget build(BuildContext context) {
-    print('PASSOU 10');
+    // print('PASSOU 10');
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
         return Scaffold(body: Center(child: Progress()));
         break;
       case AuthStatus.NOT_LOGGED_IN:
-        print("PASSO 7");
+        // print("PASSO 7");
         return Scaffold(
           body: Center(
             child: new LoginPageAPI(
@@ -147,7 +147,7 @@ class _RootPageState extends State<RootPage> {
         );
         break;
       case AuthStatus.LOGGED_IN:
-        print("PASSO 6");
+        // print("PASSO 6");
         //print("&&&&&&&&&&&&& ->> AUTOLOGIN COMO " + _tipoPessoa);
         if (_userId.length > 0 && _userId != null) {
           if (tipoPessoa == "CLIENTE") {

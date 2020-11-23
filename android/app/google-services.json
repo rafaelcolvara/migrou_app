@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "648454555783",
-    "firebase_url": "https://migrou-35bf7.firebaseio.com",
-    "project_id": "migrou-35bf7",
-    "storage_bucket": "migrou-35bf7.appspot.com"
+    "project_number": "642421655942",
+    "firebase_url": "https://migrouapp.firebaseio.com",
+    "project_id": "migrouapp",
+    "storage_bucket": "migrouapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648454555783:android:53236acadd2171c85c1022",
+        "mobilesdk_app_id": "1:642421655942:android:0b130b309fc5e291004407",
         "android_client_info": {
           "package_name": "com.migrou.app.migrou_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "648454555783-v08o5agsjg67rf0d2l94qcjepe15sa1l.apps.googleusercontent.com",
+          "client_id": "642421655942-33da8lachlquhkkk6virlv3hv1aobda4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDqogfwZeiQPmWPTXXpf1mCW4aCkX4kyTc"
+          "current_key": "AIzaSyDJnJnK008RZLE1c_lN4b1sSK3mmbaJGHs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "648454555783-v08o5agsjg67rf0d2l94qcjepe15sa1l.apps.googleusercontent.com",
+              "client_id": "642421655942-33da8lachlquhkkk6virlv3hv1aobda4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

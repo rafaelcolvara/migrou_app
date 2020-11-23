@@ -9,8 +9,8 @@ import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/pages/Cliente_Logado/ClienteResgateCredito.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
-import 'package:migrou_app/pages/cliente_logado/cliente_resgatecredito.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class TelaCliente extends StatefulWidget {
@@ -107,7 +107,7 @@ class _TelaClienteState extends State<TelaCliente> {
           future: httpService.saldoResgate(),
           builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.error);
+              // print(snapshot.error);
               if (!snapshot.hasData)
                 return Center(child: Text("Dados\nIndisponíveis"));
               var vltTotal =
