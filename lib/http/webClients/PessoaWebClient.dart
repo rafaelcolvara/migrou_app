@@ -64,6 +64,22 @@ class PessoaWebClient {
     }).toList();
   }
 
+  Future<List<CashBackDTO>> meusClientesDASH() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url =
+        "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/DashTodosClientes";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    // print("meu body: $decodedJson");
+    return decodedJson.map<CashBackDTO>((e) {
+      return CashBackDTO.fromJson(e);
+    }).toList();
+  }
+
 //essa list faz um get e retorna os vendedores vinculados ao cliente logado app
 // vendedor é aquele que vende seus srvicos ou produto.
   Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {

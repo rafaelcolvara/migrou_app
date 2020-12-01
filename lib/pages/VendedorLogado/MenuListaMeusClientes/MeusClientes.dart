@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
-import 'package:migrou_app/model/ContaDTOnew.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
@@ -26,25 +25,26 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
           centerTitle: true,
         ),
         body: FutureBuilder(
-          future: httpServer.clientesVinculadosAoVendedor(),
+          future: httpServer.meusClientesDASH(),
           builder: (_, snapshot) {
             // print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.done) {
-              if (!snapshot.hasData) return Text('nao ha dados');
+              if (!snapshot.hasData) return Text(snapshot.error.toString());
               // print(snapshot.data);
-              final List<PessoaDTOnew> meusClientes = snapshot.data;
+              final List<CashBackDTO> meusClientes = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
-                  PessoaDTOnew _p = meusClientes[index];
-                  String profileIMG = _p.base64Foto;
+                  CashBackDTO _p = meusClientes[index];
+                  String profileIMG = _p.clienteDTO.pessoaDTO.base64Foto;
                   Uint8List bytes = base64.decode(profileIMG);
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
                       child: Row(
                         children: [
-                          _p.base64Foto == null || _p.base64Foto == ""
+                          _p.clienteDTO.pessoaDTO.base64Foto == null ||
+                                  _p.clienteDTO.pessoaDTO.base64Foto == ""
                               ? Container(
                                   child: Center(
                                     child: Image.asset(
@@ -68,8 +68,9 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   new ListTile(
-                                    title: Text(_p.nome),
-                                    subtitle: Text(_p.email),
+                                    title: Text(_p.clienteDTO.pessoaDTO.nome),
+                                    subtitle:
+                                        Text(_p.clienteDTO.pessoaDTO.email),
                                   ),
                                   Row(
                                     children: [
@@ -102,27 +103,18 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                         edgeStyle: SegmentEdgeStyle.round,
                                         percentageValues: true,
                                       ),
-                                      FutureBuilder(
-                                        future: httpServer.testando(),
-                                        builder: (_,
-                                            AsyncSnapshot<Sabata> snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            return Center(
-                                                child: Text(snapshot
-                                                    .data.vlrCashBack
-                                                    .toStringAsFixed(2)));
-                                          } else {
-                                            return Column(children: [
-                                              Center(
-                                                  child:
-                                                      CircularProgressIndicator()),
-                                              Center(
-                                                child: Text("Aguarde..."),
-                                              )
-                                            ]);
-                                          }
-                                        },
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.2,
+                                        child: Center(
+                                          child: Text(
+                                              _p.vlrComprasRealizadas
+                                                  .toStringAsFixed(2),
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
                                       ),
                                       IconButton(
                                           icon: Icon(
@@ -131,7 +123,8 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              idCliente = _p.id;
+                                              idCliente =
+                                                  _p.clienteDTO.pessoaDTO.id;
                                             });
                                             Navigator.push(
                                               context,
