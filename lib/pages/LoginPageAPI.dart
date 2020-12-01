@@ -225,6 +225,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
               child: new ListView(
                 shrinkWrap: true,
                 children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.13),
                   showLogo(),
                   showEmailInput(),
                   showPasswordInput(),
