@@ -7,7 +7,7 @@ import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/Cliente_Logado/ChatPage.dart/ClienteChatPage.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
-import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
+// import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class VinculadosVendedores extends StatefulWidget {
