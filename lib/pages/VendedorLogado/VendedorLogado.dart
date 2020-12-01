@@ -5,6 +5,7 @@ import 'package:migrou_app/pages/Cliente_Logado/WidgetClienteLogado.dart';
 import 'package:migrou_app/pages/MenuDeConfiguracao/ConfiguracaoPage.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarCliente.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCredito/ListaClientesParaLancarCredito.dart';
+import 'package:migrou_app/pages/VendedorLogado/MenuCreditoRecebido/CreditoRecebido.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
@@ -235,7 +236,12 @@ class _VendedorLogadoState extends State<VendedorLogado>
                     color: Constantes.customColorBlue, text: "Meus Clientes")),
             DetectoHome(
                 ontapDown: _onTapDown,
-                ontap: () {},
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CreditoRecebido()),
+                  );
+                },
                 ontapUp: _onTapUp,
                 scale: _scale,
                 filho: MyCustomButton(
