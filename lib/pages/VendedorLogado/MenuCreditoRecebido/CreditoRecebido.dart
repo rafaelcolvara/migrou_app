@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/DataResgateDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 
 class CreditoRecebido extends StatelessWidget {
@@ -9,16 +10,19 @@ class CreditoRecebido extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Crédito Recebido"), centerTitle: true),
       body: FutureBuilder(
-          future: httpServices.meusClientesDASH(),
+          future: httpServices.meusClientesCreditoRecebido(),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              if (!snapshot.hasData)
+              if (!snapshot.hasData) {
+                print(snapshot.error);
                 return Center(child: Text("Dados indisponível"));
-              final List<CashBackDTO> meusClientesResgate = snapshot.data;
+              }
+              ;
+              final List<DataResgates> meusClientesResgate = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientesResgate.length,
                 itemBuilder: (context, index) {
-                  CashBackDTO _m = meusClientesResgate[index];
+                  DataResgates _m = meusClientesResgate[index];
                   return Card(
                       child: Row(children: [
                     Container(
@@ -32,8 +36,11 @@ class CreditoRecebido extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                           new ListTile(
-                              title: Text(_m.clienteDTO.pessoaDTO.nome),
-                              subtitle: Text(_m.clienteDTO.pessoaDTO.email))
+                              title: Text(_m.nomeCliente),
+                              subtitle: Text(_m.dataUltimoResgate)),
+                          new Center(
+                            child: Text(_m.vlrUltimoResgate.toStringAsFixed(2)),
+                          )
                         ]))
                   ]));
                 },

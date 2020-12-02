@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/ContaDTOnew.dart';
+import 'package:migrou_app/model/DataResgateDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
@@ -77,6 +78,22 @@ class PessoaWebClient {
     // print("meu body: $decodedJson");
     return decodedJson.map<CashBackDTO>((e) {
       return CashBackDTO.fromJson(e);
+    }).toList();
+  }
+
+  Future<List<DataResgates>> meusClientesCreditoRecebido() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'userSession': Constantes.TOKEN_ID
+    };
+    final String _url =
+        "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/BuscaUltimosResgates";
+    final Response response =
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+    var decodedJson = jsonDecode(response.body);
+    print("meu body: $decodedJson");
+    return decodedJson.map<DataResgates>((e) {
+      return DataResgates.fromJson(e);
     }).toList();
   }
 
