@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/DataResgateDTO.dart';
-import 'package:migrou_app/model/contaDTO.dart';
 
 class CreditoRecebido extends StatelessWidget {
   @override
@@ -17,7 +16,6 @@ class CreditoRecebido extends StatelessWidget {
                 print(snapshot.error);
                 return Center(child: Text("Dados indisponível"));
               }
-              ;
               final List<DataResgates> meusClientesResgate = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientesResgate.length,
