@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/DataResgateDTO.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 class CreditoRecebido extends StatelessWidget {
   @override
@@ -21,26 +22,54 @@ class CreditoRecebido extends StatelessWidget {
                 itemCount: meusClientesResgate.length,
                 itemBuilder: (context, index) {
                   DataResgates _m = meusClientesResgate[index];
-                  return Card(
-                      child: Row(children: [
-                    Container(
-                        child: Center(
-                      child: Image.asset("images/no-image-default.png",
-                          fit: BoxFit.cover, height: 150, width: 130),
-                    )),
-                    Expanded(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                          new ListTile(
-                              title: Text(_m.nomeCliente),
-                              subtitle: Text(_m.dataUltimoResgate)),
-                          new Center(
-                            child: Text(_m.vlrUltimoResgate.toStringAsFixed(2)),
-                          )
-                        ]))
-                  ]));
+                  final String ano = _m.dataUltimoResgate.substring(0, 4);
+                  final String mes = _m.dataUltimoResgate.substring(5, 7);
+                  final String dia = _m.dataUltimoResgate.substring(8, 10);
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                        child: Row(children: [
+                      Container(
+                          child: Center(
+                        child: Image.asset("images/pati.png",
+                            fit: BoxFit.cover, height: 150, width: 130),
+                      )),
+                      Expanded(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                            Center(
+                                child: new RichText(
+                              text: TextSpan(
+                                  text: "${_m.nomeCliente}\n",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Constantes.customColorBlue),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: "Resgatou em $dia/$mes/$ano",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Constantes.customColorOrange))
+                                  ]),
+                            )),
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: new Center(
+                                  child: Text(
+                                      _m.vlrUltimoResgate.toStringAsFixed(2),
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Constantes.customColorBlue))),
+                            )
+                          ]))
+                    ])),
+                  );
                 },
               );
             } else {
