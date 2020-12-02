@@ -61,7 +61,9 @@ class CreditoRecebido extends StatelessWidget {
                               padding: const EdgeInsets.all(20),
                               child: new Center(
                                   child: Text(
-                                      _m.vlrUltimoResgate.toStringAsFixed(2),
+                                      "R\$ " +
+                                          _m.vlrUltimoResgate
+                                              .toStringAsFixed(2),
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
