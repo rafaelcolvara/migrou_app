@@ -91,7 +91,7 @@ class PessoaWebClient {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    print("meu body: $decodedJson");
+    // print("meu body: $decodedJson");
     return decodedJson.map<DataResgates>((e) {
       return DataResgates.fromJson(e);
     }).toList();

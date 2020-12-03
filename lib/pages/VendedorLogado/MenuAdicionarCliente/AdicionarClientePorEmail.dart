@@ -26,9 +26,13 @@ class _AddPorEmailState extends State<AddPorEmail> {
             Center(
               child: Container(
                   height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(
-                      "Digite o e-mail do cliente cadastrado no aplicativo")),
+                    "Digite o e-mail do cliente cadastrado no aplicativo",
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                  )),
             ),
             Padding(
                 padding: const EdgeInsets.all(20.0),

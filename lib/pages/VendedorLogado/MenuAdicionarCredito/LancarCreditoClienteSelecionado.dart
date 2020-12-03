@@ -9,6 +9,7 @@ import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
+import 'package:date_format/date_format.dart';
 
 class LancaCredito extends StatefulWidget {
   final nome;
@@ -26,6 +27,7 @@ class LancaCredito extends StatefulWidget {
 }
 
 class _LancaCreditoState extends State<LancaCredito> {
+  var data = formatDate(DateTime.now(), [dd, '/', mm, '/', yyyy]);
   bool busy = false;
   @override
   Widget build(BuildContext context) {
@@ -45,19 +47,31 @@ class _LancaCreditoState extends State<LancaCredito> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             widget.foto == null || widget.foto == ""
-                ? Image.asset("images/no-image-default.png",
-                    fit: BoxFit.cover, height: 100, width: 80)
+                ? Image.asset("images/pati.png",
+                    fit: BoxFit.contain, height: 200, width: 200)
                 : Image.memory(bytes,
                     fit: BoxFit.cover, height: 100, width: 80),
             SizedBox(height: 10),
-            Text(widget.nome, style: TextStyle(fontSize: 20)),
-            Text(
-              "Tel.: ($ddd) $teleP1-$teleP2",
-              style: TextStyle(fontSize: 16),
+            RichText(
+                text: TextSpan(
+                    text: widget.nome,
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Constantes.customColorBlue))),
+            Container(
+              child: Text(
+                "Tel.: ($ddd) $teleP1-$teleP2",
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w300),
+              ),
             ),
             SizedBox(height: 20),
+            Container(
+              child: Text("Valor gasto em $data",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            ),
             Padding(
               padding: const EdgeInsets.only(
                   left: 60, right: 60, top: 10, bottom: 10),

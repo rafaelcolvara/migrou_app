@@ -38,6 +38,7 @@ dependencies:
   qr_flutter: ^3.2.0
   flutter_barcode_scanner: ^1.0.1
   flutter_masked_text: ^0.8.0
+  date_format: ^1.0.9
   
   
 

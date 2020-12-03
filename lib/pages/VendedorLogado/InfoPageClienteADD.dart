@@ -29,6 +29,9 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                 return Center(child: Text("Verifique sua Conexão!"));
               String profileIMG = snapshot.data.base64Foto;
               Uint8List bytes = base64.decode(profileIMG);
+              final String ddd = snapshot.data.nrCelular.substring(0, 2);
+              final String teleP1 = snapshot.data.nrCelular.substring(2, 5);
+              final String teleP2 = snapshot.data.nrCelular.substring(5, 11);
               return Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -36,23 +39,45 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                     children: [
                       profileIMG == null || profileIMG == ""
                           ? Container(
-                              width: 80,
-                              height: 120,
-                              child: Image.asset('images/no-image-default.png'),
+                              child: Image.asset('images/pati.png',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.28,
+                                  fit: BoxFit.cover),
                             )
                           : Container(
-                              width: 80,
-                              height: 120,
                               child: Image.memory(
                                 bytes,
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.28,
                                 fit: BoxFit.cover,
                               ),
                             ),
-                      Text("Nome: ${snapshot.data.nome}"),
-                      SizedBox(height: 10),
-                      Text("Data Nascimento: ${snapshot.data.dataNascimento}"),
-                      SizedBox(height: 10),
-                      Text("E-mail: ${snapshot.data.email}"),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                          child: Text(snapshot.data.nome,
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold))),
+                      SizedBox(height: 3),
+                      Container(
+                          child: Text(
+                              "Data Nascimento: ${snapshot.data.dataNascimento}",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w300))),
+                      SizedBox(height: 3),
+                      Container(
+                          child: Text("E-mail: ${snapshot.data.email}",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w300))),
+                      SizedBox(height: 3),
+                      Container(
+                          child: Text("Tel.: ($ddd) $teleP1-$teleP2",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w300))),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05),
                       InkWell(
