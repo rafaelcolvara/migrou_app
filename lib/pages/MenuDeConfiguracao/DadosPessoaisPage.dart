@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/infoDTO.dart';
+import 'package:migrou_app/utils/definicoes.dart';
 
 class DadosPessoais extends StatelessWidget {
   @override
@@ -28,18 +31,35 @@ class DadosPessoais extends StatelessWidget {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     profileIMG == null || profileIMG == ""
                         ? Stack(
                             children: [
                               Container(
-                                width: 80,
-                                height: 120,
-                                child:
-                                    Image.asset('images/no-image-default.png'),
+                                child: Image.asset(
+                                  'images/pati.png',
+                                  fit: BoxFit.cover,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.26,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
+                                ),
                               ),
                               Positioned(
-                                  bottom: 0, right: 0, child: Icon(Icons.edit))
+                                  bottom: -8,
+                                  right: 0,
+                                  child: IconButton(
+                                      iconSize: 32,
+                                      color: Constantes.customColorOrange,
+                                      icon: Icon(Icons.camera),
+                                      onPressed: () async {
+                                        // ignore: unused_local_variable
+                                        final Future<File> imgFile =
+                                            // ignore: deprecated_member_use
+                                            ImagePicker.pickImage(
+                                                source: ImageSource.camera);
+                                      }))
                             ],
                           )
                         : Stack(
@@ -53,7 +73,11 @@ class DadosPessoais extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                  bottom: 0, right: 0, child: Icon(Icons.edit))
+                                  bottom: 0,
+                                  right: 0,
+                                  child: IconButton(
+                                      icon: Icon(Icons.camera),
+                                      onPressed: () {}))
                             ],
                           ),
                     SizedBox(height: 10),

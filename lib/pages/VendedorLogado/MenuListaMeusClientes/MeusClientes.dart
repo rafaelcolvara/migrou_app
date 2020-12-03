@@ -19,6 +19,8 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
+    final double altura = MediaQuery.of(context).size.height * 0.08;
+    final double largura = MediaQuery.of(context).size.width * 0.06;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Meus Clientes"),
@@ -116,7 +118,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                   Row(
                                     children: [
                                       AnimatedCircularChart(
-                                        size: Size(90, 70),
+                                        size: Size(altura, largura),
                                         holeRadius: 20.0,
                                         holeLabel: _p.campanhaDTO
                                                     .flgPercentualSobreCompras ==
@@ -151,7 +153,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                       Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.26,
+                                                0.23,
                                         child: Center(
                                           child: Text(
                                               "R\$ " +
