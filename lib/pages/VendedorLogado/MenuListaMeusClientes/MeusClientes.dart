@@ -36,8 +36,30 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
                   CashBackDTO _p = meusClientes[index];
+                  final String ddd =
+                      _p.clienteDTO.pessoaDTO.nrCelular.substring(0, 2);
+                  final String teleP1 =
+                      _p.clienteDTO.pessoaDTO.nrCelular.substring(2, 7);
+                  final String teleP2 =
+                      _p.clienteDTO.pessoaDTO.nrCelular.substring(7, 11);
                   String profileIMG = _p.clienteDTO.pessoaDTO.base64Foto;
                   Uint8List bytes = base64.decode(profileIMG);
+                  var vltTotal = _p.campanhaDTO.vlrTotalComprasValorFixo <
+                          _p.vlrComprasRealizadas
+                      ? _p.vlrComprasRealizadas
+                      : _p.campanhaDTO.vlrTotalComprasValorFixo;
+                  var contador =
+                      _p.campanhaDTO.flgPercentualSobreCompras == false
+                          ? _p.vlrComprasRealizadas / vltTotal * 100
+                          : _p.qtdComprasRealizadas;
+                  double vrCompleted =
+                      _p.campanhaDTO.flgPercentualSobreCompras == false
+                          ? _p.vlrComprasRealizadas / vltTotal * 100
+                          : _p.qtdComprasRealizadas /
+                              _p.campanhaDTO
+                                  .qtLancamentosPercentualSobreCompras *
+                              100;
+                  double vrRemaining = 100 - vrCompleted;
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
@@ -47,8 +69,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                   _p.clienteDTO.pessoaDTO.base64Foto == ""
                               ? Container(
                                   child: Center(
-                                    child: Image.asset(
-                                        "images/no-image-default.png",
+                                    child: Image.asset("images/pati.png",
                                         fit: BoxFit.cover,
                                         height: 150,
                                         width: 130),
@@ -62,36 +83,60 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                         width: 80),
                                   ),
                                 ),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  new ListTile(
-                                    title: Text(_p.clienteDTO.pessoaDTO.nome),
-                                    subtitle:
-                                        Text(_p.clienteDTO.pessoaDTO.email),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01,
                                   ),
+                                  new Center(
+                                      child: RichText(
+                                    text: TextSpan(
+                                        text:
+                                            "${_p.clienteDTO.pessoaDTO.nome}\n",
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                            color: Constantes.customColorBlue),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: "($ddd) $teleP1-$teleP2",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Constantes
+                                                      .customColorBlue))
+                                        ]),
+                                  )),
+                                  SizedBox(height: 6),
                                   Row(
                                     children: [
                                       AnimatedCircularChart(
                                         size: Size(90, 70),
                                         holeRadius: 20.0,
-                                        holeLabel: "5/5",
+                                        holeLabel: _p.campanhaDTO
+                                                    .flgPercentualSobreCompras ==
+                                                false
+                                            ? '${contador.toStringAsFixed(0)}%'
+                                            : '${contador.toString()}/${_p.campanhaDTO.qtLancamentosPercentualSobreCompras.toString()}',
                                         labelStyle: TextStyle(
-                                            fontSize: 24,
+                                            fontSize: 18,
                                             color: Colors.blueAccent,
                                             fontWeight: FontWeight.bold),
                                         initialChartData: <CircularStackEntry>[
                                           new CircularStackEntry(
                                             <CircularSegmentEntry>[
                                               new CircularSegmentEntry(
-                                                50,
+                                                vrCompleted,
                                                 Constantes.customColorOrange,
                                                 rankKey: 'completed',
                                               ),
                                               new CircularSegmentEntry(
-                                                50,
+                                                vrRemaining,
                                                 Constantes.customColorCinza,
                                                 rankKey: 'remaining',
                                               ),
@@ -106,17 +151,19 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                       Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.2,
+                                                0.26,
                                         child: Center(
                                           child: Text(
-                                              _p.vlrComprasRealizadas
-                                                  .toStringAsFixed(2),
+                                              "R\$ " +
+                                                  _p.vlrComprasRealizadas
+                                                      .toStringAsFixed(2),
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold)),
                                         ),
                                       ),
                                       IconButton(
+                                          iconSize: 28,
                                           icon: Icon(
                                             Icons.chat,
                                             color: Constantes.customColorOrange,
@@ -137,7 +184,11 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                             );
                                           })
                                     ],
-                                  )
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.01),
                                 ]),
                           ),
                         ],
