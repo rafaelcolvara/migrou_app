@@ -1,14 +1,41 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/infoDTO.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-class DadosPessoais extends StatelessWidget {
+class DadosPessoais extends StatefulWidget {
+  @override
+  _DadosPessoaisState createState() => _DadosPessoaisState();
+}
+
+class _DadosPessoaisState extends State<DadosPessoais> {
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() async {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+      firebase_storage.UploadTask task = firebase_storage
+          .FirebaseStorage.instance
+          .ref()
+          .child(userId)
+          .putFile(_image);
+      await task;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
@@ -53,13 +80,7 @@ class DadosPessoais extends StatelessWidget {
                                       iconSize: 32,
                                       color: Constantes.customColorOrange,
                                       icon: Icon(Icons.camera),
-                                      onPressed: () async {
-                                        // ignore: unused_local_variable
-                                        final Future<File> imgFile =
-                                            // ignore: deprecated_member_use
-                                            ImagePicker.pickImage(
-                                                source: ImageSource.camera);
-                                      }))
+                                      onPressed: getImage))
                             ],
                           )
                         : Stack(
