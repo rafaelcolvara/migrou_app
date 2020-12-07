@@ -1,21 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 @JsonSerializable(nullable: false)
 class PessoaFotoDTO {
-
   String idPessoa;
-  String byteArrayFoto; 
+  String base64Foto;
 
-  PessoaFotoDTO({int idPessoa, this.byteArrayFoto});
+  PessoaFotoDTO({this.idPessoa, this.base64Foto});
 
-  PessoaFotoDTO.fromJson(Map<String, dynamic> json):
-    idPessoa = json['idPessoa'],
-    byteArrayFoto  = json['byteArrayFoto'];
-    
-  Map<String, dynamic> toJson() => {
-        "idPessoa" :idPessoa,
-        "byteArrayFoto": byteArrayFoto
-    };
+  PessoaFotoDTO.fromJson(Map<String, dynamic> json)
+      : idPessoa = json['idPessoa'],
+        base64Foto = json['base64Foto'];
 
+  Map<String, dynamic> toJson() =>
+      {"idPessoa": idPessoa, "base64Foto": base64Foto};
 }

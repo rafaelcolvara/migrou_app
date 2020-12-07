@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
@@ -17,7 +16,8 @@ class DadosPessoais extends StatefulWidget {
 class _DadosPessoaisState extends State<DadosPessoais> {
   File _image;
   final picker = ImagePicker();
-
+  String fotoPerfil;
+  PessoaWebClient httpServices = PessoaWebClient();
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
@@ -32,7 +32,11 @@ class _DadosPessoaisState extends State<DadosPessoais> {
           .ref()
           .child(userId)
           .putFile(_image);
-      await task;
+      firebase_storage.TaskSnapshot taskSnapshot = await task;
+      String urlFotoPerfil = await taskSnapshot.ref.getDownloadURL();
+      fotoPerfil = urlFotoPerfil;
+      httpServices
+          .salvaFoto(PessoaFotoDTO(idPessoa: userId, base64Foto: fotoPerfil));
     });
   }
 
@@ -40,7 +44,8 @@ class _DadosPessoaisState extends State<DadosPessoais> {
   Widget build(BuildContext context) {
     final PessoaWebClient httpServer = PessoaWebClient();
     return Scaffold(
-        appBar: AppBar(),
+        appBar:
+            AppBar(title: const Text("Dados Cadastrais"), centerTitle: true),
         body: FutureBuilder(
           future: httpServer.infoCliente(),
           builder: (_, AsyncSnapshot<InforDTO> snapshot) {
@@ -49,8 +54,8 @@ class _DadosPessoaisState extends State<DadosPessoais> {
               if (!snapshot.hasData)
                 return Center(child: Text("Ops...\nVerifique sua conexão!"));
 //decodificação da imagem em base64
-              String profileIMG = snapshot.data.base64Foto;
-              Uint8List bytes = base64.decode(profileIMG);
+              String profileIMG = "s";
+              // Uint8List bytes = base64.decode(profileIMG);
 //conversão do telelefone para formato (ddd)12345-6789
               var ddd = snapshot.data.nrCelular.substring(0, 2);
               var teleP1 = snapshot.data.nrCelular.substring(2, 7);
@@ -65,7 +70,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                             children: [
                               Container(
                                 child: Image.asset(
-                                  'images/pati.png',
+                                  'images/no-image-default.png',
                                   fit: BoxFit.cover,
                                   height:
                                       MediaQuery.of(context).size.height * 0.26,
@@ -86,19 +91,23 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                         : Stack(
                             children: [
                               Container(
-                                width: 80,
-                                height: 120,
-                                child: Image.memory(
-                                  bytes,
+                                child: Image.network(
+                                  "https://firebasestorage.googleapis.com/v0/b/migrouapp.appspot.com/o/791752de-3fa9-4cae-b02f-e2293a1d32bf?alt=media&token=6be5fa4d-011b-4df4-a748-7cdc6fa32fde",
                                   fit: BoxFit.cover,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.26,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
                                 ),
                               ),
                               Positioned(
-                                  bottom: 0,
+                                  bottom: -8,
                                   right: 0,
                                   child: IconButton(
+                                      iconSize: 32,
+                                      color: Constantes.customColorOrange,
                                       icon: Icon(Icons.camera),
-                                      onPressed: () {}))
+                                      onPressed: getImage))
                             ],
                           ),
                     SizedBox(height: 10),
