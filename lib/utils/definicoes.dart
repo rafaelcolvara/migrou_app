@@ -10,5 +10,6 @@ class Constantes {
   static const HOST_DOMAIN = "https://migrou-web.herokuapp.com";
   // static const HOST_DOMAIN = "http://192.168.1.167:7003"; //  note
   //static const HOST_DOMAIN = "http://192.168.1.166:7003"; // desktop
-  static const TOKEN_ID = '123456';
+  static const TOKEN_ID =
+      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4c2FuZHJvQGdtYWlsLmNvbSIsImV4cCI6MTYwNzYyNTE5N30.qgxHK3eMOJ-SMaUFH9gi6Kam2LyNouV0_r32-VSo_ew1tEIpG4QryC8mKWShYub3hPA8MVbhICqXLSnKpmFQoQ';
 }

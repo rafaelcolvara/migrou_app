@@ -448,22 +448,21 @@ class PessoaWebClient {
       {String email, String senha, String tipoPessoa}) async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
     };
     Map<String, dynamic> loginPayload = {
-      "email": email,
-      "senha": senha,
+      "username": email,
+      "password": senha,
       "tipoPessoa": tipoPessoa
     };
 
     PessoaDTO retorno;
 
     final Response response = await client
-        .post(Constantes.HOST_DOMAIN + "/pessoas/login",
+        .post(Constantes.HOST_DOMAIN + "/login",
             body: jsonEncode(loginPayload), headers: headers)
         .timeout(Duration(seconds: 50));
 
-    if (response.statusCode == 500) {
+    if (response.statusCode != 200) {
       throw FormatException(response.body);
     }
 
