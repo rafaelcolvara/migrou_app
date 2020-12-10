@@ -465,6 +465,7 @@ class PessoaWebClient {
     if (response.statusCode != 200) {
       throw FormatException(response.body);
     }
+
     SharedPref().save("autToken", response.headers["authorization"]);
     final String mtoken = await SharedPref().read("autToken");
     print("meu shared " + mtoken);
