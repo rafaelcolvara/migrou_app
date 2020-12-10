@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:migrou_app/componentes/SharedPref.dart';
 
 class Constantes {
   static Color customColorBlue = Color.fromARGB(255, 62, 64, 149);
@@ -10,6 +11,6 @@ class Constantes {
   static const HOST_DOMAIN = "https://migrou-web.herokuapp.com";
   // static const HOST_DOMAIN = "http://192.168.1.167:7003"; //  note
   //static const HOST_DOMAIN = "http://192.168.1.166:7003"; // desktop
-  static const TOKEN_ID =
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4c2FuZHJvQGdtYWlsLmNvbSIsImV4cCI6MTYwNzYyNTE5N30.qgxHK3eMOJ-SMaUFH9gi6Kam2LyNouV0_r32-VSo_ew1tEIpG4QryC8mKWShYub3hPA8MVbhICqXLSnKpmFQoQ';
+  // ignore: non_constant_identifier_names
+  static String TOKEN_ID = SharedPref().read("autToken");
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/ContaDTOnew.dart';
@@ -454,7 +455,6 @@ class PessoaWebClient {
       "password": senha,
       "tipoPessoa": tipoPessoa
     };
-
     PessoaDTO retorno;
 
     final Response response = await client
@@ -465,7 +465,9 @@ class PessoaWebClient {
     if (response.statusCode != 200) {
       throw FormatException(response.body);
     }
-
+    SharedPref().save("autToken", response.headers["authorization"]);
+    final String mtoken = await SharedPref().read("autToken");
+    print("meu shared " + mtoken);
     final Map<String, dynamic> decodedJson = jsonDecode(response.body);
     retorno = PessoaDTO.fromJson(decodedJson);
 
