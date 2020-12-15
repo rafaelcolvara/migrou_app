@@ -13,6 +13,7 @@ class PessoaDTO {
   String base64Foto;
   bool flgEmailValido;
   String tipoPessoa;
+  String token;
 
   PessoaDTO(
       {int id,
@@ -24,7 +25,8 @@ class PessoaDTO {
       this.nrCelular,
       this.base64Foto,
       this.flgEmailValido,
-      this.tipoPessoa});
+      this.tipoPessoa,
+      this.token});
 
   PessoaDTO.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -43,7 +45,8 @@ class PessoaDTO {
         base64Foto = json.containsKey('base64Foto') ? json['base64Foto'] : '',
         flgEmailValido =
             json.containsKey('flgEmailValido') ? json['flgEmailValido'] : false,
-        tipoPessoa = json.containsKey('tipoPessoa') ? json['tipoPessoa'] : '';
+        tipoPessoa = json.containsKey('tipoPessoa') ? json['tipoPessoa'] : '',
+        token = json.containsKey('token') ? json['token'] : '';
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -55,7 +58,8 @@ class PessoaDTO {
         'nrCelular': nrCelular,
         'base64Foto': base64Foto,
         'flgEmailValido': flgEmailValido,
-        'tipoPessoa': tipoPessoa
+        'tipoPessoa': tipoPessoa,
+        'token': token
       };
 
   String dataAniversarioFormatada() {

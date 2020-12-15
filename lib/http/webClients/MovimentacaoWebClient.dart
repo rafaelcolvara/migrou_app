@@ -12,7 +12,7 @@ class MovimentacaoWebClient {
       {String idVendedor, String idCliente}) async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String getURL = Constantes.HOST_DOMAIN +
         "/contaCorrente/" +

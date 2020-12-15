@@ -23,7 +23,7 @@ class PessoaWebClient {
   Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/pessoas/id/" + idPessoa.toString(),
@@ -37,7 +37,7 @@ class PessoaWebClient {
   Future<Sabata> testando() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
@@ -53,7 +53,7 @@ class PessoaWebClient {
   Future<List<PessoaDTOnew>> clientesVinculadosAoVendedor() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
@@ -69,7 +69,7 @@ class PessoaWebClient {
   Future<List<CashBackDTO>> meusClientesDASH() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/DashTodosClientes";
@@ -85,7 +85,7 @@ class PessoaWebClient {
   Future<List<DataResgates>> meusClientesCreditoRecebido() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/BuscaUltimosResgates";
@@ -103,7 +103,7 @@ class PessoaWebClient {
   Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/cliente/$userId/buscaSeusVendedores";
@@ -121,7 +121,7 @@ class PessoaWebClient {
   Future<InforDTO> infoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/id/$userId";
     final Response response =
@@ -135,7 +135,7 @@ class PessoaWebClient {
   Future<CashBackDTO> saldoResgate() async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$nomeIdVendedor/DashCliente/$userId";
@@ -150,7 +150,7 @@ class PessoaWebClient {
   Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/$emailUser";
     final Response response =
@@ -194,7 +194,7 @@ class PessoaWebClient {
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -263,7 +263,7 @@ class PessoaWebClient {
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -334,7 +334,7 @@ class PessoaWebClient {
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -421,7 +421,7 @@ class PessoaWebClient {
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers)
@@ -434,7 +434,7 @@ class PessoaWebClient {
     ClienteVendedoresDTO retorno;
     var headers = {
       'Content-Type': 'application/json',
-      'userSession': Constantes.TOKEN_ID
+      'Authorizarion': Constantes.TOKEN_ID
     };
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/vendedor/cliente/" + id,
@@ -455,10 +455,9 @@ class PessoaWebClient {
       "password": senha,
       "tipoPessoa": tipoPessoa
     };
-    PessoaDTO retorno;
 
     final Response response = await client
-        .post(Constantes.HOST_DOMAIN + "/login",
+        .post(Constantes.HOST_DOMAIN + "/usuario/login",
             body: jsonEncode(loginPayload), headers: headers)
         .timeout(Duration(seconds: 50));
 
@@ -466,13 +465,11 @@ class PessoaWebClient {
       throw FormatException(response.body);
     }
 
-    SharedPref().save("autToken", response.headers["authorization"]);
-    final String mtoken = await SharedPref().read("autToken");
-    print("meu shared " + mtoken);
     final Map<String, dynamic> decodedJson = jsonDecode(response.body);
-    retorno = PessoaDTO.fromJson(decodedJson);
+    PessoaDTO pessoaDTO = PessoaDTO.fromJson(decodedJson);
+    SharedPref().save("authToken", pessoaDTO.token);
 
-    return retorno;
+    return pessoaDTO;
   }
 
   Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
@@ -482,7 +479,7 @@ class PessoaWebClient {
         .post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
             headers: {
               'Content-type': 'application/json',
-              'userSession': Constantes.TOKEN_ID,
+              'Authorizarion': Constantes.TOKEN_ID,
             },
             body: pessoaJson)
         .timeout(Duration(seconds: 5));
@@ -498,7 +495,7 @@ class PessoaWebClient {
         body: pessoaJson,
         headers: {
           'Content-type': 'application/json',
-          'userSession': Constantes.TOKEN_ID,
+          'Authorizarion': Constantes.TOKEN_ID,
         });
 
     return PessoaFotoDTO.fromJson(jsonDecode(resp.body));
