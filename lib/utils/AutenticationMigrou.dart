@@ -26,7 +26,7 @@ class Auth implements BaseAuth {
     PessoaDTO result = await webClient.logaPorEmailSenha(
         email: email, senha: password, tipoPessoa: tipoPessoa);
     pessoaLogada = result;
-    return result == null ? "" : result.id;
+    return result == null ? "" : result.email;
   }
 
   Future<String> signUp(String email, String password) async {
