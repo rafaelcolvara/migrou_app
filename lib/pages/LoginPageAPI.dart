@@ -288,6 +288,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 0.0),
       child: new TextFormField(
+        autocorrect: false,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
@@ -313,6 +314,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       child: new TextFormField(
+        autocorrect: false,
         maxLines: 1,
         obscureText: true,
         autofocus: false,
