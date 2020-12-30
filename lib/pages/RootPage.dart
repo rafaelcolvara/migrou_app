@@ -33,15 +33,15 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
-    // print("PASSO 1");
+    print("PASSO 1");
     super.initState();
     autoLogIn();
-    // print("PASSO 2");
+    print("PASSO 2");
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
           if (user.id.toString() != "null") {
-            // print('PASSOU 8' + user.id.toString());
+             print('PASSOU 8' + user.id.toString());
             _userId = user.id.toString();
           } else {
             _userId = '';

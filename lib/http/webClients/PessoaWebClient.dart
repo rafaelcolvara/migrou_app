@@ -468,7 +468,7 @@ class PessoaWebClient {
     final Map<String, dynamic> decodedJson = jsonDecode(response.body);
     PessoaDTO pessoaDTO = PessoaDTO.fromJson(decodedJson);
     SharedPref().save("authToken", pessoaDTO.token);
-
+    SharedPref().save("tipoPessoa", pessoaDTO.tipoPessoa);
     return pessoaDTO;
   }
 

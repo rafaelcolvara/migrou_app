@@ -67,6 +67,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         if (_isLoginForm) {
           userId = await widget.auth.signIn(_email, _password, _tipoPessoa);
           print('Logado: $userId');
+          SharedPref().save('tipoPessoa', _tipoPessoa);
         } else {
           userId = await widget.auth.signUp(_email, _password);
           widget.auth.sendEmailVerification();
@@ -90,17 +91,11 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         if (e is FormatException) {
           mensagem = "Erro de formatacao";
           switch (e.message) {
-            case 'ERROR_INVALID_TIPO_PESSOA':
-              mensagem = 'Pessoa não é Vendedora nem Cliente';
-              break;
-            case 'ERROR_USER_NOT_FOUND':
-              mensagem = 'Usuário não existe';
-              break;
-            case 'ERROR_WRONG_PASSWORD':
-              mensagem = 'Senha inválida';
+            case 'AUTHENTICATION_ERROR':
+              mensagem = 'Usuário ou senha inválida';
               break;
             default:
-              mensagem = "Cadastro de " + _tipoPessoa + " Não encontrado!";
+              mensagem = "Não foi possível realizar login";
               break;
           }
         }
