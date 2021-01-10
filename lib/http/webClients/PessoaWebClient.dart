@@ -3,11 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
 import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/ContaDTOnew.dart';
 import 'package:migrou_app/model/DataResgateDTO.dart';
+import 'package:migrou_app/model/EsseDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
@@ -19,11 +21,17 @@ import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarCl
 import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-class PessoaWebClient {
+class PessoaWebClient extends ChangeNotifier {
+  SecureStorage secureStorage = SecureStorage();
+  naha() async {
+    String kenMigrou = await SecureStorage().lerSecureData('authToken');
+    return kenMigrou;
+  }
+
   Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/pessoas/id/" + idPessoa.toString(),
@@ -66,26 +74,26 @@ class PessoaWebClient {
     }).toList();
   }
 
-  Future<List<CashBackDTO>> meusClientesDASH() async {
+  Future<List<MeuDTO>> meusClientesDASH() async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/DashTodosClientes";
     final Response response =
-        await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
+        await client.get(_url, headers: headers).timeout(Duration(seconds: 60));
     var decodedJson = jsonDecode(response.body);
-    // print("meu body: $decodedJson");
-    return decodedJson.map<CashBackDTO>((e) {
-      return CashBackDTO.fromJson(e);
+    print(Constantes.TOKEN_ID);
+    return decodedJson.map<MeuDTO>((e) {
+      return MeuDTO.fromJson(e);
     }).toList();
   }
 
   Future<List<DataResgates>> meusClientesCreditoRecebido() async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/BuscaUltimosResgates";
@@ -103,7 +111,7 @@ class PessoaWebClient {
   Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/cliente/$userId/buscaSeusVendedores";
@@ -121,7 +129,7 @@ class PessoaWebClient {
   Future<InforDTO> infoCliente() async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/id/$userId";
     final Response response =
@@ -135,7 +143,7 @@ class PessoaWebClient {
   Future<CashBackDTO> saldoResgate() async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$nomeIdVendedor/DashCliente/$userId";
@@ -150,7 +158,7 @@ class PessoaWebClient {
   Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/$emailUser";
     final Response response =
@@ -194,7 +202,7 @@ class PessoaWebClient {
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -263,7 +271,7 @@ class PessoaWebClient {
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -334,7 +342,7 @@ class PessoaWebClient {
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -421,7 +429,7 @@ class PessoaWebClient {
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers)
@@ -434,7 +442,7 @@ class PessoaWebClient {
     ClienteVendedoresDTO retorno;
     var headers = {
       'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
+      'Authorization': Constantes.TOKEN_ID
     };
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/vendedor/cliente/" + id,
@@ -467,7 +475,11 @@ class PessoaWebClient {
 
     final Map<String, dynamic> decodedJson = jsonDecode(response.body);
     PessoaDTO pessoaDTO = PessoaDTO.fromJson(decodedJson);
-    SharedPref().save("authToken", pessoaDTO.token);
+    String tokenMigrou = pessoaDTO.token;
+    Constantes.TOKEN_ID = tokenMigrou;
+    notifyListeners();
+    debugPrint(Constantes.TOKEN_ID);
+    secureStorage.salvarSecureData("authToken", tokenMigrou);
     SharedPref().save("tipoPessoa", pessoaDTO.tipoPessoa);
     return pessoaDTO;
   }
@@ -479,7 +491,7 @@ class PessoaWebClient {
         .post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
             headers: {
               'Content-type': 'application/json',
-              'Authorizarion': Constantes.TOKEN_ID,
+              'Authorization': Constantes.TOKEN_ID,
             },
             body: pessoaJson)
         .timeout(Duration(seconds: 5));
@@ -495,7 +507,7 @@ class PessoaWebClient {
         body: pessoaJson,
         headers: {
           'Content-type': 'application/json',
-          'Authorizarion': Constantes.TOKEN_ID,
+          'Authorization': Constantes.TOKEN_ID,
         });
 
     return PessoaFotoDTO.fromJson(jsonDecode(resp.body));

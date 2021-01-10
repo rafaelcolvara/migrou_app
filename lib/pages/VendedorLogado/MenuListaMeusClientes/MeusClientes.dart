@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
-import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/model/EsseDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
 import 'package:migrou_app/utils/definicoes.dart';
@@ -31,21 +28,14 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
           builder: (_, snapshot) {
             // print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.done) {
-              if (!snapshot.hasData) return Text(snapshot.error.toString());
-              // print(snapshot.data);
-              final List<CashBackDTO> meusClientes = snapshot.data;
+              if (!snapshot.hasData)
+                return Text("meu erro é " + snapshot.error.toString());
+              print(snapshot.data);
+              final List<MeuDTO> meusClientes = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
-                  CashBackDTO _p = meusClientes[index];
-                  final String ddd =
-                      _p.clienteDTO.pessoaDTO.nrCelular.substring(0, 2);
-                  final String teleP1 =
-                      _p.clienteDTO.pessoaDTO.nrCelular.substring(2, 7);
-                  final String teleP2 =
-                      _p.clienteDTO.pessoaDTO.nrCelular.substring(7, 11);
-                  String profileIMG = _p.clienteDTO.pessoaDTO.base64Foto;
-                  Uint8List bytes = base64.decode(profileIMG);
+                  MeuDTO _p = meusClientes[index];
                   var vltTotal = _p.campanhaDTO.vlrTotalComprasValorFixo <
                           _p.vlrComprasRealizadas
                       ? _p.vlrComprasRealizadas
@@ -67,24 +57,12 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                     child: Card(
                       child: Row(
                         children: [
-                          _p.clienteDTO.pessoaDTO.base64Foto == null ||
-                                  _p.clienteDTO.pessoaDTO.base64Foto == ""
-                              ? Container(
-                                  child: Center(
-                                    child: Image.asset("images/pati.png",
-                                        fit: BoxFit.cover,
-                                        height: 150,
-                                        width: 130),
-                                  ),
-                                )
-                              : Container(
-                                  child: Center(
-                                    child: Image.memory(bytes,
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 80),
-                                  ),
-                                ),
+                          Container(
+                            child: Center(
+                              child: Image.asset("images/pati.png",
+                                  fit: BoxFit.cover, height: 150, width: 130),
+                            ),
+                          ),
                           SizedBox(width: 10),
                           Expanded(
                             child: Column(
@@ -98,15 +76,14 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                   new Center(
                                       child: RichText(
                                     text: TextSpan(
-                                        text:
-                                            "${_p.clienteDTO.pessoaDTO.nome}\n",
+                                        text: "${_p.clienteDTO.nome}\n",
                                         style: TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold,
                                             color: Constantes.customColorBlue),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: "($ddd) $teleP1-$teleP2",
+                                              text: "(11) 12345-1234",
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w300,
@@ -173,7 +150,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                           onPressed: () {
                                             setState(() {
                                               idCliente =
-                                                  _p.clienteDTO.pessoaDTO.id;
+                                                  _p.clienteDTO.username;
                                             });
                                             Navigator.push(
                                               context,
