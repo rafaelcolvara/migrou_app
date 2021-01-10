@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
-import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/ContaDTOnew.dart';
@@ -23,9 +22,10 @@ import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient extends ChangeNotifier {
   SecureStorage secureStorage = SecureStorage();
-  naha() async {
-    String kenMigrou = await SecureStorage().lerSecureData('authToken');
-    return kenMigrou;
+
+  returneAtualToken() async {
+    String tokenMigrou = await SecureStorage().lerSecureData('authToken');
+    return tokenMigrou;
   }
 
   Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async {
@@ -84,7 +84,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 60));
     var decodedJson = jsonDecode(response.body);
-    print(Constantes.TOKEN_ID);
+    // print(Constantes.TOKEN_ID);
     return decodedJson.map<MeuDTO>((e) {
       return MeuDTO.fromJson(e);
     }).toList();
@@ -475,12 +475,8 @@ class PessoaWebClient extends ChangeNotifier {
 
     final Map<String, dynamic> decodedJson = jsonDecode(response.body);
     PessoaDTO pessoaDTO = PessoaDTO.fromJson(decodedJson);
-    String tokenMigrou = pessoaDTO.token;
-    Constantes.TOKEN_ID = tokenMigrou;
-    notifyListeners();
-    debugPrint(Constantes.TOKEN_ID);
-    secureStorage.salvarSecureData("authToken", tokenMigrou);
-    SharedPref().save("tipoPessoa", pessoaDTO.tipoPessoa);
+    secureStorage.salvarSecureData("authToken", pessoaDTO.token);
+    secureStorage.salvarSecureData("tipoPessoa", pessoaDTO.tipoPessoa);
     return pessoaDTO;
   }
 
