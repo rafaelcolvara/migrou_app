@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
@@ -12,12 +13,14 @@ class MyScanCode extends StatefulWidget {
   _MyScanCodeState createState() => _MyScanCodeState();
 }
 
+SecureStorage secureStorage = SecureStorage();
 //obs falta ajustar essa parte, foi feito assim para teste.
 Future creatUser(String idCliente, String idVendedor) async {
+  var token = await secureStorage.lerSecureData('authToken');
   final headers = {
     "Accept": "application/json",
     'Content-Type': 'application/json',
-    'Authorizarion': Constantes.TOKEN_ID
+    'Authorizarion': token
   };
   final body = jsonEncode({
     "cliente": {"idCliente": idCliente},

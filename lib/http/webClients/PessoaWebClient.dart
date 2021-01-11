@@ -23,16 +23,9 @@ import 'package:migrou_app/utils/definicoes.dart';
 class PessoaWebClient extends ChangeNotifier {
   SecureStorage secureStorage = SecureStorage();
 
-  returneAtualToken() async {
-    String tokenMigrou = await SecureStorage().lerSecureData('authToken');
-    return tokenMigrou;
-  }
-
   Future<PessoaDTO> buscaPessoaPorId(var idPessoa) async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/pessoas/id/" + idPessoa.toString(),
             headers: headers)
@@ -43,10 +36,8 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
   Future<Sabata> testando() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorizarion': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
     final Response response =
@@ -59,10 +50,8 @@ class PessoaWebClient extends ChangeNotifier {
 //essa list faz um get e retorna os clientes vinculados ao vendedor logado app
 //Cliente é um usuario final tipo consumidor.
   Future<List<PessoaDTOnew>> clientesVinculadosAoVendedor() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorizarion': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorizarion': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
     final Response response =
@@ -75,26 +64,22 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
   Future<List<MeuDTO>> meusClientesDASH() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/DashTodosClientes";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 60));
     var decodedJson = jsonDecode(response.body);
-    // print(Constantes.TOKEN_ID);
+    print(token);
     return decodedJson.map<MeuDTO>((e) {
       return MeuDTO.fromJson(e);
     }).toList();
   }
 
   Future<List<DataResgates>> meusClientesCreditoRecebido() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$userId/BuscaUltimosResgates";
     final Response response =
@@ -109,10 +94,8 @@ class PessoaWebClient extends ChangeNotifier {
 //essa list faz um get e retorna os vendedores vinculados ao cliente logado app
 // vendedor é aquele que vende seus srvicos ou produto.
   Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/cliente/$userId/buscaSeusVendedores";
     final Response response =
@@ -127,10 +110,8 @@ class PessoaWebClient extends ChangeNotifier {
 //get das informações do cadastro do usuario logado no
 //aplicativo seja ele cliente ou vendedor.
   Future<InforDTO> infoCliente() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/id/$userId";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
@@ -141,10 +122,8 @@ class PessoaWebClient extends ChangeNotifier {
 
 //essa chamada da API é para o cliente vrificar o saldo disponivel de credito
   Future<CashBackDTO> saldoResgate() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/contaCorrente/$nomeIdVendedor/DashCliente/$userId";
     final Response response =
@@ -156,10 +135,8 @@ class PessoaWebClient extends ChangeNotifier {
 
 //essa chamada retorna para o vendedor logado um usuario pelo email cadastrado
   Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url = "${Constantes.HOST_DOMAIN}/pessoas/$emailUser";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
@@ -199,10 +176,11 @@ class PessoaWebClient extends ChangeNotifier {
 //essa chamanda adiciona um cliente ao vindedor que esta logado no aplicativo
   Future vincularCliente(
       BuildContext context, String idCliente, String idVendedor) async {
+    var token = await secureStorage.lerSecureData('authToken');
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
+      'Authorization': token
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -268,10 +246,11 @@ class PessoaWebClient extends ChangeNotifier {
 //credito disponivel para o cliente logado no app
   Future resgatarCredito(
       BuildContext context, String idCliente, String idVendedor) async {
+    var token = await secureStorage.lerSecureData('authToken');
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
+      'Authorization': token
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -339,10 +318,11 @@ class PessoaWebClient extends ChangeNotifier {
 //essa chamada o vendedor logado lanca o credito para seu cliente
   Future lancarCreditoAPI(BuildContext context, String idCliente, String userId,
       double lancamento) async {
+    var token = await secureStorage.lerSecureData('authToken');
     final headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
+      'Authorization': token
     };
     final body = jsonEncode({
       "cliente": {"idCliente": idCliente},
@@ -427,10 +407,8 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
   Future<List<PessoaDTO>> buscaContaCorrentePorNome(String nome) async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var token = await secureStorage.lerSecureData('authToken');
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/pessoas/nome/" + nome, headers: headers)
         .timeout(Duration(seconds: 5));
@@ -439,11 +417,9 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
   Future<ClienteVendedoresDTO> buscaVendedoresPorIdCliente({String id}) async {
+    var token = await secureStorage.lerSecureData('authToken');
     ClienteVendedoresDTO retorno;
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': Constantes.TOKEN_ID
-    };
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final Response response = await client
         .get(Constantes.HOST_DOMAIN + "/vendedor/cliente/" + id,
             headers: headers)
@@ -481,13 +457,14 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
   Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
+    var token = await secureStorage.lerSecureData('authToken');
     final String pessoaJson = jsonEncode(pessoaDTO.toJson());
 
     Response resposta = await client
         .post(Constantes.HOST_DOMAIN + '/pessoas/inclui',
             headers: {
               'Content-type': 'application/json',
-              'Authorization': Constantes.TOKEN_ID,
+              'Authorization': token,
             },
             body: pessoaJson)
         .timeout(Duration(seconds: 5));
@@ -498,12 +475,13 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
   Future<PessoaFotoDTO> salvaFoto(PessoaFotoDTO pessoafotoDTO) async {
+    var token = await secureStorage.lerSecureData('authToken');
     final String pessoaJson = jsonEncode(pessoafotoDTO.toJson());
     Response resp = await client.patch(Constantes.HOST_DOMAIN + "/pessoas/foto",
         body: pessoaJson,
         headers: {
           'Content-type': 'application/json',
-          'Authorization': Constantes.TOKEN_ID,
+          'Authorization': token,
         });
 
     return PessoaFotoDTO.fromJson(jsonDecode(resp.body));
