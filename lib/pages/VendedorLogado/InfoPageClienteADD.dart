@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
@@ -33,13 +30,11 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                              child: Image.asset('images/pati.png',
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.28,
-                                  fit: BoxFit.cover),
-                            ),
+                        child: Image.asset('images/pati.png',
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.28,
+                            fit: BoxFit.cover),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
@@ -48,21 +43,6 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                               style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold))),
                       SizedBox(height: 3),
-                      Container(
-                          child: Text(
-                              "Data Nascimento: ${snapshot.data.dataNascimento}",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w300))),
-                      SizedBox(height: 3),
-                      Container(
-                          child: Text("E-mail: ${snapshot.data.email}",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w300))),
-                      SizedBox(height: 3),
-                      Container(
-                          child: Text("Tel.: (11) 12345-6789",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w300))),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05),
                       InkWell(
