@@ -138,7 +138,7 @@ class PessoaWebClient extends ChangeNotifier {
   Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
     var token = await secureStorage.lerSecureData('authToken');
     var headers = {'Content-Type': 'application/json', 'Authorization': token};
-    final String _url = "${Constantes.HOST_DOMAIN}/pessoas/$emailUser";
+    final String _url = "${Constantes.HOST_DOMAIN}/cliente/$emailUser";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     if (response.statusCode == 200) {

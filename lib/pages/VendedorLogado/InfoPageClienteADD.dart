@@ -27,33 +27,18 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasData)
                 return Center(child: Text("Verifique sua Conexão!"));
-              String profileIMG = snapshot.data.base64Foto;
-              Uint8List bytes = base64.decode(profileIMG);
-              final String ddd = snapshot.data.nrCelular.substring(0, 2);
-              final String teleP1 = snapshot.data.nrCelular.substring(2, 5);
-              final String teleP2 = snapshot.data.nrCelular.substring(5, 11);
               return Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      profileIMG == null || profileIMG == ""
-                          ? Container(
+                      Container(
                               child: Image.asset('images/pati.png',
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
                                       MediaQuery.of(context).size.height * 0.28,
                                   fit: BoxFit.cover),
-                            )
-                          : Container(
-                              child: Image.memory(
-                                bytes,
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.28,
-                                fit: BoxFit.cover,
-                              ),
                             ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
@@ -75,7 +60,7 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                                   fontSize: 18, fontWeight: FontWeight.w300))),
                       SizedBox(height: 3),
                       Container(
-                          child: Text("Tel.: ($ddd) $teleP1-$teleP2",
+                          child: Text("Tel.: (11) 12345-6789",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w300))),
                       SizedBox(

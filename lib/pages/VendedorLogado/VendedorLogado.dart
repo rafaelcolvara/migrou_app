@@ -185,7 +185,9 @@ class _VendedorLogadoState extends State<VendedorLogado>
           new FlatButton(
               child: new Text('Sair',
                   style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-              onPressed: signOut)
+              onPressed: () async {
+                await signOut();
+              })
         ],
       ),
       body: Padding(
