@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -13,14 +10,11 @@ import 'package:date_format/date_format.dart';
 
 class LancaCredito extends StatefulWidget {
   final nome;
-  final telefone;
   final id;
-  final foto;
-  LancaCredito(
-      {@required this.foto,
-      @required this.id,
-      @required this.nome,
-      @required this.telefone});
+  LancaCredito({
+    @required this.id,
+    @required this.nome,
+  });
 
   @override
   _LancaCreditoState createState() => _LancaCreditoState();
@@ -34,11 +28,6 @@ class _LancaCreditoState extends State<LancaCredito> {
     final PessoaWebClient httpServices = PessoaWebClient();
     var valor = new MoneyMaskedTextController(
         decimalSeparator: ".", leftSymbol: 'R\$ ', precision: 2);
-    var ddd = widget.telefone.substring(0, 2);
-    var teleP1 = widget.telefone.substring(2, 7);
-    var teleP2 = widget.telefone.substring(7, 11);
-    String profileIMG = widget.foto;
-    Uint8List bytes = base64.decode(profileIMG);
     double lancamento;
     return Scaffold(
       appBar: AppBar(title: Text("Cliente Selecionado")),
@@ -48,11 +37,8 @@ class _LancaCreditoState extends State<LancaCredito> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            widget.foto == null || widget.foto == ""
-                ? Image.asset("images/pati.png",
-                    fit: BoxFit.contain, height: 200, width: 200)
-                : Image.memory(bytes,
-                    fit: BoxFit.cover, height: 100, width: 80),
+            Image.asset("images/pati.png",
+                fit: BoxFit.contain, height: 200, width: 200),
             SizedBox(height: 10),
             RichText(
                 text: TextSpan(
@@ -63,7 +49,7 @@ class _LancaCreditoState extends State<LancaCredito> {
                         color: Constantes.customColorBlue))),
             Container(
               child: Text(
-                "Tel.: ($ddd) $teleP1-$teleP2",
+                "Tel.: (11) 12345-1234",
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.w300),
               ),
             ),

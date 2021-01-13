@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
-import 'package:migrou_app/model/contaDTO.dart';
+import 'package:migrou_app/model/LancarCreditoDTO.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCredito/LancarCreditoClienteSelecionado.dart';
 
 class AdicinarCreditoClientes extends StatelessWidget {
@@ -18,23 +18,20 @@ class AdicinarCreditoClientes extends StatelessWidget {
               return Center(
                 child: Text("Ops...\nSem dados."),
               );
-            final List<PessoaDTOnew> meusClientes = snapshot.data;
+            final List<Clientes> meusClientes = snapshot.data;
             return ListView.separated(
               itemCount: meusClientes.length,
               separatorBuilder: (_, int idex) => Divider(height: 1),
               itemBuilder: (_, int index) {
-                PessoaDTOnew _p = meusClientes[index];
+                Clientes _p = meusClientes[index];
                 return ListTile(
                     onTap: () {
-                      idCliente = _p.id;
+                      idCliente = _p.username;
                       Navigator.push(
                         _,
                         MaterialPageRoute(
-                            builder: (_) => LancaCredito(
-                                nome: _p.nome,
-                                telefone: _p.nrCelular,
-                                foto: _p.base64Foto,
-                                id: _p.id)),
+                            builder: (_) =>
+                                LancaCredito(nome: _p.nome, id: _p.nome)),
                       );
                     },
                     title: Center(child: Text(_p.nome)));

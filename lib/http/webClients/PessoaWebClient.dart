@@ -9,6 +9,7 @@ import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/ContaDTOnew.dart';
 import 'package:migrou_app/model/DataResgateDTO.dart';
 import 'package:migrou_app/model/EsseDTO.dart';
+import 'package:migrou_app/model/LancarCreditoDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
@@ -37,7 +38,7 @@ class PessoaWebClient extends ChangeNotifier {
 
   Future<Sabata> testando() async {
     var token = await secureStorage.lerSecureData('authToken');
-    var headers = {'Content-Type': 'application/json', 'Authorizarion': token};
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
     final Response response =
@@ -49,17 +50,17 @@ class PessoaWebClient extends ChangeNotifier {
 
 //essa list faz um get e retorna os clientes vinculados ao vendedor logado app
 //Cliente é um usuario final tipo consumidor.
-  Future<List<PessoaDTOnew>> clientesVinculadosAoVendedor() async {
+  Future<List<Clientes>> clientesVinculadosAoVendedor() async {
     var token = await secureStorage.lerSecureData('authToken');
-    var headers = {'Content-Type': 'application/json', 'Authorizarion': token};
+    var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/vendedor/$userId/buscaClientes";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    // print("meu body: $decodedJson");
-    return decodedJson["clientes"].map<PessoaDTOnew>((e) {
-      return PessoaDTOnew.fromJson(e['pessoaDTO']);
+    print("meu body: $decodedJson");
+    return decodedJson['clientes'].map<Clientes>((e) {
+      return Clientes.fromJson(e);
     }).toList();
   }
 
@@ -325,9 +326,9 @@ class PessoaWebClient extends ChangeNotifier {
       'Authorization': token
     };
     final body = jsonEncode({
-      "cliente": {"idCliente": idCliente},
+      "cliente": {"username": idCliente},
       "valorLancamento": lancamento,
-      "vendedor": {"idVendedor": userId}
+      "vendedor": {"username": userId}
     });
     final String urlAPI = "${Constantes.HOST_DOMAIN}/contaCorrente/";
     final response = await client.post(urlAPI, headers: headers, body: body);
