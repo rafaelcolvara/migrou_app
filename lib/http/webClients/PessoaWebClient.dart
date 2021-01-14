@@ -184,8 +184,8 @@ class PessoaWebClient extends ChangeNotifier {
       'Authorization': token
     };
     final body = jsonEncode({
-      "cliente": {"idCliente": idCliente},
-      "vendedor": {"idVendedor": idVendedor}
+      "cliente": {"username": idCliente},
+      "vendedor": {"username": idVendedor}
     });
     final String urlAPI = "${Constantes.HOST_DOMAIN}/vendedor/vinculaCliente";
     final response = await client.patch(urlAPI, headers: headers, body: body);
