@@ -41,7 +41,7 @@ class _RootPageState extends State<RootPage> {
       setState(() {
         if (user != null) {
           if (user.id.toString() != "null") {
-             print('PASSOU 8' + user.id.toString());
+            print('PASSOU 8' + user.id.toString());
             _userId = user.id.toString();
           } else {
             _userId = '';
@@ -132,7 +132,8 @@ class _RootPageState extends State<RootPage> {
     // print('PASSOU 10');
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
-        return Scaffold(body: Center(child: Progress()));
+        return Scaffold(
+            body: Center(child: LoginPageAPI(tipoPessoa: tipoPessoa)));
         break;
       case AuthStatus.NOT_LOGGED_IN:
         // print("PASSO 7");
@@ -167,10 +168,10 @@ class _RootPageState extends State<RootPage> {
                 body: Center(child: Text("Sem Referencia tipoPessoa")));
           }
         } else
-          return Progress();
+          return null;
         break;
       default:
-        return Progress();
+        return null;
     }
   }
 }
