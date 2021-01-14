@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/VendedoresViculadorClientes.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/DashCliente.dart';
 
@@ -31,13 +32,11 @@ class _ResgateCreditoState extends State<ResgateCredito> {
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) return Center(child: Text("ops..."));
-              final List<PessoaDTOnew> meusgetInfo = snapshot.data;
+              final List<VendVincCleinteDTO> meusgetInfo = snapshot.data;
               return ListView.builder(
                 itemCount: meusgetInfo.length,
                 itemBuilder: (BuildContext context, int index) {
-                  PessoaDTOnew _i = meusgetInfo[index];
-                  String profileIMG = _i.base64Foto;
-                  Uint8List bytes = base64.decode(profileIMG);
+                  VendVincCleinteDTO _i = meusgetInfo[index];
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Card(
@@ -48,15 +47,8 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                _i.base64Foto == null || _i.base64Foto == ""
-                                    ? Image.asset("images/no-image-default.png",
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 80)
-                                    : Image.memory(bytes,
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 80),
+                                Image.asset("images/no-image-default.png",
+                                    fit: BoxFit.cover, height: 100, width: 80),
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
@@ -66,7 +58,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                         Center(
                                           child: ListTile(
                                             title: Text(
-                                              _i.nomeNegocio,
+                                              _i.nome,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: Theme.of(context)
@@ -74,7 +66,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             subtitle: Text(
-                                              "${_i.segmentoComercial}\n${_i.nrCelular}",
+                                              "Não tem mais a info\nnão tem mais info}",
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -107,13 +99,12 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                               onTap: () {
                                                 setState(() {
                                                   nomeStabelecimento =
-                                                      _i.nomeNegocio;
-                                                  nomeSegimento =
-                                                      _i.segmentoComercial;
-                                                  nomeTelefone = _i.nrCelular;
+                                                      _i.username;
+                                                  nomeSegimento = _i.username;
+                                                  nomeTelefone = _i.username;
                                                   nomeFotoStabelecimento =
-                                                      _i.base64Foto;
-                                                  nomeIdVendedor = _i.id;
+                                                      _i.username;
+                                                  nomeIdVendedor = _i.username;
                                                 });
                                                 Navigator.push(
                                                   context,
