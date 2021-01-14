@@ -30,7 +30,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasData)
                 return Text("meu erro é " + snapshot.error.toString());
-              print(snapshot.data);
+              // print(snapshot.data);
               final List<MeuDTO> meusClientes = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientes.length,

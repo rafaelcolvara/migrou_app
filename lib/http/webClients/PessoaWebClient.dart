@@ -13,6 +13,7 @@ import 'package:migrou_app/model/LancarCreditoDTO.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/model/PessoaFotoDTO.dart';
 import 'package:migrou_app/model/PessoaSimplificadaDTO.dart';
+import 'package:migrou_app/model/VendedoresViculadorClientes.dart';
 import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/model/infoDTO.dart';
 import 'package:migrou_app/pages/Cliente_Logado/ClienteResgateCredito.dart';
@@ -94,17 +95,17 @@ class PessoaWebClient extends ChangeNotifier {
 
 //essa list faz um get e retorna os vendedores vinculados ao cliente logado app
 // vendedor é aquele que vende seus srvicos ou produto.
-  Future<List<PessoaDTOnew>> vendedoresVinculadosAoCliente() async {
+  Future<List<VendVincCleinteDTO>> vendedoresVinculadosAoCliente() async {
     var token = await secureStorage.lerSecureData('authToken');
     var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url =
         "${Constantes.HOST_DOMAIN}/cliente/$userId/buscaSeusVendedores";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 30));
-    // print(response.body);
     var decodedJson = jsonDecode(response.body);
-    return decodedJson["vendedores"].map<PessoaDTOnew>((e) {
-      return PessoaDTOnew.fromJson(e['pessoaDTO']);
+    print(decodedJson);
+    return decodedJson['vendedores'].map<VendVincCleinteDTO>((e) {
+      return VendVincCleinteDTO.fromJson(e);
     }).toList();
   }
 

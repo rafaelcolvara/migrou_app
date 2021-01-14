@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
