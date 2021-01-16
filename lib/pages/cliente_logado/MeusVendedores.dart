@@ -5,7 +5,6 @@ import 'package:migrou_app/model/VendedoresViculadorClientes.dart';
 import 'package:migrou_app/pages/Cliente_Logado/ChatPage.dart/ClienteChatPage.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 // import 'package:migrou_app/pages/VendedorLogado/ChatPage.dart/VendedorChatPage.dart';
-import 'package:migrou_app/utils/definicoes.dart';
 
 class VinculadosVendedores extends StatefulWidget {
   @override
@@ -44,86 +43,71 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                   VendVincCleinteDTO _p = meusClientes[index];
                   var ddd = _p.nrCelular.substring(0, 2);
                   var teleP1 = _p.nrCelular.substring(2, 7);
-                  var teleP2 = _p.nrCelular.substring(7, 10);
+                  var teleP2 = _p.nrCelular.substring(7, 11);
                   return Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    width: 80,
-                                    height: 120,
-                                    child: Image.asset('images/pati.png'),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                      child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      new ListTile(
-                                        title: Text(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            idVendedor = _p.username;
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ClienteChatePage(
+                                      idCliente: userId,
+                                      userId: idVendedor,
+                                    )),
+                          );
+                        },
+                        child: Card(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: 150,
+                                      height: 180,
+                                      child: Image.asset(
+                                        'images/pati.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                        child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
                                           _p.nomeNegocio,
                                           style: TextStyle(
+                                              fontSize: 20,
                                               color: Colors.blueAccent,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        subtitle: Text(_p.nomeSegmento),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Icon(Icons.alternate_email,
-                                              color:
-                                                  Constantes.customColorOrange),
-                                          SizedBox(width: 2),
-                                          Text(_p.username),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Icon(
-                                            Icons.phone_android,
-                                            color: Constantes.customColorOrange,
-                                          ),
-                                          SizedBox(width: 2),
-                                          Text("($ddd) $teleP1-$teleP2"),
-                                          IconButton(
-                                              icon: Icon(
-                                                Icons.chat,
-                                                color: Constantes
-                                                    .customColorOrange,
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  idVendedor = _p.username;
-                                                });
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ClienteChatePage(
-                                                            idCliente: userId,
-                                                            userId: idVendedor,
-                                                          )),
-                                                );
-                                              })
-                                        ],
-                                      )
-                                    ],
-                                  ))
-                                ],
-                              ),
-                            )
-                          ],
+                                        Text(_p.nomeSegmento),
+                                        Text(
+                                          "($ddd) $teleP1-$teleP2",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text("Fale com seu vendedor!")
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ));
                 },
