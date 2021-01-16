@@ -1,16 +1,11 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/VendedoresViculadorClientes.dart';
-import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/DashCliente.dart';
 
 String nomeStabelecimento;
 String nomeSegimento;
 String nomeTelefone;
-String nomeFotoStabelecimento;
 String nomeIdVendedor;
 
 class ResgateCredito extends StatefulWidget {
@@ -36,7 +31,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
               return ListView.builder(
                 itemCount: meusgetInfo.length,
                 itemBuilder: (BuildContext context, int index) {
-                  VendVincCleinteDTO _i = meusgetInfo[index];
+                  VendVincCleinteDTO i = meusgetInfo[index];
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Card(
@@ -58,7 +53,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                         Center(
                                           child: ListTile(
                                             title: Text(
-                                              _i.nome,
+                                              i.nomeNegocio,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: Theme.of(context)
@@ -66,7 +61,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             subtitle: Text(
-                                              "Não tem mais a info\nnão tem mais info}",
+                                              "${i.nomeSegmento}\n${i.nrCelular}",
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -99,12 +94,12 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                               onTap: () {
                                                 setState(() {
                                                   nomeStabelecimento =
-                                                      _i.username;
-                                                  nomeSegimento = _i.username;
-                                                  nomeTelefone = _i.username;
-                                                  nomeFotoStabelecimento =
-                                                      _i.username;
-                                                  nomeIdVendedor = _i.username;
+                                                      i.nomeNegocio;
+                                                  nomeSegimento =
+                                                      i.nomeSegmento;
+                                                  nomeTelefone = i.nrCelular;
+                                                  nomeIdVendedor = i.username;
+                                                  print("oi " + nomeIdVendedor);
                                                 });
                                                 Navigator.push(
                                                   context,

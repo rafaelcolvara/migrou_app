@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 // import 'package:flutter_markdown/flutter_markdown.dart';
@@ -9,9 +6,10 @@ import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
 import 'package:migrou_app/model/contaDTO.dart';
-import 'package:migrou_app/pages/Cliente_Logado/ClienteResgateCredito.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
+
+import 'cliente_logado/ClienteResgateCredito.dart';
 
 class TelaCliente extends StatefulWidget {
   const TelaCliente({Key key, this.clienteDashDTO, this.teste})
@@ -37,11 +35,6 @@ class _TelaClienteState extends State<TelaCliente> {
   Widget build(BuildContext context) {
     final PessoaWebClient httpService = new PessoaWebClient();
     var myDate = DateFormat("dd/MM/yyyy").format(DateTime.now());
-    var ddd = nomeTelefone.substring(0, 2);
-    var teleP1 = nomeTelefone.substring(2, 7);
-    var teleP2 = nomeTelefone.substring(7, 11);
-    String profileIMG = nomeFotoStabelecimento;
-    Uint8List bytes = base64.decode(profileIMG);
     // String texto = """**Faltam** """ +
     //     widget.teste +
     //     """ compras para você ter __10%__ de desconto nas próximas compras. """;
@@ -63,15 +56,10 @@ class _TelaClienteState extends State<TelaCliente> {
                 maxHeight: 120,
                 maxWidth: 120,
               ),
-              child: profileIMG == null || profileIMG == ""
-                  ? Image.asset(
-                      'images/no-image-default.png',
-                      fit: BoxFit.cover,
-                    )
-                  : Image.memory(
-                      bytes,
-                      fit: BoxFit.cover,
-                    ),
+              child: Image.asset(
+                'images/no-image-default.png',
+                fit: BoxFit.cover,
+              ),
             ),
             SizedBox(
               width: 24,
@@ -80,21 +68,21 @@ class _TelaClienteState extends State<TelaCliente> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    nomeStabelecimento,
+                    "44444",
                     style: TextStyle(fontSize: 18.0, color: Colors.blueAccent),
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
-                    "Atividade: $nomeSegimento",
+                    "Atividade: $nomeTelefone",
                     style:
                         TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic),
                   ),
                   SizedBox(
                     height: 4.0,
                   ),
-                  Text('Tel: ($ddd) $teleP1-$teleP2')
+                  Text('Tel: (ddd) teleP1-teleP2')
                 ],
               ),
             ),

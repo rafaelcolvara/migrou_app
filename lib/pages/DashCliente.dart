@@ -3,9 +3,12 @@ import 'package:migrou_app/componentes/Progress.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
 import 'package:migrou_app/pages/PageDashCliente.dart';
+import 'package:migrou_app/pages/cliente_logado/ClienteResgateCredito.dart';
 
 class DashCliente extends StatelessWidget {
   static const routeName = '/dashCliente';
+
+  DashCliente({String nomeIdVendedor});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class DashCliente extends StatelessWidget {
           appBar: AppBar(title: Text("Saldo Resgate"), centerTitle: true),
           body: FutureBuilder<ClienteDashDTO>(
               future: movimentacaoWebClient.buscaDashCliente(
-                  idCliente: idCliente, idVendedor: idVendedor),
+                  idCliente: idCliente, idVendedor: nomeIdVendedor),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:

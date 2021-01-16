@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
 import 'package:migrou_app/model/ClienteDashDTO.dart';
+import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:migrou_app/http/webclient.dart';
 
 var idVendedor = "";
-var idCliente = "";
+var idCliente = userId;
 
 class MovimentacaoWebClient {
   SecureStorage secureStorage = SecureStorage();
@@ -18,7 +19,7 @@ class MovimentacaoWebClient {
         "/contaCorrente/" +
         idVendedor +
         "/DashCliente/" +
-        idCliente;
+        userId;
     final Response response = await client
         .get(getURL, headers: headers)
         .timeout(Duration(seconds: 5));

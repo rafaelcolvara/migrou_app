@@ -42,6 +42,9 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
                   VendVincCleinteDTO _p = meusClientes[index];
+                  var ddd = _p.nrCelular.substring(0, 2);
+                  var teleP1 = _p.nrCelular.substring(2, 7);
+                  var teleP2 = _p.nrCelular.substring(7, 10);
                   return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Card(
@@ -65,12 +68,12 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                                     children: [
                                       new ListTile(
                                         title: Text(
-                                          _p.nome,
+                                          _p.nomeNegocio,
                                           style: TextStyle(
                                               color: Colors.blueAccent,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        subtitle: Text(_p.nome),
+                                        subtitle: Text(_p.nomeSegmento),
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -92,6 +95,7 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                                             color: Constantes.customColorOrange,
                                           ),
                                           SizedBox(width: 2),
+                                          Text("($ddd) $teleP1-$teleP2"),
                                           IconButton(
                                               icon: Icon(
                                                 Icons.chat,
