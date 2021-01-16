@@ -35,7 +35,6 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                     ),
                   ],
                 );
-              print(snapshot.data);
               final List<VendVincCleinteDTO> meusClientes = snapshot.data;
               return ListView.builder(
                 itemCount: meusClientes.length,

@@ -42,78 +42,75 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Image.asset("images/no-image-default.png",
-                                    fit: BoxFit.cover, height: 100, width: 80),
+                                Container(
+                                  width: 150,
+                                  height: 180,
+                                  child: Image.asset(
+                                    'images/pati.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                                 SizedBox(width: 10),
                                 Expanded(
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Center(
-                                          child: ListTile(
-                                            title: Text(
-                                              i.nomeNegocio,
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      i.nomeNegocio,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.blueAccent,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(i.nomeSegmento),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                          child: Container(
+                                              height: 30,
+                                              width: 130,
+                                              decoration: BoxDecoration(
                                                   color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            subtitle: Text(
-                                              "${i.nomeSegmento}\n${i.nrCelular}",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: InkWell(
-                                              child: Container(
-                                                  height: 30,
-                                                  width: 130,
-                                                  decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "Crédito/Resgate",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                  )),
-                                              onTap: () {
-                                                setState(() {
-                                                  nomeStabelecimento =
-                                                      i.nomeNegocio;
-                                                  nomeSegimento =
-                                                      i.nomeSegmento;
-                                                  nomeTelefone = i.nrCelular;
-                                                  nomeIdVendedor = i.username;
-                                                  print("oi " + nomeIdVendedor);
-                                                });
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DashCliente()),
-                                                );
-                                              }),
-                                        )
-                                      ]),
-                                )
+                                                      .accentColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Crédito/Resgate",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              )),
+                                          onTap: () {
+                                            setState(() {
+                                              nomeStabelecimento =
+                                                  i.nomeNegocio;
+                                              nomeSegimento = i.nomeSegmento;
+                                              nomeTelefone = i.nrCelular;
+                                              nomeIdVendedor = i.username;
+                                              print("oi " + nomeIdVendedor);
+                                            });
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DashCliente()),
+                                            );
+                                          }),
+                                    )
+                                  ],
+                                ))
                               ],
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
