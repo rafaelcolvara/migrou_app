@@ -96,7 +96,6 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                               nomeSegimento = i.nomeSegmento;
                                               nomeTelefone = i.nrCelular;
                                               nomeIdVendedor = i.username;
-                                              print("oi " + nomeIdVendedor);
                                             });
                                             Navigator.push(
                                               context,

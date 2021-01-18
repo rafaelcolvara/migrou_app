@@ -9,8 +9,6 @@ import 'package:migrou_app/model/contaDTO.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
-import 'cliente_logado/ClienteResgateCredito.dart';
-
 class TelaCliente extends StatefulWidget {
   const TelaCliente({Key key, this.clienteDashDTO, this.teste})
       : super(key: key);
@@ -39,83 +37,86 @@ class _TelaClienteState extends State<TelaCliente> {
     //     widget.teste +
     //     """ compras para você ter __10%__ de desconto nas próximas compras. """;
     return Scaffold(
-        body: ListView(
-      children: <Widget>[
-        SizedBox(
-          height: 24.0,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(width: 10),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: 80,
-                minHeight: 80,
-                maxHeight: 120,
-                maxWidth: 120,
+      body: FutureBuilder(
+        future: httpService.saldoResgate(),
+        builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // var ddd = snapshot.data.telefone.substring(0, 2);
+            // var teleP1 = snapshot.data.telefone.substring(2, 7);
+            // var teleP2 = snapshot.data.telefone.substring(7, 11);
+            // print(snapshot.error);
+            if (!snapshot.hasData)
+              return Center(child: Text("Dados\nIndisponíveis"));
+
+            var vltTotal = snapshot.data.campanhaDTO.vlrTotalComprasValorFixo <
+                    snapshot.data.vlrComprasRealizadas
+                ? snapshot.data.vlrComprasRealizadas
+                : snapshot.data.campanhaDTO.vlrTotalComprasValorFixo;
+            var contador =
+                snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
+                    ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
+                    : snapshot.data.qtdComprasRealizadas;
+            double vrCompleted =
+                snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
+                    ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
+                    : snapshot.data.qtdComprasRealizadas /
+                        snapshot.data.campanhaDTO
+                            .qtLancamentosPercentualSobreCompras *
+                        100;
+            double vrRemaining = 100 - vrCompleted;
+            return ListView(children: <Widget>[
+              SizedBox(
+                height: 24.0,
               ),
-              child: Image.asset(
-                'images/no-image-default.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              width: 24,
-            ),
-            Expanded(
-              child: Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    "44444",
-                    style: TextStyle(fontSize: 18.0, color: Colors.blueAccent),
+                  SizedBox(width: 10),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: 80,
+                      minHeight: 80,
+                      maxHeight: 120,
+                      maxWidth: 120,
+                    ),
+                    child: Image.asset(
+                      'images/pati.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   SizedBox(
-                    height: 8.0,
+                    width: 24,
                   ),
-                  Text(
-                    "Atividade: $nomeTelefone",
-                    style:
-                        TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic),
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          snapshot.data.vendedorDTO.nomeNegocio,
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.blueAccent),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(
+                          "Atividade: ${snapshot.data.vendedorDTO.nomeSegmento}",
+                          style: TextStyle(
+                              fontSize: 14.0, fontStyle: FontStyle.italic),
+                        ),
+                        SizedBox(
+                          height: 4.0,
+                        ),
+                        // Text('email: ' + snapshot.data.vendedorDTO.idVendedor)
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 4.0,
-                  ),
-                  Text('Tel: (ddd) teleP1-teleP2')
                 ],
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 24.0,
-        ),
-        FutureBuilder(
-          future: httpService.saldoResgate(),
-          builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              // print(snapshot.error);
-              if (!snapshot.hasData)
-                return Center(child: Text("Dados\nIndisponíveis"));
-              var vltTotal =
-                  snapshot.data.campanhaDTO.vlrTotalComprasValorFixo <
-                          snapshot.data.vlrComprasRealizadas
-                      ? snapshot.data.vlrComprasRealizadas
-                      : snapshot.data.campanhaDTO.vlrTotalComprasValorFixo;
-              var contador =
-                  snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
-                      ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
-                      : snapshot.data.qtdComprasRealizadas;
-              double vrCompleted =
-                  snapshot.data.campanhaDTO.flgPercentualSobreCompras == false
-                      ? snapshot.data.vlrComprasRealizadas / vltTotal * 100
-                      : snapshot.data.qtdComprasRealizadas /
-                          snapshot.data.campanhaDTO
-                              .qtLancamentosPercentualSobreCompras *
-                          100;
-              double vrRemaining = 100 - vrCompleted;
-              return Column(
+              SizedBox(
+                height: 24.0,
+              ),
+              Column(
                 children: [
                   Row(
                     children: [
@@ -273,20 +274,22 @@ class _TelaClienteState extends State<TelaCliente> {
                     ],
                   )
                 ],
-              );
-            } else {
-              return Center(
-                  child: Column(
-                children: [
-                  CircularProgressIndicator(),
-                  Text("Aguarde..."),
-                ],
-              ));
-            }
-          },
-        ),
-      ],
-    ));
+              )
+            ]);
+          } else {
+            return Center(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                Text("Aguarde..."),
+              ],
+            ));
+          }
+        },
+      ),
+    );
   }
 }
 

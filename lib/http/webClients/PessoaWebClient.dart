@@ -20,6 +20,7 @@ import 'package:migrou_app/pages/Cliente_Logado/ClienteResgateCredito.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarClientePorEmail.dart';
 import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
+import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class PessoaWebClient extends ChangeNotifier {
@@ -59,7 +60,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    print("meu body: $decodedJson");
+    // print("meu body: $decodedJson");
     return decodedJson['clientes'].map<Clientes>((e) {
       return Clientes.fromJson(e);
     }).toList();
@@ -73,7 +74,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 60));
     var decodedJson = jsonDecode(response.body);
-    print(token);
+    // print(token);
     return decodedJson.map<MeuDTO>((e) {
       return MeuDTO.fromJson(e);
     }).toList();
@@ -103,7 +104,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 30));
     var decodedJson = jsonDecode(response.body);
-    print(decodedJson);
+    // print(decodedJson);
     return decodedJson['vendedores'].map<VendVincCleinteDTO>((e) {
       return VendVincCleinteDTO.fromJson(e);
     }).toList();
@@ -131,7 +132,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    // print(decodedJson);
+    print(decodedJson);
     return CashBackDTO.fromJson(decodedJson);
   }
 
@@ -282,7 +283,7 @@ class PessoaWebClient extends ChangeNotifier {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(ClienteLogado());
                 },
               ),
             ],
