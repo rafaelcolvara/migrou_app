@@ -27,6 +27,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
     final TextEditingController emailControle = TextEditingController();
     final TextEditingController senhaControle = TextEditingController();
     final TextEditingController nomeNegocioControle = TextEditingController();
+    final TextEditingController ramoAtuacaoControle = TextEditingController();
     PessoaWebClient httpService = PessoaWebClient();
     return Scaffold(
       backgroundColor: (Theme.of(context).primaryColor),
@@ -43,8 +44,15 @@ class _CriarContaPageState extends State<CriarContaPage> {
           child: theriGroupVakue == 1
               ? formCliente(context, nomeControle, telefoneControle,
                   emailControle, senhaControle, httpService)
-              : formVendedor(context, nomeControle, nomeNegocioControle,
-                  telefoneControle, emailControle, senhaControle, httpService),
+              : formVendedor(
+                  context,
+                  nomeControle,
+                  nomeNegocioControle,
+                  ramoAtuacaoControle,
+                  telefoneControle,
+                  emailControle,
+                  senhaControle,
+                  httpService),
         ),
       )),
     );
@@ -165,9 +173,8 @@ class _CriarContaPageState extends State<CriarContaPage> {
             : RaisedButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  // httpService.criarContaCliente();
                   if (formKey.currentState.validate()) {
-                    httpService.criarContaCliente(context,
+                    httpService.criarUsuario(context,
                         nome: nomeControle.text,
                         telefone: telefoneControle.text,
                         email: emailControle.text,
@@ -191,6 +198,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
       BuildContext context,
       TextEditingController nomeControle,
       TextEditingController nomeNegocioControle,
+      TextEditingController ramoAtuacaoControle,
       TextEditingController telefoneControle,
       TextEditingController emailControle,
       TextEditingController senhaControle,
@@ -213,11 +221,26 @@ class _CriarContaPageState extends State<CriarContaPage> {
         TextFormField(
           controller: nomeNegocioControle,
           decoration: const InputDecoration(
-              hintText: 'Seu nome Fantasia', border: InputBorder.none),
+              hintText: 'Seu nome negócio', border: InputBorder.none),
           keyboardType: TextInputType.name,
           validator: (nomeNegocio) {
             if (nomeNegocio.isEmpty || nomeNegocio.length < 3)
-              return 'Nome Invalido';
+              return 'Nome de negócio invalido';
+            return null;
+          },
+          autocorrect: false,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        TextFormField(
+          controller: ramoAtuacaoControle,
+          decoration: const InputDecoration(
+              hintText: 'Ramo de atuação', border: InputBorder.none),
+          keyboardType: TextInputType.name,
+          validator: (nomeRamoAtuacao) {
+            if (nomeRamoAtuacao.isEmpty || nomeRamoAtuacao.length < 3)
+              return 'Ramo de atuação inválido';
             return null;
           },
           autocorrect: false,
@@ -231,7 +254,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
               hintText: 'Seu Nome', border: InputBorder.none),
           keyboardType: TextInputType.name,
           validator: (nomeV) {
-            if (nomeV.isEmpty || nomeV.length < 3) return 'Nome Invalido';
+            if (nomeV.isEmpty || nomeV.length < 3) return 'Nome inválido';
             return null;
           },
           autocorrect: false,
@@ -246,7 +269,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
           keyboardType: TextInputType.phone,
           validator: (telefoneV) {
             if (telefoneV.isEmpty || telefoneV.length < 10)
-              return 'Telefone Invalido';
+              return 'Telefone inválido';
             return null;
           },
           autocorrect: false,
@@ -260,7 +283,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
               hintText: 'E-mail', border: InputBorder.none),
           keyboardType: TextInputType.emailAddress,
           validator: (emailV) {
-            if (!emailValidador(emailV)) return 'E-mail Invalido';
+            if (!emailValidador(emailV)) return 'E-mail inválido';
             return null;
           },
           autocorrect: false,
@@ -274,7 +297,8 @@ class _CriarContaPageState extends State<CriarContaPage> {
               hintText: 'Senha', border: InputBorder.none),
           obscureText: true,
           validator: (senhaV) {
-            if (senhaV.isEmpty || senhaV.length < 6) return 'Senha Invalida';
+            if (senhaV.isEmpty || senhaV.length < 6)
+              return 'Senha deve ter mais de 6 caracteres';
             return null;
           },
           autocorrect: false,
@@ -318,13 +342,13 @@ class _CriarContaPageState extends State<CriarContaPage> {
             : RaisedButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () async {
-                  // httpService.criarContaCliente();
                   if (formKey.currentState.validate()) {
-                    await httpService.criarContaCliente(context,
+                    await httpService.criarUsuario(context,
                         nome: nomeControle.text,
                         telefone: telefoneControle.text,
                         email: emailControle.text,
                         nomeNegocio: nomeNegocioControle.text,
+                        ramoAtuacao: ramoAtuacaoControle.text,
                         senha: senhaControle.text,
                         tipoPessoa: tipo);
                   }

@@ -459,12 +459,13 @@ class PessoaWebClient extends ChangeNotifier {
     return pessoaDTO;
   }
 
-  Future criarContaCliente(BuildContext context,
+  Future criarUsuario(BuildContext context,
       {String email,
       String senha,
       String tipoPessoa,
       String telefone,
       String nomeNegocio,
+      String ramoAtuacao,
       String nome}) async {
     var headers = {
       'Content-Type': 'application/json',
@@ -475,6 +476,7 @@ class PessoaWebClient extends ChangeNotifier {
       "tipoPessoa": tipoPessoa,
       "nrCelular": telefone,
       "nomeNegocio": nomeNegocio,
+      "segmentoComercial" : ramoAtuacao,
       "nome": nome
     };
 
