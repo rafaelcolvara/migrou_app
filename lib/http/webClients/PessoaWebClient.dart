@@ -459,6 +459,81 @@ class PessoaWebClient extends ChangeNotifier {
     return pessoaDTO;
   }
 
+  Future criarContaCliente(BuildContext context,
+      {String email,
+      String senha,
+      String tipoPessoa,
+      String telefone,
+      String nomeNegocio,
+      String nome}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+    Map<String, dynamic> cadastroPayload = {
+      "email": email,
+      "senha": senha,
+      "tipoPessoa": tipoPessoa,
+      "nrCelular": telefone,
+      "nomeNegocio": nomeNegocio,
+      "nome": nome
+    };
+
+    final Response response = await client
+        .post(Constantes.HOST_DOMAIN + "/usuario/inclui",
+            body: jsonEncode(cadastroPayload), headers: headers)
+        .timeout(Duration(seconds: 50));
+
+    if (response.statusCode != 200) {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Atenção!",
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            content: Text("${response.body}",
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.red,
+                    height: 1.0,
+                    fontWeight: FontWeight.w300)),
+            actions: <Widget>[
+              FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/RootPage");
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Atenção!",
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          content: Text("Cadastro Realizado com Sucesso",
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.red,
+                  height: 1.0,
+                  fontWeight: FontWeight.w300)),
+          actions: <Widget>[
+            FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.pushNamed(context, "/RootPage");
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {
     var token = await secureStorage.lerSecureData('authToken');
     final String pessoaJson = jsonEncode(pessoaDTO.toJson());

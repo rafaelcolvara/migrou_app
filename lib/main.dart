@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/pages/DashCliente.dart';
-import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/pages/RootPage.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:provider/provider.dart';
+
+import 'CriarContaPage.dart';
 
 void main() async {
 // //nova regra para inicializar acesso ao firebase
@@ -46,10 +47,9 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
-            '/login': (context) =>
-                LoginPageAPI(auth: new Auth(), tipoPessoa: null),
             '/RootPage': (context) => RootPage(auth: new Auth()),
             DashCliente.routeName: (context) => DashCliente(),
+            '/CriarConta': (context) => CriarContaPage(),
           },
         ));
   }

@@ -39,9 +39,9 @@ class _RootPageState extends State<RootPage> {
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
-          if (user.id.toString() != "null") {
-            print('PASSOU 8' + user.id.toString());
-            _userId = user.id.toString();
+          if (user.email.toString() != "null") {
+            print('PASSOU 8' + user.email.toString());
+            _userId = user.email.toString();
           } else {
             _userId = '';
           }
@@ -83,7 +83,7 @@ class _RootPageState extends State<RootPage> {
     if (userId != null) {
       setState(() {
         isLoggedIn = true;
-        pessoaLogada.id = userId;
+        pessoaLogada.email = userId;
         pessoaLogada.nome = userNome;
         pessoaLogada.email = userEmail;
         pessoaLogada.flgEmailValido = userEmailConfirmado == '1';
@@ -97,7 +97,7 @@ class _RootPageState extends State<RootPage> {
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         tipoPessoa = user.tipoPessoa.toString();
-        _userId = user.id.toString();
+        _userId = user.email.toString();
         print("PASSO 4");
       });
     });

@@ -143,7 +143,9 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
       child: Stack(
         children: <Widget>[
           _showForm(),
-          _showCircularProgress(),
+          _email == null || _password == null
+              ? SizedBox()
+              : _showCircularProgress()
         ],
       ),
     ));
@@ -366,9 +368,11 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Widget showSecondaryButton() {
     return new FlatButton(
-        child: new Text(_isLoginForm ? 'Criar conta' : 'Já tem conta? Entre!',
+        child: new Text('Criar conta',
             style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
-        onPressed: toggleFormMode);
+        onPressed: () {
+          Navigator.pushNamed(context, '/CriarConta');
+        });
   }
 
   Widget showPrimaryButton() {
@@ -376,7 +380,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
         child: SizedBox(
           height: 40.0,
-          child: theriGroupVakue == null
+          child: theriGroupVakue == null && _email != 'Email' || _email == ''
               ? new RaisedButton(
                   elevation: 5.0,
                   shape: new RoundedRectangleBorder(
@@ -385,7 +389,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
                   child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
                       style:
                           new TextStyle(fontSize: 20.0, color: Colors.white)),
-                  onPressed: alertipoPessoa,
+                  onPressed: null,
                 )
               : new RaisedButton(
                   elevation: 5.0,
