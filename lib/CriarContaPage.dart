@@ -210,75 +210,90 @@ class _CriarContaPageState extends State<CriarContaPage> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.04,
         ),
-        TextFormField(
-          controller: nomeNegocioControle,
-          decoration: const InputDecoration(
-              hintText: 'Seu nome Fantasia', border: InputBorder.none),
-          keyboardType: TextInputType.name,
-          validator: (nomeNegocio) {
-            if (nomeNegocio.isEmpty || nomeNegocio.length < 3)
-              return 'Nome Invalido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: nomeControle,
-          decoration: const InputDecoration(
-              hintText: 'Seu Nome', border: InputBorder.none),
-          keyboardType: TextInputType.name,
-          validator: (nomeV) {
-            if (nomeV.isEmpty || nomeV.length < 3) return 'Nome Invalido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: telefoneControle,
-          decoration: const InputDecoration(
-              hintText: 'Telefone', border: InputBorder.none),
-          keyboardType: TextInputType.phone,
-          validator: (telefoneV) {
-            if (telefoneV.isEmpty || telefoneV.length < 10)
-              return 'Telefone Invalido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: emailControle,
-          decoration: const InputDecoration(
-              hintText: 'E-mail', border: InputBorder.none),
-          keyboardType: TextInputType.emailAddress,
-          validator: (emailV) {
-            if (!emailValidador(emailV)) return 'E-mail Invalido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: senhaControle,
-          decoration: const InputDecoration(
-              hintText: 'Senha', border: InputBorder.none),
-          obscureText: true,
-          validator: (senhaV) {
-            if (senhaV.isEmpty || senhaV.length < 6) return 'Senha Invalida';
-            return null;
-          },
-          autocorrect: false,
-        ),
+        theriGroupVakue == null
+            ? Center(
+                child: Text(
+                'Escolha o tipo de conta!',
+                style: TextStyle(fontSize: 18),
+              ))
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: nomeNegocioControle,
+                      decoration: const InputDecoration(
+                          hintText: 'Seu nome Fantasia',
+                          border: InputBorder.none),
+                      keyboardType: TextInputType.name,
+                      validator: (nomeNegocio) {
+                        if (nomeNegocio.isEmpty || nomeNegocio.length < 3)
+                          return 'Nome Invalido';
+                        return null;
+                      },
+                      autocorrect: false,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    TextFormField(
+                      controller: nomeControle,
+                      decoration: const InputDecoration(
+                          hintText: 'Seu Nome', border: InputBorder.none),
+                      keyboardType: TextInputType.name,
+                      validator: (nomeV) {
+                        if (nomeV.isEmpty || nomeV.length < 3)
+                          return 'Nome Invalido';
+                        return null;
+                      },
+                      autocorrect: false,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    TextFormField(
+                      controller: telefoneControle,
+                      decoration: const InputDecoration(
+                          hintText: 'Telefone', border: InputBorder.none),
+                      keyboardType: TextInputType.phone,
+                      validator: (telefoneV) {
+                        if (telefoneV.isEmpty || telefoneV.length < 10)
+                          return 'Telefone Invalido';
+                        return null;
+                      },
+                      autocorrect: false,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    TextFormField(
+                      controller: emailControle,
+                      decoration: const InputDecoration(
+                          hintText: 'E-mail', border: InputBorder.none),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (emailV) {
+                        if (!emailValidador(emailV)) return 'E-mail Invalido';
+                        return null;
+                      },
+                      autocorrect: false,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    TextFormField(
+                      controller: senhaControle,
+                      decoration: const InputDecoration(
+                          hintText: 'Senha', border: InputBorder.none),
+                      obscureText: true,
+                      validator: (senhaV) {
+                        if (senhaV.isEmpty || senhaV.length < 6)
+                          return 'Senha Invalida';
+                        return null;
+                      },
+                      autocorrect: false,
+                    ),
+                  ],
+                ),
+              ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,
         ),
