@@ -26,7 +26,28 @@ class _ResgateCreditoState extends State<ResgateCredito> {
           future: pessoaWebClient.vendedoresVinculadosAoCliente(),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) return Center(child: Text("ops..."));
+              if (snapshot.hasError)
+                return AlertDialog(
+                  title: new Text("Atenção!",
+                      style: TextStyle(color: Theme.of(context).primaryColor)),
+                  content: Text(
+                    "Conta não vinculada",
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.red,
+                        height: 1.0,
+                        fontWeight: FontWeight.w300),
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: new Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
               final List<VendVincCleinteDTO> meusgetInfo = snapshot.data;
               return ListView.builder(
                 itemCount: meusgetInfo.length,

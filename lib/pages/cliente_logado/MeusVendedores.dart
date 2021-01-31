@@ -25,13 +25,24 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasData)
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(child: Text('Nenhum')),
-                    Center(
-                      child: Text("VENDEDOR VINCULADO!"),
+                return AlertDialog(
+                  title: new Text("Atenção!",
+                      style: TextStyle(color: Theme.of(context).primaryColor)),
+                  content: Text(
+                    "Nenhum vendedor vinculado",
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.red,
+                        height: 1.0,
+                        fontWeight: FontWeight.w300),
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: new Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 );

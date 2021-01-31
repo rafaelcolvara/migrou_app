@@ -31,10 +31,13 @@ class _MyQrcodeState extends State<MyQrcode> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40)
+            padding: EdgeInsets.symmetric(vertical: 70, horizontal: 50)
                 .copyWith(bottom: 40),
             child: Text(
-                "Mostre o seu código para se vincular a um estabeleciamento."),
+              "Apresente o QRCODE ao um vendedor para vinculação.",
+              style: TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
