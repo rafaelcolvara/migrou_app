@@ -11,16 +11,12 @@ class CriarContaPage extends StatefulWidget {
 
 class _CriarContaPageState extends State<CriarContaPage> {
   final GlobalKey<FormState> formKey = GlobalKey();
-
   int theriGroupVakue;
-
   final Map<int, Widget> logoWidgets = const <int, Widget>{
     0: Text("Vendedor"),
     1: Text("Cliente")
   };
-
   String tipo;
-
   build(BuildContext context) {
     final TextEditingController nomeControle = TextEditingController();
     final TextEditingController telefoneControle = TextEditingController();
@@ -173,6 +169,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
             : RaisedButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
+                  // httpService.criarContaCliente();
                   if (formKey.currentState.validate()) {
                     httpService.criarUsuario(context,
                         nome: nomeControle.text,
@@ -218,91 +215,6 @@ class _CriarContaPageState extends State<CriarContaPage> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.04,
         ),
-        TextFormField(
-          controller: nomeNegocioControle,
-          decoration: const InputDecoration(
-              hintText: 'Seu nome negócio', border: InputBorder.none),
-          keyboardType: TextInputType.name,
-          validator: (nomeNegocio) {
-            if (nomeNegocio.isEmpty || nomeNegocio.length < 3)
-              return 'Nome de negócio invalido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: ramoAtuacaoControle,
-          decoration: const InputDecoration(
-              hintText: 'Ramo de atuação', border: InputBorder.none),
-          keyboardType: TextInputType.name,
-          validator: (nomeRamoAtuacao) {
-            if (nomeRamoAtuacao.isEmpty || nomeRamoAtuacao.length < 3)
-              return 'Ramo de atuação inválido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: nomeControle,
-          decoration: const InputDecoration(
-              hintText: 'Seu Nome', border: InputBorder.none),
-          keyboardType: TextInputType.name,
-          validator: (nomeV) {
-            if (nomeV.isEmpty || nomeV.length < 3) return 'Nome inválido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: telefoneControle,
-          decoration: const InputDecoration(
-              hintText: 'Telefone', border: InputBorder.none),
-          keyboardType: TextInputType.phone,
-          validator: (telefoneV) {
-            if (telefoneV.isEmpty || telefoneV.length < 10)
-              return 'Telefone inválido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: emailControle,
-          decoration: const InputDecoration(
-              hintText: 'E-mail', border: InputBorder.none),
-          keyboardType: TextInputType.emailAddress,
-          validator: (emailV) {
-            if (!emailValidador(emailV)) return 'E-mail inválido';
-            return null;
-          },
-          autocorrect: false,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        TextFormField(
-          controller: senhaControle,
-          decoration: const InputDecoration(
-              hintText: 'Senha', border: InputBorder.none),
-          obscureText: true,
-          validator: (senhaV) {
-            if (senhaV.isEmpty || senhaV.length < 6)
-              return 'Senha deve ter mais de 6 caracteres';
-            return null;
-          },
-          autocorrect: false,
-        ),
         theriGroupVakue == null
             ? Center(
                 child: Text(
@@ -315,12 +227,28 @@ class _CriarContaPageState extends State<CriarContaPage> {
                     TextFormField(
                       controller: nomeNegocioControle,
                       decoration: const InputDecoration(
-                          hintText: 'Seu nome Fantasia',
+                          hintText: 'Nome do Negócio',
                           border: InputBorder.none),
                       keyboardType: TextInputType.name,
                       validator: (nomeNegocio) {
                         if (nomeNegocio.isEmpty || nomeNegocio.length < 3)
                           return 'Nome Invalido';
+                        return null;
+                      },
+                      autocorrect: false,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    TextFormField(
+                      controller: ramoAtuacaoControle,
+                      decoration: const InputDecoration(
+                          hintText: 'Ramo de atuação',
+                          border: InputBorder.none),
+                      keyboardType: TextInputType.name,
+                      validator: (ramoAtuacao) {
+                        if (ramoAtuacao.isEmpty || ramoAtuacao.length < 3)
+                          return 'Ramo de atuação não pode ser vazio';
                         return null;
                       },
                       autocorrect: false,
@@ -335,7 +263,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
                       keyboardType: TextInputType.name,
                       validator: (nomeV) {
                         if (nomeV.isEmpty || nomeV.length < 3)
-                          return 'Nome Invalido';
+                          return 'Nome não pode ser vazio';
                         return null;
                       },
                       autocorrect: false,
@@ -350,7 +278,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
                       keyboardType: TextInputType.phone,
                       validator: (telefoneV) {
                         if (telefoneV.isEmpty || telefoneV.length < 10)
-                          return 'Telefone Invalido';
+                          return 'Telefone não pode ser vazio';
                         return null;
                       },
                       autocorrect: false,
@@ -379,7 +307,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
                       obscureText: true,
                       validator: (senhaV) {
                         if (senhaV.isEmpty || senhaV.length < 6)
-                          return 'Senha Invalida';
+                          return 'Senha deve conter no mínimo 6 caracteres';
                         return null;
                       },
                       autocorrect: false,
@@ -426,6 +354,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
             : RaisedButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () async {
+                  // httpService.criarContaCliente();
                   if (formKey.currentState.validate()) {
                     await httpService.criarUsuario(context,
                         nome: nomeControle.text,
