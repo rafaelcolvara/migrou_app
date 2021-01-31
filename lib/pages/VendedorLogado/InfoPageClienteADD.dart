@@ -49,14 +49,14 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                         onTap: () {
                           setState(() {
                             idVendedor = userId;
-                            idCliente = snapshot.data.id;
+                            idCliente = snapshot.data.email;
                             httpServices.vincularCliente(
                                 context, idCliente, idVendedor);
                           });
                         },
                         child: MyCustomButton(
                             color: Constantes.customColorBlue,
-                            text: "Adicinar"),
+                            text: "Adicionar"),
                       )
                     ]),
               );

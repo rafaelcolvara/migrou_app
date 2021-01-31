@@ -113,7 +113,7 @@ class PessoaDTOnew {
   PessoaDTOnew.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
-    email = json['email'];
+    email = json['username'];
     senha = json['senha'];
     cpfCnpj = json['cpfCnpj'];
     dataCadastro = json['dataCadastro'];
@@ -131,7 +131,7 @@ class PessoaDTOnew {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['nome'] = this.nome;
-    data['email'] = this.email;
+    data['username'] = this.email;
     data['senha'] = this.senha;
     data['cpfCnpj'] = this.cpfCnpj;
     data['dataCadastro'] = this.dataCadastro;
