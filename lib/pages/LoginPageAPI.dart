@@ -26,6 +26,8 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   String _errorMessage;
   String _tipoPessoa;
 
+  bool _isLoginForm;
+  bool _isLoading;
   int theriGroupVakue;
 
   final Map<int, Widget> logoWidgets = const <int, Widget>{
@@ -39,9 +41,6 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
       _tipoPessoa = tipoPessoa;
     });
   }
-
-  bool _isLoginForm;
-  bool _isLoading;
 
   // Check if form is valid before perform login or signup
   bool validateAndSave() {
@@ -337,7 +336,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
 
   Widget showTipoPessoa() {
     return new Padding(
-      padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
+      padding: EdgeInsets.only(top: 40.0, bottom: 30.0),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -369,7 +368,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
   Widget showSecondaryButton() {
     return new FlatButton(
         child: new Text('Criar conta',
-            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+            style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300)),
         onPressed: () {
           Navigator.pushNamed(context, '/CriarConta');
         });
@@ -384,8 +383,8 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
               ? new RaisedButton(
                   elevation: 5.0,
                   shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)),
-                  color: Constantes.customColorCinza,
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  color: Constantes.LARANJA,
                   child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
                       style:
                           new TextStyle(fontSize: 20.0, color: Colors.white)),
@@ -394,7 +393,7 @@ class _LoginPageAPIState extends State<LoginPageAPI> {
               : new RaisedButton(
                   elevation: 5.0,
                   shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)),
+                      borderRadius: new BorderRadius.circular(10.0)),
                   color: Theme.of(context).primaryColor,
                   child: new Text(_isLoginForm ? 'Entrar' : 'Criar Conta',
                       style:

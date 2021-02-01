@@ -459,7 +459,7 @@ class PessoaWebClient extends ChangeNotifier {
     return pessoaDTO;
   }
 
-  Future criarUsuario(BuildContext context,
+  Future<PessoaDTO> criarUsuario(BuildContext context,
       {String email,
       String senha,
       String tipoPessoa,
@@ -476,7 +476,7 @@ class PessoaWebClient extends ChangeNotifier {
       "tipoPessoa": tipoPessoa,
       "nrCelular": telefone,
       "nomeNegocio": nomeNegocio,
-      "segmentoComercial" : ramoAtuacao,
+      "segmentoComercial": ramoAtuacao,
       "nome": nome
     };
 
@@ -485,55 +485,10 @@ class PessoaWebClient extends ChangeNotifier {
             body: jsonEncode(cadastroPayload), headers: headers)
         .timeout(Duration(seconds: 50));
 
-    if (response.statusCode != 200) {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("Atenção!",
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            content: Text("${response.body}",
-                style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.red,
-                    height: 1.0,
-                    fontWeight: FontWeight.w300)),
-            actions: <Widget>[
-              FlatButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.pushNamed(context, "/RootPage");
-                },
-              ),
-            ],
-          );
-        },
-      );
+    if (response.statusCode == 200) {
+      return PessoaDTO.fromJson(jsonDecode(response.body));
     }
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Atenção!",
-              style: TextStyle(color: Theme.of(context).primaryColor)),
-          content: Text("Cadastro Realizado com Sucesso",
-              style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.red,
-                  height: 1.0,
-                  fontWeight: FontWeight.w300)),
-          actions: <Widget>[
-            FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.pushNamed(context, "/RootPage");
-              },
-            ),
-          ],
-        );
-      },
-    );
+    return throw new Exception(response.body.toString());
   }
 
   Future<PessoaSimplificadaDTO> salvaPessoa(PessoaDTO pessoaDTO) async {

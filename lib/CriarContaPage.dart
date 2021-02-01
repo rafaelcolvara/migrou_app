@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
+import 'package:migrou_app/model/PessoaDTO.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 
 class CriarContaPage extends StatefulWidget {
@@ -12,19 +13,24 @@ class CriarContaPage extends StatefulWidget {
 class _CriarContaPageState extends State<CriarContaPage> {
   final GlobalKey<FormState> formKey = GlobalKey();
   int theriGroupVakue;
+
   final Map<int, Widget> logoWidgets = const <int, Widget>{
     0: Text("Vendedor"),
     1: Text("Cliente")
   };
+
   String tipo;
+  bool _isLoading = false;
+  PessoaWebClient httpService = PessoaWebClient();
+  final TextEditingController nomeControle = TextEditingController();
+  final TextEditingController telefoneControle = TextEditingController();
+  final TextEditingController emailControle = TextEditingController();
+  final TextEditingController senhaControle = TextEditingController();
+  final TextEditingController nomeNegocioControle = TextEditingController();
+  final TextEditingController ramoAtuacaoControle = TextEditingController();
+
   build(BuildContext context) {
-    final TextEditingController nomeControle = TextEditingController();
-    final TextEditingController telefoneControle = TextEditingController();
-    final TextEditingController emailControle = TextEditingController();
-    final TextEditingController senhaControle = TextEditingController();
-    final TextEditingController nomeNegocioControle = TextEditingController();
-    final TextEditingController ramoAtuacaoControle = TextEditingController();
-    PessoaWebClient httpService = PessoaWebClient();
+    print("Leu a tela");
     return Scaffold(
       backgroundColor: (Theme.of(context).primaryColor),
       appBar: AppBar(
@@ -154,39 +160,50 @@ class _CriarContaPageState extends State<CriarContaPage> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,
         ),
-        senhaControle.text == "Senha"
-            ? RaisedButton(
-                color: Constantes.customColorCinza,
-                onPressed: null,
-                child: const Text(
-                  'Criar Conta',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              )
-            : RaisedButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  // httpService.criarContaCliente();
-                  if (formKey.currentState.validate()) {
-                    httpService.criarUsuario(context,
-                        nome: nomeControle.text,
-                        telefone: telefoneControle.text,
-                        email: emailControle.text,
-                        senha: senhaControle.text,
-                        tipoPessoa: tipo);
-                  }
-                },
-                child: const Text(
-                  'Criar Conta',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              )
+        RaisedButton(
+          color: Theme.of(context).primaryColor,
+          onPressed: () {
+            formKey.currentState.validate();
+            httpService
+                .criarUsuario(context,
+                    nome: nomeControle.text,
+                    telefone: telefoneControle.text,
+                    email: emailControle.text,
+                    senha: senhaControle.text,
+                    tipoPessoa: tipo)
+                .then((value) => {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: new Text("Atenção!",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor)),
+                            content: Text("Cadastro Realizado com Sucesso",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.red,
+                                    height: 1.0,
+                                    fontWeight: FontWeight.w300)),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: new Text("OK"),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, "/RootPage");
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    });
+          },
+          child: const Text(
+            'Criar Conta',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+        )
       ],
     );
   }
@@ -353,19 +370,6 @@ class _CriarContaPageState extends State<CriarContaPage> {
               )
             : RaisedButton(
                 color: Theme.of(context).primaryColor,
-                onPressed: () async {
-                  // httpService.criarContaCliente();
-                  if (formKey.currentState.validate()) {
-                    await httpService.criarUsuario(context,
-                        nome: nomeControle.text,
-                        telefone: telefoneControle.text,
-                        email: emailControle.text,
-                        nomeNegocio: nomeNegocioControle.text,
-                        ramoAtuacao: ramoAtuacaoControle.text,
-                        senha: senhaControle.text,
-                        tipoPessoa: tipo);
-                  }
-                },
                 child: const Text(
                   'Criar Conta',
                   style: TextStyle(
@@ -373,9 +377,28 @@ class _CriarContaPageState extends State<CriarContaPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
                 ),
+                onPressed: () {
+                  validateAndSubmit();
+                },
               )
       ],
     );
+  }
+
+  void validateAndSubmit() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      httpService.criarUsuario(context,
+          nome: nomeControle.text,
+          telefone: telefoneControle.text,
+          email: emailControle.text,
+          nomeNegocio: nomeNegocioControle.text,
+          ramoAtuacao: ramoAtuacaoControle.text,
+          senha: senhaControle.text,
+          tipoPessoa: tipo);
+    } else {
+      setState(() => _isLoading = false);
+    }
   }
 
   bool emailValidador(String email) {
