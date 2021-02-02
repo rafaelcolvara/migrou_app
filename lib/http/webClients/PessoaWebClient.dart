@@ -479,7 +479,6 @@ class PessoaWebClient extends ChangeNotifier {
       "segmentoComercial": ramoAtuacao,
       "nome": nome
     };
-
     final Response response = await client
         .post(Constantes.HOST_DOMAIN + "/usuario/inclui",
             body: jsonEncode(cadastroPayload), headers: headers)
