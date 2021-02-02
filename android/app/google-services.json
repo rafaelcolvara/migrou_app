@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648454555783:android:53236acadd2171c85c1022",
+        "mobilesdk_app_id": "1:648454555783:android:bae218082fc8e83b5c1022",
         "android_client_info": {
-          "package_name": "com.migrou.app"
+          "package_name": "com.migrou.app.migrou_app"
         }
       },
       "oauth_client": [
@@ -30,6 +30,13 @@
             {
               "client_id": "648454555783-v08o5agsjg67rf0d2l94qcjepe15sa1l.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "648454555783-ad24dmvq6a74tn5vjm2nm66v2lud0kss.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.migrou.app.migrouApp"
+              }
             }
           ]
         }

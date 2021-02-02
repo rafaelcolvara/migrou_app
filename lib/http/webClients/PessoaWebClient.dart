@@ -104,7 +104,6 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 30));
     var decodedJson = jsonDecode(response.body);
-    // print(decodedJson);
     return decodedJson['vendedores'].map<VendVincCleinteDTO>((e) {
       return VendVincCleinteDTO.fromJson(e);
     }).toList();
