@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>642421655942-pt9b7sbfqisr3r4vifa3184ophr37fl2.apps.googleusercontent.com</string>
+	<string>648454555783-ad24dmvq6a74tn5vjm2nm66v2lud0kss.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.642421655942-pt9b7sbfqisr3r4vifa3184ophr37fl2</string>
+	<string>com.googleusercontent.apps.648454555783-ad24dmvq6a74tn5vjm2nm66v2lud0kss</string>
 	<key>API_KEY</key>
-	<string>AIzaSyALCYSiRqYpPrsEfGgqKxLmagQKgG3SQhM</string>
+	<string>AIzaSyCCOToesg_gouYrNrw4_6obm4fFuMFjTKI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>642421655942</string>
+	<string>648454555783</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.migrou.app.migrouApp</string>
 	<key>PROJECT_ID</key>
-	<string>migrouapp</string>
+	<string>migrou-35bf7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>migrouapp.appspot.com</string>
+	<string>migrou-35bf7.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:642421655942:ios:73d56c4ce225d6e1004407</string>
+	<string>1:648454555783:ios:07f455a4382d08d55c1022</string>
 	<key>DATABASE_URL</key>
-	<string>https://migrouapp.firebaseio.com</string>
+	<string>https://migrou-35bf7.firebaseio.com</string>
 </dict>
 </plist>
