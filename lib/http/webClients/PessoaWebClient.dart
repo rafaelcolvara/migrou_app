@@ -199,7 +199,7 @@ class PessoaWebClient extends ChangeNotifier {
           return AlertDialog(
             title: new Text("Atenção!",
                 style: TextStyle(color: Theme.of(context).primaryColor)),
-            content: Text(response.body,
+            content: Text("Cliente Adicionado com sucesso!",
                 style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
@@ -209,7 +209,7 @@ class PessoaWebClient extends ChangeNotifier {
               FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).popAndPushNamed("/DashVendedor");
                 },
               ),
             ],

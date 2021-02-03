@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/pages/DashCliente.dart';
 import 'package:migrou_app/pages/RootPage.dart';
+import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
 import 'package:migrou_app/utils/AutenticationMigrou.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:provider/provider.dart';
@@ -44,12 +45,13 @@ class _MyAppState extends State<MyApp> {
                   bodyText2: TextStyle(color: Constantes.customColorBlue))),
           home: RootPage(auth: new Auth()),
           title: 'Migrou App',
-          debugShowCheckedModeBanner: false,
           initialRoute: '/',
+          debugShowCheckedModeBanner: false,
           routes: {
             '/RootPage': (context) => RootPage(auth: new Auth()),
             DashCliente.routeName: (context) => DashCliente(),
             '/CriarConta': (context) => CriarContaPage(),
+            '/DashVendedor': (context) => VendedorLogado(),
           },
         ));
   }
