@@ -36,7 +36,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
       String urlFotoPerfil = await taskSnapshot.ref.getDownloadURL();
       fotoPerfil = urlFotoPerfil;
       httpServices
-          .salvaFoto(PessoaFotoDTO(idPessoa: userId, base64Foto: fotoPerfil));
+          .salvaFoto(PessoaFotoDTO(username: userId, urlFoto: fotoPerfil));
     });
   }
 
@@ -53,74 +53,90 @@ class _DadosPessoaisState extends State<DadosPessoais> {
               print(snapshot.error);
               if (!snapshot.hasData)
                 return Center(child: Text("Ops...\nVerifique sua conexão!"));
-//decodificação da imagem em base64
-              String profileIMG = "s";
-              // Uint8List bytes = base64.decode(profileIMG);
-//conversão do telelefone para formato (ddd)12345-6789
+              String profileIMG = snapshot.data.urlFoto;
               var ddd = snapshot.data.nrCelular.substring(0, 2);
               var teleP1 = snapshot.data.nrCelular.substring(2, 7);
               var teleP2 = snapshot.data.nrCelular.substring(7, 11);
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    profileIMG == null || profileIMG == ""
-                        ? Stack(
-                            children: [
-                              Container(
-                                child: Image.asset(
-                                  'images/no-image-default.png',
-                                  fit: BoxFit.cover,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.26,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+              return ListView(
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Column(
+                        children: [
+                          profileIMG == null || profileIMG == ""
+                              ? Stack(
+                                  children: [
+                                    Container(
+                                      child: Image.asset(
+                                        'images/pati.png',
+                                        fit: BoxFit.cover,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.26,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.45,
+                                      ),
+                                    ),
+                                    Positioned(
+                                        bottom: -8,
+                                        right: 0,
+                                        child: IconButton(
+                                            iconSize: 32,
+                                            color: Constantes.customColorOrange,
+                                            icon: Icon(Icons.camera),
+                                            onPressed: getImage))
+                                  ],
+                                )
+                              : Stack(
+                                  children: [
+                                    Container(
+                                      child: Image.network(
+                                        profileIMG,
+                                        fit: BoxFit.cover,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.45,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.80,
+                                      ),
+                                    ),
+                                    Positioned(
+                                        bottom: -8,
+                                        right: 0,
+                                        child: IconButton(
+                                            iconSize: 35,
+                                            color: Constantes.customColorOrange,
+                                            icon: Icon(Icons.camera),
+                                            onPressed: getImage))
+                                  ],
                                 ),
-                              ),
-                              Positioned(
-                                  bottom: -8,
-                                  right: 0,
-                                  child: IconButton(
-                                      iconSize: 32,
-                                      color: Constantes.customColorOrange,
-                                      icon: Icon(Icons.camera),
-                                      onPressed: getImage))
-                            ],
-                          )
-                        : Stack(
-                            children: [
-                              Container(
-                                child: Image.network(
-                                  "https://firebasestorage.googleapis.com/v0/b/migrouapp.appspot.com/o/791752de-3fa9-4cae-b02f-e2293a1d32bf?alt=media&token=6be5fa4d-011b-4df4-a748-7cdc6fa32fde",
-                                  fit: BoxFit.cover,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.26,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
-                                ),
-                              ),
-                              Positioned(
-                                  bottom: -8,
-                                  right: 0,
-                                  child: IconButton(
-                                      iconSize: 32,
-                                      color: Constantes.customColorOrange,
-                                      icon: Icon(Icons.camera),
-                                      onPressed: getImage))
-                            ],
-                          ),
-                    SizedBox(height: 10),
-                    Text("Nome: ${snapshot.data.nome}"),
-                    SizedBox(height: 10),
-                    Text("Data Nascimento: ${snapshot.data.dataNascimento}"),
-                    SizedBox(height: 10),
-                    Text("Tel: ($ddd) $teleP1-$teleP2"),
-                    SizedBox(height: 10),
-                    Text("E-mail: ${snapshot.data.email}"),
-                    SizedBox(width: 10),
-                  ],
-                ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.04),
+                          Text("Nome: ${snapshot.data.nome}"),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.04),
+                          Text(
+                              "Data Nascimento: ${snapshot.data.dataNascimento}"),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.04),
+                          Text("Tel: ($ddd) $teleP1-$teleP2"),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.04),
+                          Text("E-mail: ${snapshot.data.username}"),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.height * 0.06),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               );
             } else {
               return Center(child: CircularProgressIndicator());

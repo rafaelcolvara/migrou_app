@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/utils/definicoes.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CriarContaPage extends StatefulWidget {
   @override
@@ -21,11 +22,14 @@ class _CriarContaPageState extends State<CriarContaPage> {
   String tipo;
   PessoaWebClient httpService = PessoaWebClient();
   final TextEditingController nomeControle = TextEditingController();
-  final TextEditingController telefoneControle = TextEditingController();
+  final MaskedTextController telefoneControle = MaskedTextController(
+    mask: '(00) 00000-0000',
+  );
   final TextEditingController emailControle = TextEditingController();
   final TextEditingController senhaControle = TextEditingController();
   final TextEditingController nomeNegocioControle = TextEditingController();
   final TextEditingController ramoAtuacaoControle = TextEditingController();
+
   bool isLoading = false;
 
   build(BuildContext context) {

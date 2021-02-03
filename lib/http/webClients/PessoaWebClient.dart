@@ -114,7 +114,7 @@ class PessoaWebClient extends ChangeNotifier {
   Future<InforDTO> infoCliente() async {
     var token = await secureStorage.lerSecureData('authToken');
     var headers = {'Content-Type': 'application/json', 'Authorization': token};
-    final String _url = "${Constantes.HOST_DOMAIN}/pessoas/id/$userId";
+    final String _url = "${Constantes.HOST_DOMAIN}/vendedor/$userId";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
@@ -510,7 +510,7 @@ class PessoaWebClient extends ChangeNotifier {
   Future<PessoaFotoDTO> salvaFoto(PessoaFotoDTO pessoafotoDTO) async {
     var token = await secureStorage.lerSecureData('authToken');
     final String pessoaJson = jsonEncode(pessoafotoDTO.toJson());
-    Response resp = await client.patch(Constantes.HOST_DOMAIN + "/pessoas/foto",
+    Response resp = await client.patch(Constantes.HOST_DOMAIN + "/usuario/foto",
         body: pessoaJson,
         headers: {
           'Content-type': 'application/json',
