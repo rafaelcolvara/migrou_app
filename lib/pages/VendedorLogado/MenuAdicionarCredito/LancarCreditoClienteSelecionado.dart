@@ -23,11 +23,12 @@ class LancaCredito extends StatefulWidget {
 class _LancaCreditoState extends State<LancaCredito> {
   var data = formatDate(DateTime.now(), [dd, '/', mm, '/', yyyy]);
   bool busy = false;
+  var valor = new MoneyMaskedTextController(
+      decimalSeparator: ".", leftSymbol: 'R\$ ', precision: 2);
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServices = PessoaWebClient();
-    var valor = new MoneyMaskedTextController(
-        decimalSeparator: ".", leftSymbol: 'R\$ ', precision: 2);
+
     double lancamento;
     return Scaffold(
       appBar: AppBar(title: Text("Cliente Selecionado")),
@@ -85,7 +86,8 @@ class _LancaCreditoState extends State<LancaCredito> {
                       )
                     : MyCustomButton(
                         color: Constantes.customColorOrange,
-                        text: "ADICIONAR CRÉDITO")),
+                        text: "Adicionar",
+                      )),
           ],
         ),
       ),
