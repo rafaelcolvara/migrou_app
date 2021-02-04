@@ -77,13 +77,18 @@ class _TelaClienteState extends State<TelaCliente> {
                     constraints: BoxConstraints(
                       minWidth: 80,
                       minHeight: 80,
-                      maxHeight: 120,
-                      maxWidth: 120,
+                      maxHeight: 180,
+                      maxWidth: 150,
                     ),
-                    child: Image.asset(
-                      'images/pati.png',
-                      fit: BoxFit.cover,
-                    ),
+                    child: snapshot.data.vendedorDTO.urlFoto == null
+                        ? Image.asset(
+                            'image/no-image-default.png',
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            snapshot.data.vendedorDTO.urlFoto,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   SizedBox(
                     width: 24,

@@ -7,6 +7,7 @@ String nomeStabelecimento;
 String nomeSegimento;
 String nomeTelefone;
 String nomeIdVendedor;
+String urlVendorFoto;
 
 class ResgateCredito extends StatefulWidget {
   @override
@@ -66,10 +67,15 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                 Container(
                                   width: 150,
                                   height: 180,
-                                  child: Image.asset(
-                                    'images/pati.png',
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: i.urlFoto == null
+                                      ? Image.asset(
+                                          'images/no-image-default.png',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.network(
+                                          i.urlFoto,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
                                 SizedBox(width: 10),
                                 Expanded(
@@ -117,6 +123,7 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                               nomeSegimento = i.nomeSegmento;
                                               nomeTelefone = i.nrCelular;
                                               nomeIdVendedor = i.username;
+                                              urlVendorFoto = i.urlFoto;
                                             });
                                             Navigator.push(
                                               context,

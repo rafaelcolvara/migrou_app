@@ -150,6 +150,7 @@ class VendedorDTO {
   String idVendedor;
   String nomeNegocio;
   String nomeSegmento;
+  String urlFoto;
 
   VendedorDTO(
       {this.pessoaDTO, this.idVendedor, this.nomeNegocio, this.nomeSegmento});
@@ -161,6 +162,7 @@ class VendedorDTO {
     idVendedor = json['idVendedor'];
     nomeNegocio = json['nomeNegocio'];
     nomeSegmento = json['nomeSegmento'];
+    urlFoto = json['urlFoto'];
   }
 
   Map<String, dynamic> toJson() {
@@ -171,6 +173,7 @@ class VendedorDTO {
     data['idVendedor'] = this.idVendedor;
     data['nomeNegocio'] = this.nomeNegocio;
     data['nomeSegmento'] = this.nomeSegmento;
+    data['urlFoto'] = this.urlFoto;
     return data;
   }
 }
