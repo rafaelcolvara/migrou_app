@@ -8,6 +8,7 @@ class VendVincCleinteDTO {
   String dataCadastro;
   String dataNascimento;
   bool flgEmailValido;
+  String urlFoto;
 
   VendVincCleinteDTO(
       {this.username,
@@ -15,6 +16,7 @@ class VendVincCleinteDTO {
       this.nomeSegmento,
       this.nrCelular,
       this.nome,
+      this.urlFoto,
       this.cpfCnpj,
       this.dataCadastro,
       this.dataNascimento,
@@ -30,6 +32,7 @@ class VendVincCleinteDTO {
     dataCadastro = json['dataCadastro'];
     dataNascimento = json['dataNascimento'];
     flgEmailValido = json['flgEmailValido'];
+    urlFoto = json['urlFoto'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +46,7 @@ class VendVincCleinteDTO {
     data['dataCadastro'] = this.dataCadastro;
     data['dataNascimento'] = this.dataNascimento;
     data['flgEmailValido'] = this.flgEmailValido;
+    data['urlFoto'] = this.urlFoto;
     return data;
   }
 }

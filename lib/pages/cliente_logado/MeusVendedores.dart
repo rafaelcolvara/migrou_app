@@ -82,10 +82,16 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                                     Container(
                                       width: 150,
                                       height: 180,
-                                      child: Image.asset(
-                                        'images/pati.png',
-                                        fit: BoxFit.cover,
-                                      ),
+                                      child:
+                                          _p.urlFoto == null || _p.urlFoto == ""
+                                              ? Image.asset(
+                                                  'images/pati.png',
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.network(
+                                                  _p.urlFoto,
+                                                  fit: BoxFit.cover,
+                                                ),
                                     ),
                                     SizedBox(width: 10),
                                     Expanded(

@@ -25,7 +25,8 @@ class _DadosPessoaisState extends State<DadosPessoais> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        debugPrint('No image selected.');
+        return null;
       }
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
@@ -33,7 +34,8 @@ class _DadosPessoaisState extends State<DadosPessoais> {
           .child(userId)
           .putFile(_image);
       firebase_storage.TaskSnapshot taskSnapshot = await task;
-      String urlFotoPerfil = await taskSnapshot.ref.getDownloadURL();
+      String urlFotoPerfil =
+          await taskSnapshot.ref.child(userId).getDownloadURL();
       fotoPerfil = urlFotoPerfil;
       httpServices
           .salvaFoto(PessoaFotoDTO(username: userId, urlFoto: fotoPerfil));
