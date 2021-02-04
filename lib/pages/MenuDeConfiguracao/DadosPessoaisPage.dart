@@ -72,7 +72,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                                   children: [
                                     Container(
                                       child: Image.asset(
-                                        'images/pati.png',
+                                        'images/no-image-default.png',
                                         fit: BoxFit.cover,
                                         height:
                                             MediaQuery.of(context).size.height *

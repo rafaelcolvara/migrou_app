@@ -59,7 +59,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                         children: [
                           Container(
                             child: Center(
-                              child: Image.asset("images/pati.png",
+                              child: Image.asset("images/no-image-default.png",
                                   fit: BoxFit.cover, height: 150, width: 130),
                             ),
                           ),

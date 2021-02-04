@@ -85,7 +85,7 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                                       child:
                                           _p.urlFoto == null || _p.urlFoto == ""
                                               ? Image.asset(
-                                                  'images/pati.png',
+                                                  'images/no-image-default.png',
                                                   fit: BoxFit.cover,
                                                 )
                                               : Image.network(

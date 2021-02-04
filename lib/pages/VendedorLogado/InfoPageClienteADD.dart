@@ -30,7 +30,7 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Image.asset('images/pati.png',
+                        child: Image.asset('images/no-image-default.png',
                             width: MediaQuery.of(context).size.width * 0.4,
                             height: MediaQuery.of(context).size.height * 0.28,
                             fit: BoxFit.cover),

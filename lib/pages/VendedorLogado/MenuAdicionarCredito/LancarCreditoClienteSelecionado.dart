@@ -38,7 +38,7 @@ class _LancaCreditoState extends State<LancaCredito> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            Image.asset("images/pati.png",
+            Image.asset("images/no-image-default.png",
                 fit: BoxFit.contain, height: 200, width: 200),
             SizedBox(height: 10),
             RichText(
