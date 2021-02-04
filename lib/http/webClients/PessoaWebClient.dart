@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
+import 'package:migrou_app/componentes/SharedPref.dart';
 import 'package:migrou_app/http/webclient.dart';
 import 'package:migrou_app/model/ClienteVendedoresDTO.dart';
 import 'package:migrou_app/model/ContaDTOnew.dart';
@@ -22,6 +23,7 @@ import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarCl
 import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
 import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/definicoes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PessoaWebClient extends ChangeNotifier {
   SecureStorage secureStorage = SecureStorage();
@@ -104,7 +106,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 30));
     var decodedJson = jsonDecode(response.body);
-    print(decodedJson);
+    // print(decodedJson);
     return decodedJson['vendedores'].map<VendVincCleinteDTO>((e) {
       return VendVincCleinteDTO.fromJson(e);
     }).toList();
@@ -114,8 +116,10 @@ class PessoaWebClient extends ChangeNotifier {
 //aplicativo seja ele cliente ou vendedor.
   Future<InforDTO> infoCliente() async {
     var token = await secureStorage.lerSecureData('authToken');
+    var tipos = await SharedPref().read('tipoPessoa') as String;
+    tipos = tipos.toLowerCase();
     var headers = {'Content-Type': 'application/json', 'Authorization': token};
-    final String _url = "${Constantes.HOST_DOMAIN}/vendedor/$userId";
+    final String _url = "${Constantes.HOST_DOMAIN}/$tipos/$userId";
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
@@ -132,7 +136,7 @@ class PessoaWebClient extends ChangeNotifier {
     final Response response =
         await client.get(_url, headers: headers).timeout(Duration(seconds: 10));
     var decodedJson = jsonDecode(response.body);
-    print(decodedJson);
+    // print(decodedJson);
     return CashBackDTO.fromJson(decodedJson);
   }
 

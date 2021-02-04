@@ -19,7 +19,8 @@ class _DadosPessoaisState extends State<DadosPessoais> {
   String fotoPerfil;
   PessoaWebClient httpServices = PessoaWebClient();
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 67);
 
     setState(() async {
       if (pickedFile != null) {
@@ -119,11 +120,6 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                               height:
                                   MediaQuery.of(context).size.height * 0.04),
                           Text("Nome: ${snapshot.data.nome}"),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.04),
-                          Text(
-                              "Data Nascimento: ${snapshot.data.dataNascimento}"),
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.04),
