@@ -23,7 +23,6 @@ import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarCl
 import 'package:migrou_app/pages/VendedorLogado/VendedorLogado.dart';
 import 'package:migrou_app/pages/cliente_logado/ClienteLogado.dart';
 import 'package:migrou_app/utils/definicoes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PessoaWebClient extends ChangeNotifier {
   SecureStorage secureStorage = SecureStorage();
