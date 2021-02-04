@@ -92,8 +92,8 @@ class _ResgateCreditoState extends State<ResgateCredito> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: InkWell(
                                           child: Container(
-                                              height: 30,
-                                              width: 130,
+                                              height: 50,
+                                              width: 180,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .accentColor,

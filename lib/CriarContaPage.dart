@@ -12,7 +12,7 @@ class CriarContaPage extends StatefulWidget {
 
 class _CriarContaPageState extends State<CriarContaPage> {
   final GlobalKey<FormState> formKey = GlobalKey();
-  int theriGroupVakue;
+  int flgOptonButton;
 
   final Map<int, Widget> logoWidgets = const <int, Widget>{
     0: Text("Vendedor"),
@@ -45,7 +45,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
           key: formKey,
-          child: theriGroupVakue == 1
+          child: flgOptonButton == 1
               ? formCliente(context, nomeControle, telefoneControle,
                   emailControle, senhaControle, httpService)
               : formVendedor(
@@ -123,7 +123,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
                 keyboardType: TextInputType.phone,
                 validator: (telefone) {
                   if (telefone.isEmpty || telefone.length < 10)
-                    return 'Telefone Invalido';
+                    return 'Telefone deve ter 11 digitos (ddd+numero)';
                   return null;
                 },
                 autocorrect: false,
@@ -165,12 +165,11 @@ class _CriarContaPageState extends State<CriarContaPage> {
                   Expanded(
                     child: CupertinoSegmentedControl(
                       selectedColor: Theme.of(context).primaryColor,
-                      groupValue: theriGroupVakue,
+                      groupValue: flgOptonButton,
                       onValueChanged: (changeFromGroupValue) {
                         setState(() {
-                          theriGroupVakue = changeFromGroupValue;
-                          tipo = theriGroupVakue != 0 ? "CLIENTE" : "VENDEDOR";
-                          print('setou para $changeFromGroupValue é $tipo');
+                          flgOptonButton = changeFromGroupValue;
+                          tipo = flgOptonButton != 0 ? "CLIENTE" : "VENDEDOR";
                         });
                       },
                       children: logoWidgets,
@@ -283,7 +282,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.04,
               ),
-              theriGroupVakue == null
+              flgOptonButton == null
                   ? Center(
                       child: Text(
                       'Escolha o tipo de conta!',
@@ -392,12 +391,11 @@ class _CriarContaPageState extends State<CriarContaPage> {
                   Expanded(
                     child: CupertinoSegmentedControl(
                       selectedColor: Theme.of(context).primaryColor,
-                      groupValue: theriGroupVakue,
+                      groupValue: flgOptonButton,
                       onValueChanged: (changeFromGroupValue) {
                         setState(() {
-                          theriGroupVakue = changeFromGroupValue;
-                          tipo = theriGroupVakue != 0 ? "CLIENTE" : "VENDEDOR";
-                          print('setou para $changeFromGroupValue é $tipo');
+                          flgOptonButton = changeFromGroupValue;
+                          tipo = flgOptonButton != 0 ? "CLIENTE" : "VENDEDOR";
                         });
                       },
                       children: logoWidgets,
@@ -408,7 +406,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              theriGroupVakue == null
+              flgOptonButton == null
                   ? RaisedButton(
                       elevation: 5.0,
                       shape: new RoundedRectangleBorder(
