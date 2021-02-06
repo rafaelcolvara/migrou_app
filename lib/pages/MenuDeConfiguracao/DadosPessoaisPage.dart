@@ -96,7 +96,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                                   children: [
                                     Container(
                                       child: Image.network(
-                                        profileIMG,
+                                        fotoPerfil,
                                         fit: BoxFit.cover,
                                         height:
                                             MediaQuery.of(context).size.height *
