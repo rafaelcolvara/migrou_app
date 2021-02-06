@@ -60,6 +60,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
               var ddd = snapshot.data.nrCelular.substring(0, 2);
               var teleP1 = snapshot.data.nrCelular.substring(2, 7);
               var teleP2 = snapshot.data.nrCelular.substring(7, 11);
+
               return ListView(
                 children: [
                   Center(
@@ -96,7 +97,9 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                                   children: [
                                     Container(
                                       child: Image.network(
-                                        fotoPerfil,
+                                        fotoPerfil == null
+                                            ? profileIMG
+                                            : fotoPerfil,
                                         fit: BoxFit.cover,
                                         height:
                                             MediaQuery.of(context).size.height *
