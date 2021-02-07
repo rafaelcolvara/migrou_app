@@ -38,7 +38,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
       String urlFotoPerfil =
           await taskSnapshot.ref.child(userId).getDownloadURL();
       fotoPerfil = urlFotoPerfil;
-      httpServices
+      await httpServices
           .salvaFoto(PessoaFotoDTO(username: userId, urlFoto: fotoPerfil));
     });
   }
