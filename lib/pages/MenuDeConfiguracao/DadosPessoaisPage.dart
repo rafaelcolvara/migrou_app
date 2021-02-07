@@ -20,7 +20,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
   PessoaWebClient httpServices = PessoaWebClient();
   Future getImage() async {
     final pickedFile =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 67);
+        await picker.getImage(source: ImageSource.camera, imageQuality: 47);
 
     setState(() async {
       if (pickedFile != null) {
@@ -53,7 +53,6 @@ class _DadosPessoaisState extends State<DadosPessoais> {
           future: httpServer.infoCliente(),
           builder: (_, AsyncSnapshot<InforDTO> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.error);
               if (!snapshot.hasData)
                 return Center(child: Text("Ops...\nVerifique sua conexão!"));
               String profileIMG = snapshot.data.urlFoto;
