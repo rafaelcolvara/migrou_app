@@ -10,7 +10,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="migrou_app"
         android:icon="@mipmap/launcher_icon"
-        android:requestLegacyExternalStorage="true">        
+        >        
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
