@@ -64,6 +64,8 @@ class ClienteDTO {
   String dataCadastro;
   bool flgEmailValido;
   String tipoPessoa;
+  String urlFoto;
+  String nrCelular;
 
   ClienteDTO(
       {this.username,
@@ -72,7 +74,9 @@ class ClienteDTO {
       this.cpfCnpj,
       this.dataCadastro,
       this.flgEmailValido,
-      this.tipoPessoa});
+      this.tipoPessoa,
+      this.nrCelular,
+      this.urlFoto});
 
   ClienteDTO.fromJson(Map<String, dynamic> json) {
     username = json['username'];
@@ -82,6 +86,8 @@ class ClienteDTO {
     dataCadastro = json['dataCadastro'];
     flgEmailValido = json['flgEmailValido'];
     tipoPessoa = json['tipoPessoa'];
+    urlFoto = json['urlFoto'];
+    nrCelular = json['nrCelular'];
   }
 
   Map<String, dynamic> toJson() {
@@ -93,6 +99,8 @@ class ClienteDTO {
     data['dataCadastro'] = this.dataCadastro;
     data['flgEmailValido'] = this.flgEmailValido;
     data['tipoPessoa'] = this.tipoPessoa;
+    data['urlFoto'] = this.urlFoto;
+    data['nrCelular'] = this.nrCelular;
     return data;
   }
 }
@@ -104,6 +112,8 @@ class VendedorDTO {
   String dataCadastro;
   String dataNascimento;
   bool flgEmailValido;
+  String urlFoto;
+  String nrCelular;
 
   VendedorDTO(
       {this.username,
@@ -111,7 +121,9 @@ class VendedorDTO {
       this.cpfCnpj,
       this.dataCadastro,
       this.dataNascimento,
-      this.flgEmailValido});
+      this.flgEmailValido,
+      this.nrCelular,
+      this.urlFoto});
 
   VendedorDTO.fromJson(Map<String, dynamic> json) {
     username = json['username'];
@@ -120,6 +132,8 @@ class VendedorDTO {
     dataCadastro = json['dataCadastro'];
     dataNascimento = json['dataNascimento'];
     flgEmailValido = json['flgEmailValido'];
+    urlFoto = json['urlFoto'];
+    nrCelular = json['nrCelular'];
   }
 
   Map<String, dynamic> toJson() {
@@ -130,6 +144,8 @@ class VendedorDTO {
     data['dataCadastro'] = this.dataCadastro;
     data['dataNascimento'] = this.dataNascimento;
     data['flgEmailValido'] = this.flgEmailValido;
+    data['urlFoto'] = this.urlFoto;
+    data['nrCelular'] = this.nrCelular;
     return data;
   }
 }

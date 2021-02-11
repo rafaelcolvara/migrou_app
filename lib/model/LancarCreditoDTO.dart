@@ -26,10 +26,14 @@ class Clientes {
   String dataCadastro;
   bool flgEmailValido;
   String tipoPessoa;
+  String urlFoto;
+  String nrCelular;
 
   Clientes(
       {this.username,
+      this.urlFoto,
       this.idCampanha,
+      this.nrCelular,
       this.nome,
       this.cpfCnpj,
       this.dataCadastro,
@@ -44,6 +48,8 @@ class Clientes {
     dataCadastro = json['dataCadastro'];
     flgEmailValido = json['flgEmailValido'];
     tipoPessoa = json['tipoPessoa'];
+    urlFoto = json['urlFoto'];
+    nrCelular = json['nrCelular'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +61,8 @@ class Clientes {
     data['dataCadastro'] = this.dataCadastro;
     data['flgEmailValido'] = this.flgEmailValido;
     data['tipoPessoa'] = this.tipoPessoa;
+    data['urlFoto'] = this.urlFoto;
+    data['nrCelular'] = this.nrCelular;
     return data;
   }
 }

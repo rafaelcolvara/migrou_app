@@ -11,10 +11,9 @@ import 'package:date_format/date_format.dart';
 class LancaCredito extends StatefulWidget {
   final nome;
   final id;
-  LancaCredito({
-    @required this.id,
-    @required this.nome,
-  });
+  final foto;
+  final celular;
+  LancaCredito({this.id, this.nome, this.celular, this.foto});
 
   @override
   _LancaCreditoState createState() => _LancaCreditoState();
@@ -28,7 +27,9 @@ class _LancaCreditoState extends State<LancaCredito> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServices = PessoaWebClient();
-
+    String ddd = widget.celular.toString().substring(0, 2);
+    String teleP1 = widget.celular.toString().substring(2, 7);
+    String teleP2 = widget.celular.toString().substring(7, 11);
     double lancamento;
     return Scaffold(
       appBar: AppBar(title: Text("Cliente Selecionado")),
@@ -38,8 +39,11 @@ class _LancaCreditoState extends State<LancaCredito> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            Image.asset("images/no-image-default.png",
-                fit: BoxFit.contain, height: 200, width: 200),
+            widget.foto == null
+                ? Image.asset("images/no-image-default.png",
+                    fit: BoxFit.contain, height: 200, width: 200)
+                : Image.network(widget.foto,
+                    fit: BoxFit.contain, height: 200, width: 200),
             SizedBox(height: 10),
             RichText(
                 text: TextSpan(
@@ -50,7 +54,7 @@ class _LancaCreditoState extends State<LancaCredito> {
                         color: Constantes.customColorBlue))),
             Container(
               child: Text(
-                "Tel.: (11) 12345-1234",
+                "Tel.: ($ddd) $teleP1 - $teleP2",
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.w300),
               ),
             ),

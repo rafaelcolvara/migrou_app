@@ -30,8 +30,11 @@ class AdicinarCreditoClientes extends StatelessWidget {
                       Navigator.push(
                         _,
                         MaterialPageRoute(
-                            builder: (_) =>
-                                LancaCredito(nome: _p.nome, id: _p.nome)),
+                            builder: (_) => LancaCredito(
+                                nome: _p.nome,
+                                id: _p.nome,
+                                foto: _p.urlFoto,
+                                celular: _p.nrCelular)),
                       );
                     },
                     title: Center(child: Text(_p.nome)));

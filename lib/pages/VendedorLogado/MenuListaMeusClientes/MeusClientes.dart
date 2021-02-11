@@ -52,6 +52,9 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                   .qtLancamentosPercentualSobreCompras *
                               100;
                   double vrRemaining = 100 - vrCompleted;
+                  var ddd = _p.clienteDTO.nrCelular.substring(0, 2);
+                  var teleP1 = _p.clienteDTO.nrCelular.substring(2, 7);
+                  var teleP2 = _p.clienteDTO.nrCelular.substring(7, 11);
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
@@ -59,8 +62,15 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                         children: [
                           Container(
                             child: Center(
-                              child: Image.asset("images/no-image-default.png",
-                                  fit: BoxFit.cover, height: 150, width: 130),
+                              child: _p.clienteDTO.urlFoto == null
+                                  ? Image.asset("images/no-image-default.png",
+                                      fit: BoxFit.cover,
+                                      height: 150,
+                                      width: 130)
+                                  : Image.network(_p.clienteDTO.urlFoto,
+                                      fit: BoxFit.cover,
+                                      height: 150,
+                                      width: 130),
                             ),
                           ),
                           SizedBox(width: 10),
@@ -83,7 +93,7 @@ class _VinculadosClientesState extends State<VinculadosClientes> {
                                             color: Constantes.customColorBlue),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: "(11) 12345-1234",
+                                              text: "($ddd) $teleP1-$teleP2",
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w300,
