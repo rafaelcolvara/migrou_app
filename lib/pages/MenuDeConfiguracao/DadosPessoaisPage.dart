@@ -56,9 +56,6 @@ class _DadosPessoaisState extends State<DadosPessoais> {
               if (!snapshot.hasData)
                 return Center(child: Text("Ops...\nVerifique sua conexão!"));
               String profileIMG = snapshot.data.urlFoto;
-              var ddd = snapshot.data.nrCelular.substring(0, 2);
-              var teleP1 = snapshot.data.nrCelular.substring(2, 7);
-              var teleP2 = snapshot.data.nrCelular.substring(7, 11);
 
               return ListView(
                 children: [
@@ -125,7 +122,7 @@ class _DadosPessoaisState extends State<DadosPessoais> {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.04),
-                          Text("Tel: ($ddd) $teleP1-$teleP2"),
+                          Text(snapshot.data.nrCelular),
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.04),

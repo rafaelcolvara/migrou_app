@@ -41,10 +41,6 @@ class _TelaClienteState extends State<TelaCliente> {
         future: httpService.saldoResgate(),
         builder: (_, AsyncSnapshot<CashBackDTO> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // var ddd = snapshot.data.telefone.substring(0, 2);
-            // var teleP1 = snapshot.data.telefone.substring(2, 7);
-            // var teleP2 = snapshot.data.telefone.substring(7, 11);
-            // print(snapshot.error);
             if (!snapshot.hasData)
               return Center(child: Text("Dados\nIndisponíveis"));
 

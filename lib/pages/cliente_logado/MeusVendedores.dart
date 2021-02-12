@@ -51,9 +51,6 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                 itemCount: meusClientes.length,
                 itemBuilder: (BuildContext context, int index) {
                   VendVincCleinteDTO _p = meusClientes[index];
-                  var ddd = _p.nrCelular.substring(0, 2);
-                  var teleP1 = _p.nrCelular.substring(2, 7);
-                  var teleP2 = _p.nrCelular.substring(7, 11);
                   return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: GestureDetector(
@@ -110,7 +107,7 @@ class _VinculadosVendedoresState extends State<VinculadosVendedores> {
                                         ),
                                         Text(_p.nomeSegmento),
                                         Text(
-                                          "($ddd) $teleP1-$teleP2",
+                                          _p.nrCelular,
                                           style: TextStyle(fontSize: 18),
                                         ),
                                         SizedBox(
