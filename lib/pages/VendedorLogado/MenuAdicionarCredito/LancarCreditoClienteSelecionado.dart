@@ -27,9 +27,6 @@ class _LancaCreditoState extends State<LancaCredito> {
   @override
   Widget build(BuildContext context) {
     final PessoaWebClient httpServices = PessoaWebClient();
-    String ddd = widget.celular.toString().substring(0, 2);
-    String teleP1 = widget.celular.toString().substring(2, 7);
-    String teleP2 = widget.celular.toString().substring(7, 11);
     double lancamento;
     return Scaffold(
       appBar: AppBar(title: Text("Cliente Selecionado")),
@@ -54,7 +51,7 @@ class _LancaCreditoState extends State<LancaCredito> {
                         color: Constantes.customColorBlue))),
             Container(
               child: Text(
-                "Tel.: ($ddd) $teleP1 - $teleP2",
+                "Tel.: ${widget.celular}",
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.w300),
               ),
             ),

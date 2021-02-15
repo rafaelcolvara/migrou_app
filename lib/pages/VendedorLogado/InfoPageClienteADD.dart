@@ -30,10 +30,17 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Image.asset('images/no-image-default.png',
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: MediaQuery.of(context).size.height * 0.28,
-                            fit: BoxFit.cover),
+                        child: snapshot.data.urlFoto == null
+                            ? Image.asset("images/no-image-default.png",
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.28,
+                                fit: BoxFit.cover)
+                            : Image.network(snapshot.data.urlFoto,
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.28,
+                                fit: BoxFit.cover),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
@@ -49,7 +56,7 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                         onTap: () {
                           setState(() {
                             idVendedor = userId;
-                            idCliente = snapshot.data.email;
+                            idCliente = snapshot.data.username;
                             httpServices.vincularCliente(
                                 context, idCliente, idVendedor);
                           });

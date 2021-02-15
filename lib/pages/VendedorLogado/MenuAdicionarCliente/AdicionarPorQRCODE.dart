@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
 import 'package:migrou_app/http/webClients/MovimentacaoWebClient.dart';
+import 'package:migrou_app/http/webClients/PessoaWebClient.dart';
 import 'package:migrou_app/pages/LoginPageAPI.dart';
 import 'package:migrou_app/utils/definicoes.dart';
 import 'package:http/http.dart' as http;
@@ -17,11 +18,7 @@ SecureStorage secureStorage = SecureStorage();
 //obs falta ajustar essa parte, foi feito assim para teste.
 Future creatUser(String idCliente, String idVendedor) async {
   var token = await secureStorage.lerSecureData('authToken');
-  final headers = {
-    "Accept": "application/json",
-    'Content-Type': 'application/json',
-    'Authorizarion': token
-  };
+  final headers = {'Content-Type': 'application/json', 'Authorizarion': token};
   final body = jsonEncode({
     "cliente": {"idCliente": idCliente},
     "vendedor": {"idVendedor": idVendedor}
@@ -47,6 +44,7 @@ var busy = true;
 class _MyScanCodeState extends State<MyScanCode> {
   @override
   Widget build(BuildContext context) {
+    PessoaWebClient httpServices = PessoaWebClient();
     // ignore: unused_local_variable
     var _user;
     Future scan() async {
@@ -73,23 +71,29 @@ class _MyScanCodeState extends State<MyScanCode> {
             Center(
               child: busy
                   ? Container()
-                  : FlatButton(
-                      child: Text("Adicionar Usuario"),
-                      onPressed: () async {
-                        idCliente = codeValue;
-                        idVendedor = userId;
-                        final user = await creatUser(idCliente, idVendedor);
-                        if (idCliente == null) {
-                          return null;
-                        } else {
-                          setState(() {
-                            _user = user;
-                            idCliente = "";
-                            idVendedor = "";
-                            busy = true;
-                          });
-                        }
-                      },
+                  : Column(
+                      children: [
+                        Text(idCliente),
+                        FlatButton(
+                          child: Text("Adicionar Usuario"),
+                          onPressed: () async {
+                            idCliente = codeValue;
+                            idVendedor = userId;
+                            final user = await httpServices.vincularCliente(
+                                context, idCliente, idVendedor);
+                            if (idCliente == null) {
+                              return null;
+                            } else {
+                              setState(() {
+                                _user = user;
+                                idCliente = "";
+                                idVendedor = "";
+                                busy = true;
+                              });
+                            }
+                          },
+                        ),
+                      ],
                     ),
             )
           ],

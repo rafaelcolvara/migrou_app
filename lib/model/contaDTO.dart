@@ -85,44 +85,43 @@ class ClienteDTO {
 class PessoaDTOnew {
   String id;
   String nome;
-  String email;
+  String username;
   String senha;
   int cpfCnpj;
   String dataCadastro;
   String dataNascimento;
   String nrCelular;
   bool flgEmailValido;
-  String base64Foto;
+  String urlFoto;
   String segmentoComercial;
   String nomeNegocio;
 
   PessoaDTOnew(
       {this.id,
       this.nome,
-      this.email,
+      this.username,
       this.senha,
       this.cpfCnpj,
       this.dataCadastro,
       this.dataNascimento,
       this.nrCelular,
       this.flgEmailValido,
-      this.base64Foto,
+      this.urlFoto,
       this.segmentoComercial,
       this.nomeNegocio});
 
   PessoaDTOnew.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
-    email = json['username'];
+    username = json['username'];
     senha = json['senha'];
     cpfCnpj = json['cpfCnpj'];
     dataCadastro = json['dataCadastro'];
     dataNascimento = json['dataNascimento'];
     nrCelular = json['nrCelular'];
     flgEmailValido = json['flgEmailValido'];
-    base64Foto = json['base64Foto'] != null
-        ? base64Foto = json['base64Foto']
-        : base64Foto = "";
+    urlFoto =
+        json['urlFoto'] != null ? urlFoto = json['urlFoto'] : urlFoto = "";
     segmentoComercial = json['segmentoComercial'];
     nomeNegocio = json['nomeNegocio'];
   }
@@ -131,14 +130,14 @@ class PessoaDTOnew {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['nome'] = this.nome;
-    data['username'] = this.email;
+    data['username'] = this.username;
     data['senha'] = this.senha;
     data['cpfCnpj'] = this.cpfCnpj;
     data['dataCadastro'] = this.dataCadastro;
     data['dataNascimento'] = this.dataNascimento;
     data['nrCelular'] = this.nrCelular;
     data['flgEmailValido'] = this.flgEmailValido;
-    data['base64Foto'] = this.base64Foto;
+    data['urlFoto'] = this.urlFoto;
     data['segmentoComercial'] = this.segmentoComercial;
     data['nomeNegocio'] = this.nomeNegocio;
     return data;
