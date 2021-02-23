@@ -58,7 +58,9 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                             idVendedor = userId;
                             idCliente = snapshot.data.username;
                             httpServices.vincularCliente(
-                                context, idCliente, idVendedor);
+                                context, idCliente, idVendedor, (code) {
+                              alert(code);
+                            });
                           });
                         },
                         child: MyCustomButton(
@@ -81,5 +83,31 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
             }
           },
         ));
+  }
+
+  void alert(code) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Atenção!",
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          content: Text(code,
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.red,
+                  height: 1.0,
+                  fontWeight: FontWeight.w300)),
+          actions: <Widget>[
+            FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.pop(context, "/DashVendedor");
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

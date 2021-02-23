@@ -80,7 +80,9 @@ class _MyScanCodeState extends State<MyScanCode> {
                             idCliente = codeValue;
                             idVendedor = userId;
                             final user = await httpServices.vincularCliente(
-                                context, idCliente, idVendedor);
+                                context, idCliente, idVendedor, (code) {
+                              alert(code);
+                            });
                             if (idCliente == null) {
                               return null;
                             } else {
@@ -102,5 +104,31 @@ class _MyScanCodeState extends State<MyScanCode> {
           onPressed: scan,
           child: Icon(Icons.qr_code_scanner, size: 30),
         ));
+  }
+
+  void alert(code) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Atenção!",
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          content: Text(code,
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.red,
+                  height: 1.0,
+                  fontWeight: FontWeight.w300)),
+          actions: <Widget>[
+            FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.pop(context, "/DashVendedor");
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -180,8 +180,8 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
 //essa chamanda adiciona um cliente ao vindedor que esta logado no aplicativo
-  Future vincularCliente(
-      BuildContext context, String idCliente, String idVendedor) async {
+  Future vincularCliente(BuildContext context, String idCliente,
+      String idVendedor, Function aDialog) async {
     var token = await secureStorage.lerSecureData('authToken');
     final headers = {
       "Accept": "application/json",
@@ -194,58 +194,9 @@ class PessoaWebClient extends ChangeNotifier {
     });
     final String urlAPI = "${Constantes.HOST_DOMAIN}/vendedor/vinculaCliente";
     final response = await client.patch(urlAPI, headers: headers, body: body);
-
-    if (response.statusCode == 200) {
-      // print(responseDone);
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("Atenção!",
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            content: Text("Cliente Adicionado com sucesso!",
-                style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.red,
-                    height: 1.0,
-                    fontWeight: FontWeight.w300)),
-            actions: <Widget>[
-              FlatButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).popAndPushNamed("/DashVendedor");
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      // print(responseFail);
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("Atenção!",
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            content: Text(response.body,
-                style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.red,
-                    height: 1.0,
-                    fontWeight: FontWeight.w300)),
-            actions: <Widget>[
-              FlatButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
+    final code = response.body;
+    aDialog(code);
+    return response.body;
   }
 
 //essa chanda API realiza o resgate do
