@@ -19,7 +19,9 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
     return Scaffold(
         appBar: AppBar(title: Text("Adicionar Cliente")),
         body: FutureBuilder(
-          future: httpServices.localizarPorEmail(context),
+          future: httpServices.localizarPorEmail(context, (code) {
+            alertSearch(code);
+          }),
           builder: (_, AsyncSnapshot<PessoaDTOnew> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasData)
@@ -59,7 +61,7 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
                             idCliente = snapshot.data.username;
                             httpServices.vincularCliente(
                                 context, idCliente, idVendedor, (code) {
-                              alert(code);
+                              alertADD(code);
                             });
                           });
                         },
@@ -85,7 +87,7 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
         ));
   }
 
-  void alert(code) {
+  void alertADD(code) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -102,7 +104,33 @@ class _InfoClienteLocaliado extends State<InfoClienteLocaliado> {
             FlatButton(
               child: new Text("OK"),
               onPressed: () {
-                Navigator.pop(context, "/DashVendedor");
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void alertSearch(code) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Atenção!",
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          content: Text(code,
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.red,
+                  height: 1.0,
+                  fontWeight: FontWeight.w300)),
+          actions: <Widget>[
+            FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:migrou_app/componentes/FlutterSecureStorage.dart';
@@ -140,7 +139,8 @@ class PessoaWebClient extends ChangeNotifier {
   }
 
 //essa chamada retorna para o vendedor logado um usuario pelo email cadastrado
-  Future<PessoaDTOnew> localizarPorEmail(BuildContext context) async {
+  Future<PessoaDTOnew> localizarPorEmail(
+      BuildContext context, Function aDialog) async {
     var token = await secureStorage.lerSecureData('authToken');
     var headers = {'Content-Type': 'application/json', 'Authorization': token};
     final String _url = "${Constantes.HOST_DOMAIN}/cliente/$emailUser";
@@ -153,29 +153,9 @@ class PessoaWebClient extends ChangeNotifier {
     } else {
       // final String responseFail = response.body;
       // print("erro resposte.body: $responseFail");
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("Atenção!",
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            content: Text("E-mail não localizado",
-                style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.red,
-                    height: 1.0,
-                    fontWeight: FontWeight.w300)),
-            actions: <Widget>[
-              FlatButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      final code = 'Email não localizado';
+      aDialog(code);
+      return null;
     }
   }
 
