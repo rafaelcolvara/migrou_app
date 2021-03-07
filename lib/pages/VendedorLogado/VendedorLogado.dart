@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:migrou_app/componentes/Arquivos.dart';
 import 'package:migrou_app/componentes/botos_home.dart';
-import 'package:migrou_app/pages/Cliente_Logado/WidgetClienteLogado.dart';
+import 'package:migrou_app/pages/cliente_logado/WidgetClienteLogado.dart';
 import 'package:migrou_app/pages/MenuDeConfiguracao/ConfiguracaoPage.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCliente/AdicionarCliente.dart';
 import 'package:migrou_app/pages/VendedorLogado/MenuAdicionarCredito/ListaClientesParaLancarCredito.dart';
